@@ -70,7 +70,7 @@
 
   // Ripple on tappable things.
   document.addEventListener('pointerdown', e => {
-    const b = e.target.closest('.btn, .tab, .game-card, .m3-cell, .ks-cell, .wb-tile, .quiz-opt, .ks-tool, .wk-item button');
+    const b = e.target && e.target.closest && e.target.closest('.btn, .tab, .game-card, .m3-cell, .ks-cell, .wb-tile, .quiz-opt, .ks-tool, .wk-item button');
     if (!b) return;
     const r = b.getBoundingClientRect(); const s = Math.max(r.width, r.height) * 1.3;
     const rip = document.createElement('span'); rip.className = 'fx-ripple';

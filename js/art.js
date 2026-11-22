@@ -118,5 +118,26 @@
   };
   const thumb = id => `<svg viewBox="0 0 160 80" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block">${THUMBS[id] ? THUMBS[id]() : ''}</svg>`;
 
-  window.Art = { tree, growingTree, treeSmall, animal, building, grassTile, bridgeScene, archScene, doctor, cafe, logo, heroDeco, thumb };
+  // Obby Rush feature illustration: blocky platforms, kill brick, spinner, bounce pad, jumping avatar, lava.
+  function obbyScene() {
+    const blk = (x, y, w, h, c, lite, dark) => `<path d="M${x + w} ${y} l8 -6 v${h} l-8 6z" fill="${dark}"/><path d="M${x} ${y} h${w} l8 -6 h-${w}z" fill="${lite}"/><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;
+    return `<svg viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg" class="obby-art">
+      <defs><linearGradient id="obSky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b82f6"/><stop offset="1" stop-color="#bae6fd"/></linearGradient>
+      <linearGradient id="obLava" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbbf24"/><stop offset=".4" stop-color="#f97316"/><stop offset="1" stop-color="#b91c1c"/></linearGradient></defs>
+      <rect width="320" height="170" rx="18" fill="url(#obSky)"/>
+      <circle cx="262" cy="34" r="16" fill="#fff" opacity=".9" class="fx-sun"/>
+      <g class="fx-cloud" opacity=".8"><circle cx="60" cy="38" r="12" fill="#fff"/><circle cx="76" cy="42" r="10" fill="#fff"/><circle cx="46" cy="44" r="9" fill="#fff"/></g>
+      <g class="fx-cloud slow" opacity=".7"><circle cx="190" cy="56" r="9" fill="#fff"/><circle cx="202" cy="60" r="8" fill="#fff"/></g>
+      ${blk(10, 110, 80, 46, '#60a5fa', '#a8ccfd', '#2f5fb3')}
+      ${blk(126, 92, 70, 60, '#f472b6', '#f9b4d7', '#b24a84')}
+      ${blk(230, 118, 80, 40, '#34d399', '#9fe8cd', '#1f8f69')}
+      <rect x="160" y="78" width="26" height="14" fill="#ef4444"/><path d="M186 78 l6 -5 v14 l-6 5z" fill="#b91c1c"/><path d="M160 78 h26 l6 -5 h-26z" fill="#fca5a5"/><text x="173" y="89" font-size="10" font-weight="700" fill="#fff" text-anchor="middle" font-family="system-ui">✕</text>
+      <rect x="236" y="110" width="30" height="8" fill="#22c55e"/><path d="M243 116 l8 -5 l8 5" stroke="#dcfce7" stroke-width="2" fill="none"/>
+      <g transform="translate(270 96)"><rect x="-3" y="0" width="6" height="22" fill="#475569"/><g class="ob-spin"><rect x="-30" y="-4" width="60" height="8" rx="4" fill="#1e293b"/><rect x="-30" y="-2" width="60" height="4" rx="2" fill="#f472b6"/></g><circle r="4" fill="#f8fafc"/></g>
+      <g class="fx-bob" transform="translate(96 54) rotate(-12)"><rect x="4" y="34" width="7" height="12" fill="#22c55e" transform="rotate(-25 7 34)"/><rect x="13" y="34" width="7" height="12" fill="#22c55e" transform="rotate(20 16 34)"/><rect x="-1" y="18" width="6" height="12" fill="#fcd34d" transform="rotate(-60 2 18)"/><rect x="19" y="18" width="6" height="12" fill="#fcd34d" transform="rotate(50 22 18)"/><rect x="2" y="17" width="20" height="18" fill="#3b82f6"/><rect x="2" y="17" width="20" height="4" fill="#60a5fa"/><rect x="2" y="0" width="20" height="17" rx="4" fill="#fcd34d"/><rect x="8" y="6" width="3" height="3" fill="#1e293b"/><rect x="15" y="6" width="3" height="3" fill="#1e293b"/><path d="M9 11 q4 4 8 0" stroke="#1e293b" stroke-width="1.5" fill="none"/></g>
+      <g fill="#fde047" stroke="#f59e0b" stroke-width="1.5"><circle cx="112" cy="40" r="5"/><circle cx="124" cy="30" r="5"/><circle cx="136" cy="26" r="5"/><circle cx="148" cy="30" r="5"/></g>
+      <path d="M0 150 q20 -6 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 v20 h-320z" fill="url(#obLava)" class="fx-wave"/>
+    </svg>`;
+  }
+  window.Art = { tree, growingTree, treeSmall, animal, building, grassTile, bridgeScene, archScene, doctor, cafe, logo, heroDeco, thumb, obbyScene };
 })();
