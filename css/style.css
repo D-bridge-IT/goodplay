@@ -387,3 +387,24 @@ button { font: inherit; color: inherit; }
 /* ---------- Audio controls ---------- */
 .icon-btn.sm { width: 32px; height: 32px; font-size: 15px; border-radius: 10px; }
 .setting input[type=range] { width: 130px; accent-color: var(--brand); }
+
+/* ---------- Obby Rush ---------- */
+.feature-card { display: block; width: 100%; text-align: left; border: 0; padding: 0; margin: 14px 0 4px; border-radius: 22px; overflow: hidden; background: #fff; box-shadow: var(--shadow); cursor: pointer; font: inherit; color: inherit; transition: transform .15s, box-shadow .15s; }
+.feature-card:hover { transform: translateY(-2px); box-shadow: 0 14px 30px rgba(20, 40, 30, .14); }
+.feature-card .scene { display: block; background: #3b82f6; }
+.feature-card .scene svg { display: block; width: 100%; height: auto; }
+.feature-card .body { display: grid; gap: 4px; padding: 12px 14px 14px; }
+.feature-card .kicker { display: flex; gap: 6px; }
+.feature-card b { font-size: 19px; }
+.feature-card small { color: var(--muted); font-size: 13px; line-height: 1.35; }
+.feature-card .tag { font-size: 11px; color: var(--brand); font-weight: 600; }
+.obby-wrap { position: relative; border-radius: 18px; overflow: hidden; background: #0f172a; box-shadow: var(--shadow); user-select: none; -webkit-user-select: none; }
+.obby-wrap canvas { display: block; width: 100%; touch-action: none; cursor: pointer; }
+.obby-overlay { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; color: #fff; background: rgba(15, 23, 42, .38); gap: 8px; pointer-events: none; transition: opacity .25s; }
+.obby-overlay.hidden { opacity: 0; }
+.obby-overlay b { font-size: 34px; letter-spacing: 2px; text-shadow: 0 4px 14px rgba(0, 0, 0, .45); animation: bump 1.4s ease-in-out infinite; }
+.obby-overlay span { font-size: 13px; opacity: .9; }
+.obby-overlay em { font-style: normal; display: inline-block; margin: 6px auto 0; padding: 8px 18px; border-radius: 999px; background: var(--indigo); font-weight: 700; box-shadow: 0 6px 18px rgba(79, 70, 229, .45); }
+.ob-spin { transform-box: fill-box; transform-origin: center; animation: obSpin 2.4s linear infinite; }
+@keyframes obSpin { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .ob-spin, .obby-overlay b { animation: none; } }
