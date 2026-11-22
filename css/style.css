@@ -423,3 +423,31 @@ button { font: inherit; color: inherit; }
 .wk-shop .wk-item b small { color: var(--muted); font-weight: 600; }
 .wk-shop .wk-item .small { font-size: 11px; color: var(--muted); line-height: 1.2; }
 .wk-shop .wk-item .price { grid-column: 2; font-size: 12px; font-weight: 700; color: var(--brand); }
+
+/* ---------- Phaser host ---------- */
+.ph-wrap { position: relative; width: 100%; border-radius: 18px; overflow: hidden; background: #0f172a; box-shadow: var(--shadow); user-select: none; -webkit-user-select: none; }
+.ph-holder { position: absolute; inset: 0; }
+.ph-holder canvas { display: block; touch-action: none; }
+.ph-missing { color: #fff; padding: 20px; text-align: center; }
+.ph-overlay { z-index: 5; }
+
+/* ---------- Pfotenfreunde modals ---------- */
+.pet-card { display: grid; grid-template-columns: 56px 1fr; grid-template-rows: auto auto auto; column-gap: 10px; align-items: center; background: #fff; border: 2px solid var(--c, #cbd5e1); border-radius: 14px; padding: 8px 10px; }
+.pet-card .pet-ico { grid-row: 1 / 4; width: 56px; height: 56px; }
+.pet-card .pet-ico svg, .book-cell .pet-ico svg { width: 100%; height: 100%; }
+.pet-card b { font-size: 14px; } .pet-card small { font-size: 11px; color: var(--muted); }
+.pet-card.big { grid-template-columns: 90px 1fr; } .pet-card.big .pet-ico { width: 90px; height: 90px; } .pet-card.big b { font-size: 18px; }
+.reveal { animation: pop .4s ease; } .reveal .pet-card { box-shadow: 0 0 0 4px color-mix(in srgb, var(--c) 35%, transparent), 0 10px 30px rgba(0,0,0,.12); }
+.basket-list { display: grid; gap: 8px; }
+.basket { display: grid; grid-template-columns: 40px 1fr; column-gap: 10px; align-items: center; text-align: left; border: 2px solid var(--line); background: #fff; border-radius: 14px; padding: 8px 10px; cursor: pointer; font: inherit; color: inherit; }
+.basket .ico { grid-row: 1 / 4; font-size: 28px; text-align: center; } .basket b { font-size: 14px; } .basket small { font-size: 11px; color: var(--muted); } .basket .odds i { font-style: normal; font-weight: 700; margin-right: 4px; }
+.basket.locked { opacity: .5; }
+.egg-stage { text-align: center; padding: 10px 0; } .egg { font-size: 96px; line-height: 1; cursor: pointer; display: inline-block; user-select: none; --amp: 4px; }
+@keyframes eggShake { 0%,100% { transform: translateX(0) rotate(0); } 25% { transform: translateX(calc(var(--amp) * -1)) rotate(-6deg); } 75% { transform: translateX(var(--amp)) rotate(6deg); } }
+.vet-pet { width: 90px; height: 90px; margin: 0 auto; } .vet-pet svg { width: 100%; height: 100%; }
+.vet-bar { position: relative; height: 30px; border-radius: 999px; background: #edf0ed; overflow: hidden; margin-top: 8px; }
+.vet-zone { position: absolute; top: 0; bottom: 0; left: 35%; width: 30%; background: var(--brand-soft, #d1fae5); }
+.vet-marker { position: absolute; top: 3px; width: 10px; height: 24px; margin-left: -5px; border-radius: 5px; background: var(--indigo); }
+.book { max-height: 52vh; overflow: auto; } .book-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; }
+.book-cell { background: #fff; border: 2px solid var(--c, #cbd5e1); border-radius: 12px; padding: 6px; text-align: center; position: relative; } .book-cell .pet-ico { width: 48px; height: 48px; margin: 0 auto; } .book-cell small { display: block; font-size: 10px; font-weight: 600; } .book-cell.unknown .pet-ico { filter: brightness(0) opacity(.35); } .book-cell i { position: absolute; top: 2px; right: 4px; font-style: normal; font-size: 11px; }
+.pet-list { display: grid; gap: 6px; max-height: 50vh; overflow: auto; } .pet-list .bench { opacity: .55; }
