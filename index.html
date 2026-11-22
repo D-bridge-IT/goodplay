@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="color-scheme" content="light">
+<title>GoodPlay – Prototyp</title>
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div class="phone" id="phone">
+  <header class="topbar" id="topbar"></header>
+  <main class="screen" id="screen"></main>
+  <nav class="tabbar" id="tabbar"></nav>
+</div>
+<div id="modal-root"></div>
+<div id="toast-root"></div>
+
+<script src="js/i18n.js"></script>
+<script src="js/state.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/art.js"></script>
+<script src="js/fx.js"></script>
+<script src="js/games/wortbruecke.js"></script>
+<script src="js/games/waldklicker.js"></script>
+<script src="js/games/pfoten.js"></script>
+<script src="js/games/doktorquiz.js"></script>
+<script src="js/games/kleinstadt.js"></script>
+<script src="js/games/projekt.js"></script>
+<script src="js/hub.js"></script>
+<script src="js/main.js"></script>
+<script type="module">
+  // Motion (Framer Motion for the DOM) for hub animations; the app works without it.
+  try {
+    const m = await import('https://cdn.jsdelivr.net/npm/motion@11.11.17/+esm');
+    window.__motion = { animate: m.animate, stagger: m.stagger };
+    document.dispatchEvent(new Event('motion-ready'));
+  } catch (e) { /* offline: CSS fallbacks are used */ }
+</script>
+</body>
+</html>
