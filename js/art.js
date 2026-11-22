@@ -139,5 +139,46 @@
       <path d="M0 150 q20 -6 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 v20 h-320z" fill="url(#obLava)" class="fx-wave"/>
     </svg>`;
   }
-  window.Art = { tree, growingTree, treeSmall, animal, building, grassTile, bridgeScene, archScene, doctor, cafe, logo, heroDeco, thumb, obbyScene };
+  // Card scenes for the Phaser top games.
+  const AV = (x, y, s, torso) => `<g transform="translate(${x} ${y}) scale(${s})"><rect x="4" y="34" width="7" height="12" fill="#22c55e"/><rect x="13" y="34" width="7" height="12" fill="#22c55e"/><rect x="-1" y="18" width="6" height="12" fill="#fcd34d"/><rect x="19" y="18" width="6" height="12" fill="#fcd34d"/><rect x="2" y="17" width="20" height="18" fill="${torso || '#3b82f6'}"/><rect x="2" y="0" width="20" height="17" rx="4" fill="#fcd34d"/><rect x="8" y="6" width="3" height="3" fill="#1e293b"/><rect x="15" y="6" width="3" height="3" fill="#1e293b"/><path d="M9 11 q4 4 8 0" stroke="#1e293b" stroke-width="1.5" fill="none"/></g>`;
+  const CUBE = (x, y, w, h, c, lite, dark) => `<path d="M${x + w} ${y} l8 -6 v${h} l-8 6z" fill="${dark}"/><path d="M${x} ${y} h${w} l8 -6 h-${w}z" fill="${lite}"/><rect x="${x}" y="${y}" width="${w}" height="${h}" fill="${c}"/>`;
+  function topScene(kind) {
+    const head = (g1, g2, id) => `<svg viewBox="0 0 320 170" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${g1}"/><stop offset="1" stop-color="${g2}"/></linearGradient></defs><rect width="320" height="170" rx="18" fill="url(#${id})"/>`;
+    let body = '';
+    if (kind === 'tower') body = head('#312e81', '#6366f1', 'tsk') + `
+      <g class="fx-cloud" opacity=".5"><circle cx="60" cy="40" r="12" fill="#fff"/><circle cx="76" cy="44" r="10" fill="#fff"/></g>
+      ${CUBE(40, 120, 60, 40, '#f472b6', '#f9b4d7', '#b24a84')}${CUBE(130, 92, 50, 70, '#60a5fa', '#a8ccfd', '#2f5fb3')}${CUBE(210, 64, 60, 100, '#34d399', '#9fe8cd', '#1f8f69')}${CUBE(100, 40, 44, 14, '#fbbf24', '#fde68a', '#b45309')}${CUBE(250, 26, 44, 14, '#a78bfa', '#d8ccfd', '#6d4bd6')}
+      <path d="M0 150 q20 -8 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 v20 h-320z" fill="#f97316" class="fx-wave"/><path d="M0 158 q20 -6 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0 v12 h-320z" fill="#dc2626"/>
+      <g class="fx-bob">${AV(150, 44, 1.1, '#f97316')}</g>
+      <text x="16" y="28" font-family="system-ui" font-weight="800" font-size="13" fill="#fff" opacity=".9">LAVA ↑</text>`;
+    else if (kind === 'garden') body = head('#38bdf8', '#bae6fd', 'gsk') + `
+      <circle cx="270" cy="34" r="16" fill="#fff" opacity=".9" class="fx-sun"/>
+      <path d="M0 110 q80 -30 160 0 t160 0 v60 h-320z" fill="#86efac"/><rect x="0" y="128" width="320" height="42" fill="#65a30d"/>
+      ${[30, 90, 150, 210, 270].map(x => `<rect x="${x - 22}" y="118" width="44" height="22" rx="4" fill="#92400e"/><rect x="${x - 22}" y="118" width="44" height="6" rx="3" fill="#b45309"/>`).join('')}
+      <g class="fx-sway"><rect x="28" y="96" width="4" height="24" fill="#16a34a"/><circle cx="30" cy="92" r="10" fill="#ef4444"/><circle cx="26" cy="88" r="3" fill="#fff" opacity=".7"/></g>
+      <g class="fx-sway s2"><rect x="88" y="100" width="4" height="20" fill="#16a34a"/><ellipse cx="80" cy="100" rx="9" ry="5" fill="#22c55e"/><ellipse cx="98" cy="96" rx="9" ry="5" fill="#22c55e"/></g>
+      <g class="fx-sway"><rect x="148" y="86" width="4" height="34" fill="#16a34a"/><circle cx="150" cy="80" r="14" fill="#fde047"/><circle cx="150" cy="80" r="6" fill="#a16207"/></g>
+      <g class="fx-sway s2"><rect x="208" y="104" width="4" height="16" fill="#16a34a"/><circle cx="206" cy="100" r="7" fill="#a855f7"/><circle cx="214" cy="104" r="6" fill="#a855f7"/><circle cx="210" cy="96" r="5" fill="#c084fc"/></g>
+      <g class="fx-bob"><circle cx="270" cy="86" r="18" fill="#f472b6"/><text x="270" y="92" text-anchor="middle" font-size="16">✨</text></g>
+      ${AV(236, 112, .9, '#22c55e')}`;
+    else if (kind === 'pets') body = head('#fbcfe8', '#fde68a', 'psk') + `
+      <path d="M0 120 q80 -20 160 0 t160 0 v50 h-320z" fill="#86efac"/>
+      <g class="fx-bob"><ellipse cx="70" cy="96" rx="26" ry="32" fill="#fff"/><ellipse cx="70" cy="96" rx="26" ry="32" fill="none" stroke="#e2e8f0" stroke-width="3"/><path d="M52 96 l8 -8 l8 8 l8 -8 l8 8" stroke="#f472b6" stroke-width="3" fill="none"/><circle cx="60" cy="80" r="3" fill="#60a5fa"/><circle cx="82" cy="108" r="3" fill="#fbbf24"/></g>
+      <g class="fx-bob"><rect x="130" y="80" width="40" height="40" rx="12" fill="#f472b6"/><path d="M134 84 l6 -14 l10 10z M166 84 l-6 -14 l-10 10z" fill="#ec4899"/><circle cx="143" cy="96" r="3" fill="#1e293b"/><circle cx="157" cy="96" r="3" fill="#1e293b"/><path d="M144 106 q6 5 12 0" stroke="#1e293b" stroke-width="2" fill="none"/></g>
+      <g class="fx-bob"><rect x="190" y="86" width="36" height="36" rx="10" fill="#a78bfa"/><rect x="194" y="66" width="8" height="24" rx="4" fill="#8b5cf6"/><rect x="214" y="66" width="8" height="24" rx="4" fill="#8b5cf6"/><circle cx="201" cy="100" r="2.5" fill="#1e293b"/><circle cx="215" cy="100" r="2.5" fill="#1e293b"/></g>
+      <g class="fx-bob"><rect x="240" y="92" width="32" height="30" rx="9" fill="#fbbf24"/><rect x="232" y="94" width="8" height="18" rx="4" fill="#d97706"/><rect x="272" y="94" width="8" height="18" rx="4" fill="#d97706"/><circle cx="250" cy="104" r="2.5" fill="#1e293b"/><circle cx="262" cy="104" r="2.5" fill="#1e293b"/></g>
+      <g fill="#fde047" stroke="#f59e0b" stroke-width="1.5"><circle cx="110" cy="60" r="5"/><circle cx="180" cy="50" r="5"/><circle cx="250" cy="56" r="5"/></g>
+      <text x="16" y="28" font-family="system-ui" font-weight="800" font-size="13" fill="#9d174d">LEGENDÄR ✦</text>`;
+    else if (kind === 'island') body = head('#0ea5e9', '#7dd3fc', 'isk') + `
+      <ellipse cx="160" cy="130" rx="150" ry="40" fill="#38bdf8" opacity=".6"/><ellipse cx="160" cy="124" rx="110" ry="30" fill="#fde68a"/><ellipse cx="160" cy="118" rx="80" ry="20" fill="#86efac"/>
+      ${CUBE(120, 92, 30, 24, '#f8fafc', '#fff', '#cbd5e1')}<path d="M118 92 l15 -14 l15 14z" fill="#ef4444"/>
+      <g class="fx-sway"><rect x="196" y="86" width="4" height="30" fill="#92400e"/><path d="M198 86 q-18 -12 -24 -2 q14 -2 24 2 q10 -12 24 -6 q-14 2 -24 6 q4 -16 0 -22 q-4 6 0 22" fill="#16a34a"/></g>
+      <g class="ob-spin" style="transform-origin:60px 60px"><path d="M60 20 q30 20 0 40 q-30 20 0 40" stroke="#cbd5e1" stroke-width="6" fill="none" opacity=".8"/><path d="M60 20 q-30 20 0 40 q30 20 0 40" stroke="#94a3b8" stroke-width="6" fill="none" opacity=".8"/></g>
+      <g class="fx-drop"><circle cx="250" cy="40" r="9" fill="#f97316"/><path d="M258 32 l24 -24" stroke="#fbbf24" stroke-width="4"/></g>
+      ${AV(150, 70, .9, '#0ea5e9')}
+      <text x="16" y="28" font-family="system-ui" font-weight="800" font-size="13" fill="#fff">ÜBERLEBE!</text>`;
+    else return obbyScene();
+    return body + '</svg>';
+  }
+  window.Art = { tree, growingTree, treeSmall, animal, building, grassTile, bridgeScene, archScene, doctor, cafe, logo, heroDeco, thumb, obbyScene, topScene };
 })();

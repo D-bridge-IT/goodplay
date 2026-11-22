@@ -75,16 +75,17 @@
         <div class="progress amber"><i style="width:${pomPct}%"></i></div>
         <div class="row between mt"><b>${State.fmtEuro(pom.raised)} · ${pomPct} %</b><button class="btn btn-amber btn-sm" data-game="projekt">🧱 ${t('join_build')}</button></div>
       </div>
-      ${Games.list.filter(g => g.featured).map(g => `
+      <div class="section-title"><h2>🔥 ${t('top_games')}</h2><span class="small muted">${Games.list.filter(g => g.tier === 'top').length}</span></div>
+      ${Games.list.filter(g => g.tier === 'top').map(g => `
         <button class="feature-card" data-game="${g.id}">
-          <span class="scene">${Art.obbyScene()}</span>
-          <span class="body"><span class="kicker"><span class="pill amber">🔥 ${t('feature_kicker')}</span><span class="pill demo">${t('feature_new')}</span></span>
+          <span class="scene">${g.art ? g.art() : Art.obbyScene()}</span>
+          <span class="body"><span class="kicker">${g.kicker ? `<span class="pill amber">${esc(L(g.kicker))}</span>` : ''}${g.isNew ? `<span class="pill demo">${t('feature_new')}</span>` : ''}</span>
           <b>${esc(L(g.name))}</b><small>${esc(L(g.tagline))}</small>
           <span class="row between"><span class="tag">${State.PARTNERS[g.partner].icon} ${esc(State.PARTNERS[g.partner].name.replace(' (Beispiel)', ''))}</span><span class="btn btn-indigo btn-sm">▶ ${t('play')}</span></span></span>
         </button>`).join('')}
-      <div class="section-title"><h2>${t('games_title')}</h2><span class="small muted">${Games.list.filter(g => g.id !== 'projekt' && !g.featured).length}</span></div>
+      <div class="section-title"><h2>${t('mini_games')}</h2><span class="small muted">${Games.list.filter(g => g.id !== 'projekt' && g.tier !== 'top').length}</span></div>
       <div class="grid-games" id="game-grid">
-        ${Games.list.filter(g => g.id !== 'projekt' && !g.featured).map(g => `
+        ${Games.list.filter(g => g.id !== 'projekt' && g.tier !== 'top').map(g => `
           <button class="game-card" data-game="${g.id}">
             <span class="art">${Art.thumb(g.id)}</span>
             <b>${esc(L(g.name))}</b>
@@ -211,7 +212,7 @@
     bindLang($('#topbar'));
     const badges = [
       ['supporter', '🎖️', 'badge_supporter'], ['forest', '🌲', 'badge_forest'], ['words', '🌉', 'badge_words'],
-      ['doctor', '🩺', 'badge_doctor'], ['paws', '🐾', 'badge_paws'], ['mayor', '🏘️', 'badge_mayor'], ['builder', '🧱', 'badge_builder'], ['obby', '🏃', 'badge_obby']
+      ['doctor', '🩺', 'badge_doctor'], ['paws', '🐾', 'badge_paws'], ['mayor', '🏘️', 'badge_mayor'], ['builder', '🧱', 'badge_builder'], ['obby', '🏃', 'badge_obby'], ['tower', '🗼', 'badge_tower'], ['garden', '🌱', 'badge_garden'], ['pets', '🐾', 'badge_pets'], ['island', '🏝️', 'badge_island']
     ];
     const adfree = d.adfreeUntil > Date.now();
     $('#screen').innerHTML = `
@@ -243,7 +244,7 @@
         <div class="setting"><span>${t('age_ok')}</span><span>${d.ageOk ? '✅' : '—'}</span></div>
         ${adfree ? `<div class="setting"><span>🚫 ${t('item_adfree')}</span><span class="pill soft">${t('owned')}</span></div>` : ''}
       </div>
-      <div class="card"><h3>${t('about')}</h3><p>${esc(t('about_text'))}</p>
+      <div class="card"><h3>${t('about')}</h3><p>${esc(t('about_text'))}</p><p class="small muted" style="margin-top:6px">${esc(t('credits'))}</p>
         <button class="btn btn-outline btn-block mt" id="btn-reset" style="color:var(--rose)">${t('reset')}</button></div>
       <div class="footer">${t('footer')}</div>`;
     bindLang($('#screen'));
