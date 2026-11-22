@@ -4,7 +4,7 @@
   const DEFAULT = {
     stars: 0, donatedCents: 0, adsWatched: 0, gamesPlayed: 0,
     purchases: [], history: [], perGame: {}, perPartner: {},
-    consent: null, ageOk: false, sound: true, avatar: '🦊',
+    consent: null, ageOk: false, sound: true, music: true, volume: 0.7, avatar: '🦊',
     adfreeUntil: 0, hints: 2, puzzlesDone: 0, badges: {}
   };
   function clone(o) { return JSON.parse(JSON.stringify(o)); }

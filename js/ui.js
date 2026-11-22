@@ -1,28 +1,7 @@
 // UI helpers: toast, modal, sound, rewarded ads, game registry.
 (function () {
-  let audioCtx = null;
-  function beep(freq, dur, type, vol) {
-    if (!State.data.sound) return;
-    try {
-      audioCtx = audioCtx || new (window.AudioContext || window.webkitAudioContext)();
-      const o = audioCtx.createOscillator(); const g = audioCtx.createGain();
-      o.type = type || 'sine'; o.frequency.value = freq;
-      g.gain.value = vol || 0.08;
-      o.connect(g); g.connect(audioCtx.destination);
-      const now = audioCtx.currentTime;
-      g.gain.setValueAtTime(vol || 0.08, now);
-      g.gain.exponentialRampToValueAtTime(0.0001, now + dur);
-      o.start(now); o.stop(now + dur);
-    } catch (e) { }
-  }
-  const SOUNDS = {
-    click: () => beep(620, 0.06),
-    ok: () => { beep(660, 0.1); setTimeout(() => beep(880, 0.12), 90); },
-    win: () => { beep(660, 0.1); setTimeout(() => beep(880, 0.1), 100); setTimeout(() => beep(1320, 0.25), 200); },
-    bad: () => beep(180, 0.18, 'square', 0.05),
-    coin: () => { beep(1200, 0.05); setTimeout(() => beep(1600, 0.08), 50); },
-    pop: () => beep(900, 0.05, 'triangle')
-  };
+  // Sounds live in audio.js (Snd); UI.sound is kept as the public name used by games.
+  const sound = (n, a) => window.Snd && Snd.sfx(n, a);
 
   function escapeHtml(s) { return String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c])); }
 
@@ -58,6 +37,7 @@
     return new Promise(resolve => {
       const partner = State.PARTNERS[meta.partnerId];
       let s = 5; let done = false;
+      if (window.Snd) { Snd.duck(true); Snd.sfx('adstart'); }
       const m = modal({
         title: t('ad_title'), dismissible: false,
         html: `
@@ -70,7 +50,7 @@
           <p class="small">${escapeHtml(t('ad_math'))}</p>
           ${State.data.consent === 'min' ? `<p class="small">${escapeHtml(t('ad_nonpers'))}</p>` : ''}
         `,
-        actions: [{ id: 'cancel', label: t('ad_cancel'), cls: 'btn-ghost', onClick: () => { if (done) return false; clearInterval(iv); resolve(false); } }]
+        actions: [{ id: 'cancel', label: t('ad_cancel'), cls: 'btn-ghost', onClick: () => { if (done) return false; clearInterval(iv); if (window.Snd) Snd.duck(false); resolve(false); } }]
       });
       const btn = m.actions.querySelector('[data-id="cancel"]');
       const iv = setInterval(() => {
@@ -81,7 +61,7 @@
           btn.onclick = () => {
             State.data.adsWatched++;
             State.donate(State.AD_CHARITY_CENTS, { type: 'ad', partnerId: meta.partnerId, gameId: meta.gameId });
-            m.close(); SOUNDS.coin();
+            m.close(); if (window.Snd) { Snd.duck(false); Snd.sfx('coin'); }
             if (window.FX) FX.burst(innerWidth / 2, innerHeight * .6, { type: 'hearts', count: 18, spread: 170, gravity: -30, lift: 80 });
             toast(t('ad_donated', { amt: State.fmtCents(State.AD_CHARITY_CENTS), partner: partner ? partner.name.replace(' (Beispiel)', '') : '' }), 'good');
             document.dispatchEvent(new Event('state-changed'));
@@ -97,5 +77,5 @@
     register(g) { this.list.push(g); this[g.id] = g; }
   };
 
-  window.UI = { toast, modal, sound: n => (SOUNDS[n] || SOUNDS.click)(), rewardedAd, escapeHtml };
+  window.UI = { toast, modal, sound, rewardedAd, escapeHtml };
 })();

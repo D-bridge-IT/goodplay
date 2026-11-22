@@ -35,6 +35,7 @@
 
   function show(name) {
     unmountGame();
+    Snd.music('hub');
     screen = name;
     const sc = $('#screen'); sc.className = 'screen'; sc.scrollTop = 0;
     $('#tabbar').classList.remove('hidden');
@@ -50,8 +51,9 @@
   function renderHome() {
     const d = State.data; const pom = State.PARTNERS.p6;
     const pomPct = Math.round(pom.raised / pom.goal * 100);
-    $('#topbar').innerHTML = `<div class="logo"><span class="dot">${Art.logo()}</span>GoodPlay</div>${langToggle()}${starsPill()}`;
+    $('#topbar').innerHTML = `<div class="logo"><span class="dot">${Art.logo()}</span>GoodPlay</div>${langToggle()}<button class="icon-btn sm" id="btn-music" title="${t(d.music ? 'music_on' : 'music_off')}">${d.music ? '🎵' : '🔇'}</button>${starsPill()}`;
     bindLang($('#topbar'));
+    $('#btn-music').addEventListener('click', () => { Snd.setMusic(!d.music); UI.sound('click'); const b = $('#btn-music'); b.textContent = d.music ? '🎵' : '🔇'; b.title = t(d.music ? 'music_on' : 'music_off'); FX.bump(b); UI.toast(t(d.music ? 'music_on' : 'music_off')); });
     const players = 4860 + Math.floor((Date.now() / 60000) % 240);
     $('#screen').innerHTML = `
       <div class="hero" id="hero">
@@ -186,7 +188,7 @@
           if (it.id === 'badge') State.unlockBadge('supporter');
           // Purchases without a game context go to the project of the month.
           State.donate(charity, { type: 'iap', partnerId: 'p6', itemId: it.id });
-          UI.sound('win'); UI.toast(`${t('bought')} · 💚 ${State.fmtEuro(charity)}`, 'good');
+          UI.sound('buy'); UI.toast(`${t('bought')} · 💚 ${State.fmtEuro(charity)}`, 'good');
           FX.confetti(); FX.burst(innerWidth / 2, innerHeight * .55, { type: 'hearts', count: 16, spread: 160, gravity: -20, lift: 60 });
           show('shop');
         } }
@@ -228,6 +230,8 @@
       <div class="card"><h3>${t('settings')}</h3>
         <div class="setting"><span>${t('lang')}</span>${langToggle()}</div>
         <div class="setting"><span>${t('sound')}</span><button class="switch ${d.sound ? 'on' : ''}" id="sw-sound"></button></div>
+        <div class="setting"><span>${t('music')}</span><button class="switch ${d.music ? 'on' : ''}" id="sw-music"></button></div>
+        <div class="setting"><span>${t('volume')}</span><input type="range" id="rg-vol" min="0" max="1" step="0.05" value="${d.volume}"></div>
         <div class="setting"><span>${t('consent')}: <b>${d.consent === 'all' ? t('consent_all') : t('consent_min')}</b></span><button class="btn btn-sm btn-outline" id="btn-consent">${t('change')}</button></div>
         <div class="setting"><span>${t('age_ok')}</span><span>${d.ageOk ? '✅' : '—'}</span></div>
         ${adfree ? `<div class="setting"><span>🚫 ${t('item_adfree')}</span><span class="pill soft">${t('owned')}</span></div>` : ''}
@@ -238,6 +242,9 @@
     bindLang($('#screen'));
     $('#screen').querySelectorAll('[data-avatar]').forEach(b => b.addEventListener('click', () => { d.avatar = b.dataset.avatar; State.save(); renderProfile(); }));
     $('#sw-sound').addEventListener('click', () => { d.sound = !d.sound; State.save(); UI.sound('click'); renderProfile(); });
+    $('#sw-music').addEventListener('click', () => { Snd.setMusic(!d.music); UI.sound('click'); renderProfile(); });
+    $('#rg-vol').addEventListener('input', e => Snd.setVolume(+e.target.value));
+    $('#rg-vol').addEventListener('change', () => UI.sound('coin'));
     $('#btn-consent').addEventListener('click', () => welcome(true));
     $('#btn-reset').addEventListener('click', () => UI.modal({
       title: t('reset'), html: `<p>${esc(t('reset_confirm'))}</p>`,
@@ -270,6 +277,7 @@
   function openGame(id) {
     const g = Games[id]; if (!g) return;
     unmountGame();
+    Snd.music(id);
     screen = 'game';
     $('#tabbar').classList.add('hidden');
     const partner = State.PARTNERS[g.partner];
@@ -285,8 +293,8 @@
         const pill = $('#stars-pill');
         const from = fromEl || $('#game-root .game-area') || $('#game-root');
         if (pill) { FX.fly(from, pill, '⭐'); setTimeout(() => { pill.textContent = `⭐ ${State.data.stars}`; }, 700); }
-        if (!silent) { UI.toast(t('stars_earned', { n }), 'good'); FX.floatAt(from, `+${n} ⭐`, 'gold big'); }
-        if (r.levelUp) setTimeout(() => { UI.toast(`🎉 ${t('new_level', { n: r.level })}`, 'good'); FX.confetti(); }, 500);
+        if (!silent) { UI.sound('star'); UI.toast(t('stars_earned', { n }), 'good'); FX.floatAt(from, `+${n} ⭐`, 'gold big'); }
+        if (r.levelUp) setTimeout(() => { UI.sound('levelup'); UI.toast(`🎉 ${t('new_level', { n: r.level })}`, 'good'); FX.confetti(); }, 500);
       },
       ad() { return UI.rewardedAd({ partnerId: g.partner, gameId: id }); },
       badge(bid) { if (State.unlockBadge(bid)) setTimeout(() => UI.toast(`🏅 ${t('badge_' + bid)}`, 'good'), 600); },
