@@ -65,7 +65,7 @@ Games.register({
         d.progress -= 100; d.trees++; d.leaves += 20 * mult();
         const scene = root.querySelector('.wk-tree');
         FX.burstAt(scene, { type: 'leaves', count: 26, spread: 150, gravity: 120, lift: 90 }); FX.floatAt(scene, `🌳 +20 🍃`, 'big');
-        ctx.sound('win'); ctx.toast(`🌳 ${s('planted')} +20 🍃`, 'good');
+        ctx.sound('plant'); ctx.toast(`🌳 ${s('planted')} +20 🍃`, 'good');
         if (d.trees % 10 === 0) { ctx.toast(s('ten'), 'good'); ctx.stars(15, false, scene); FX.confetti(); if (d.trees >= 10) ctx.badge('forest'); }
         else if (d.trees % 3 === 0) ctx.stars(3, true, scene);
       }
@@ -76,7 +76,7 @@ Games.register({
       grow(10 + 5 * d.fert); d.leaves += gain;
       FX.float(e.clientX, e.clientY - 10, `+${Math.round(gain * 10) / 10} 🍃`);
       FX.burst(e.clientX, e.clientY, { type: 'leaves', count: 4, spread: 50, gravity: 40, lift: 30 });
-      ctx.sound('pop'); ctx.save(); render();
+      ctx.sound('leaf'); ctx.save(); render();
     }
     timer = setInterval(() => {
       if (d.can > 0) { grow(3 * d.can); d.leaves += 0.5 * d.can * mult(); }

@@ -37,10 +37,10 @@ Games.register({
     }
     function place(i) {
       const cellEl = root.querySelectorAll('.ks-cell')[i];
-      if (tool === 'bull') { const tp = d.cells[i]; if (tp) { const back = Math.floor(B[tp].cost / 2); d.money += back; d.cells[i] = null; ctx.sound('pop'); FX.burstAt(cellEl, { type: 'bricks', count: 10, spread: 60 }); FX.floatAt(cellEl, `+${back} 💰`, 'gold'); } }
+      if (tool === 'bull') { const tp = d.cells[i]; if (tp) { const back = Math.floor(B[tp].cost / 2); d.money += back; d.cells[i] = null; ctx.sound('crash'); FX.burstAt(cellEl, { type: 'bricks', count: 10, spread: 60 }); FX.floatAt(cellEl, `+${back} 💰`, 'gold'); } }
       else if (!d.cells[i]) {
         if (d.money < B[tool].cost) { ctx.toast(s('nomoney')); ctx.sound('bad'); FX.shake(cellEl); return; }
-        d.money -= B[tool].cost; d.cells[i] = tool; placed = i; ctx.sound('coin');
+        d.money -= B[tool].cost; d.cells[i] = tool; placed = i; ctx.sound('place');
         FX.burstAt(cellEl, { type: 'sparks', count: 10, spread: 60 }); FX.floatAt(cellEl, `−${B[tool].cost}`, 'rose');
       }
       ctx.save(); checkWin(); render();

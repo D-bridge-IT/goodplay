@@ -47,7 +47,7 @@ Games.register({
       const q = qs[i];
       const opt = root.querySelector(`.quiz-opt[data-k="${k}"]`);
       if (k === q.c) { correct++; const pts = 10 + Math.floor(remaining / 3); score += pts; ctx.sound('ok'); FX.burstAt(opt, { type: 'sparks', count: 14, spread: 110 }); FX.floatAt(opt, `+${pts}`, 'big'); ctx.stars(3, true, opt); }
-      else { ctx.sound('bad'); if (opt) FX.shake(opt); FX.flash(root.querySelector('.game-area'), 'rgba(225,29,72,.5)'); }
+      else { ctx.sound(k === -1 ? 'alarm' : 'bad'); if (opt) FX.shake(opt); FX.flash(root.querySelector('.game-area'), 'rgba(225,29,72,.5)'); }
       setTimeout(render, k === q.c ? 0 : 320);
     }
     function finish() {
@@ -69,7 +69,12 @@ Games.register({
     }
     function startTimer() {
       clearInterval(timer);
-      timer = setInterval(() => { remaining -= 0.1; if (remaining <= 0) { remaining = 0; answer(-1); } else updateTimer(); }, 100);
+      timer = setInterval(() => {
+        remaining -= 0.1;
+        if (remaining <= 0) { remaining = 0; answer(-1); return; }
+        if (remaining <= 5.05 && Math.abs(remaining - Math.round(remaining)) < 0.051) ctx.sound('tick');
+        updateTimer();
+      }, 100);
     }
     async function joker() {
       if (jokerUsed || answered != null) return;
@@ -78,7 +83,7 @@ Games.register({
       if (State.data.hints > 0) { State.data.hints--; State.save(); ok = true; }
       else ok = await ctx.ad();
       if (answered != null) return;
-      if (ok) { jokerUsed = true; dimmed = [0, 1, 2, 3].filter(k => k !== qs[i].c).sort(() => Math.random() - .5).slice(0, 2); }
+      if (ok) { ctx.sound('hint'); jokerUsed = true; dimmed = [0, 1, 2, 3].filter(k => k !== qs[i].c).sort(() => Math.random() - .5).slice(0, 2); }
       startTimer(); render();
     }
     function render() {

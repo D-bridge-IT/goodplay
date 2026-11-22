@@ -52,7 +52,7 @@ Games.register({
         </div>
         ${finished ? `<div class="overlay"><div class="card"><div style="font-size:48px">🌉</div><h3>${s('done')}</h3>
             <p>${found.length}/${p.words.length} ${s('found')}</p><button class="btn btn-primary btn-block" id="wb-next">${s('next')} →</button></div></div>` : ''}`;
-      root.querySelectorAll('.wb-tile').forEach(b => b.addEventListener('click', () => { ctx.sound('click'); cur.push(+b.dataset.i); render(); }));
+      root.querySelectorAll('.wb-tile').forEach(b => b.addEventListener('click', () => { ctx.sound('tap'); cur.push(+b.dataset.i); render(); }));
       root.querySelector('#wb-del').addEventListener('click', () => { cur.pop(); render(); });
       root.querySelector('#wb-shuffle').addEventListener('click', () => { const word = cur.map(i => tiles[i]); tiles = shuffle(tiles.slice()); cur = []; word.forEach(l => { const i = tiles.findIndex((x, k) => x === l && !cur.includes(k)); if (i >= 0) cur.push(i); }); render(); });
       root.querySelector('#wb-check').addEventListener('click', check);
@@ -85,7 +85,7 @@ Games.register({
     function revealHint() {
       const left = p.words.filter(w => !found.includes(w)).sort((a, b) => b.length - a.length);
       if (!left.length) return;
-      const w = left[0]; hint = w[0] + ' ' + '_ '.repeat(w.length - 1).trim();
+      const w = left[0]; hint = w[0] + ' ' + '_ '.repeat(w.length - 1).trim(); ctx.sound('hint');
       render();
     }
     async function giveHint() {

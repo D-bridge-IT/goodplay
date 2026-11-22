@@ -47,17 +47,17 @@ Games.register({
     }
     async function onCell(r, c) {
       if (busy || over) return;
-      if (!sel) { sel = [r, c]; ctx.sound('click'); render(); return; }
+      if (!sel) { sel = [r, c]; ctx.sound('tap'); render(); return; }
       const [sr, sc] = sel;
       if (sr === r && sc === c) { sel = null; render(); return; }
-      if (Math.abs(sr - r) + Math.abs(sc - c) !== 1) { sel = [r, c]; ctx.sound('click'); render(); return; }
+      if (Math.abs(sr - r) + Math.abs(sc - c) !== 1) { sel = [r, c]; ctx.sound('tap'); render(); return; }
       busy = true;
       [grid[sr][sc], grid[r][c]] = [grid[r][c], grid[sr][sc]]; render(); await wait(160);
       let m = findMatches();
       if (!m.size) { [grid[sr][sc], grid[r][c]] = [grid[r][c], grid[sr][sc]]; ctx.sound('bad'); sel = null; busy = false; render(); return; }
       moves--; sel = null; let chain = 0;
       while (m.size) {
-        chain++; const pts = m.size * 10 * chain; score += pts; ctx.sound(chain > 1 ? 'win' : 'ok');
+        chain++; const pts = m.size * 10 * chain; score += pts; ctx.sound(chain > 1 ? 'cascade' : 'match', chain);
         popping = m; render();
         const first = [...m][Math.floor(m.size / 2)]; const cell = root.querySelectorAll('.m3-cell')[first];
         FX.burstAt(cell, { type: chain > 1 ? 'sparks' : 'hearts', count: 10, spread: 70 });

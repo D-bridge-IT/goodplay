@@ -27,13 +27,13 @@ Games.register({
       const hit = Math.abs(pos - 0.5) <= zone / 2;
       const marker = root.querySelector('#pb-marker'), area = root.querySelector('#pb-area');
       if (hit) {
-        bricks++; speed *= 1.08; zone = Math.max(0.12, zone - 0.012); fresh = true; ctx.sound('ok');
+        bricks++; speed *= 1.08; zone = Math.max(0.12, zone - 0.012); fresh = true; ctx.sound('place');
         FX.burstAt(marker, { type: 'sparks', count: 12, spread: 80 }); FX.floatAt(marker, '+2 ⭐', 'gold');
         ctx.stars(2, true, marker);
         if (bricks >= TOTAL) { over = true; cancelAnimationFrame(raf); d.built++; ctx.save(); ctx.sound('win'); ctx.badge('builder'); setTimeout(() => { ctx.stars(25); FX.confetti(); }, 300); }
       } else {
-        lives--; ctx.sound('bad'); FX.shake(area); FX.flash(area, 'rgba(225,29,72,.55)'); FX.burstAt(marker, { type: 'bricks', count: 8, spread: 60 }); FX.floatAt(marker, '💔', 'rose big');
-        if (lives <= 0) { over = true; cancelAnimationFrame(raf); }
+        lives--; ctx.sound('brick'); FX.shake(area); FX.flash(area, 'rgba(225,29,72,.55)'); FX.burstAt(marker, { type: 'bricks', count: 8, spread: 60 }); FX.floatAt(marker, '💔', 'rose big');
+        if (lives <= 0) { over = true; cancelAnimationFrame(raf); ctx.sound('fail'); }
       }
       render();
       if (over) setTimeout(endModal, 300);
