@@ -383,3 +383,7 @@ button { font: inherit; color: inherit; }
 .game-card:hover .art svg { transform: scale(1.05); }
 .progress > i { transition: width .6s cubic-bezier(.2,.7,.2,1); }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; transition-duration: .01ms !important; } }
+
+/* ---------- Audio controls ---------- */
+.icon-btn.sm { width: 32px; height: 32px; font-size: 15px; border-radius: 10px; }
+.setting input[type=range] { width: 130px; accent-color: var(--brand); }
