@@ -1,7 +1,7 @@
 // Obby Rush: an auto-run obstacle course in the spirit of Roblox obbies.
 // Canvas 2D, procedural stages, kill bricks, spinners, bounce pads, speed pads, moving platforms, coins, lava, checkpoints.
 Games.register({
-  id: 'obby', icon: '🏃', bg: '#dbeafe', partner: 'p5', featured: true,
+  id: 'obby', icon: '🏃', bg: '#dbeafe', partner: 'p5', tier: 'top', kicker: { de: 'Obby-Parcours', ru: 'Обби-паркур' },
   name: { de: 'Obby Rush', ru: 'Obby Rush' },
   tagline: { de: 'Killbricks, Spinner, Lava: Wie viele Stages schaffst du?', ru: 'Ловушки, спиннеры, лава: сколько этапов осилишь?' },
   mount(root, ctx) {
