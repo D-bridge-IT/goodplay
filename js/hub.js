@@ -309,7 +309,15 @@
     $('#tabbar').classList.add('hidden');
     const partner = State.PARTNERS[g.partner];
     $('#topbar').innerHTML = `<button class="icon-btn" id="btn-back">←</button><div class="title">${g.icon} ${esc(L(g.name))}</div>${starsPill()}`;
-    $('#btn-back').addEventListener('click', () => { UI.sound('click'); show('home'); });
+    $('#btn-back').addEventListener('click', () => {
+      UI.sound('click');
+      const h = current && current.handle;
+      if (h && typeof h.leaveGuard === 'function' && h.leaveGuard()) {
+        Kit.confirm(L({ de: 'Level verlassen? Der Fortschritt in diesem Level geht verloren.', en: 'Leave the level? Progress in this level will be lost.', ru: 'Выйти из уровня? Прогресс на этом уровне пропадёт.', uk: 'Вийти з рівня? Прогрес на цьому рівні буде втрачено.' }), () => show('home'));
+        return;
+      }
+      show('home');
+    });
     const sc = $('#screen'); sc.className = 'screen game'; sc.scrollTop = 0;
     sc.innerHTML = `<div class="row small muted" style="padding:2px 6px 0">💚 ${t('partner')}: <b style="color:var(--brand)">${partner.icon} ${esc(partner.name.replace(' (Beispiel)', ''))}</b></div><div class="game-wrap" id="game-root"></div>`;
     State.data.gamesPlayed++; State.save();
