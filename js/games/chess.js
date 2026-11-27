@@ -752,12 +752,12 @@
      ===================================================================================== */
   Games.register({
     id: 'chess', icon: '♟️', partner: 'p4', tier: 'top', isNew: true,
-    name: { de: 'Schach', ru: 'Шахматы' },
-    tagline: { de: 'Klassisches Schach gegen den Computer – plus Mattaufgaben.', ru: 'Классические шахматы против компьютера и задачи на мат.' },
-    kicker: { de: 'Der Klassiker', ru: 'Вечная классика' },
+    name: { de: 'Schach', en: 'Chess', ru: 'Шахматы', uk: 'Шахи' },
+    tagline: { de: 'Klassisches Schach gegen den Computer – plus Mattaufgaben.', en: 'Classic chess against the computer – plus mate puzzles.', ru: 'Классические шахматы против компьютера и задачи на мат.', uk: 'Класичні шахи проти комп’ютера та задачі на мат.' },
+    kicker: { de: 'Der Klassiker', en: 'The classic', ru: 'Вечная классика', uk: 'Вічна класика' },
     badges: [
-      { id: 'chess_win', icon: '🏆', name: { de: 'Sieg gegen Mittel+', ru: 'Победа над «Средним»' } },
-      { id: 'chess_puzzles', icon: '🧩', name: { de: '10 Aufgaben gelöst', ru: '10 задач решено' } }
+      { id: 'chess_win', icon: '🏆', name: { de: 'Sieg gegen Mittel+', en: 'Win vs. Medium+', ru: 'Победа над «Средним»', uk: 'Перемога над «Середнім»' } },
+      { id: 'chess_puzzles', icon: '🧩', name: { de: '10 Aufgaben gelöst', en: '10 puzzles solved', ru: '10 задач решено', uk: '10 задач розв’язано' } }
     ],
     thumb: thumbArt,
     art: bigArt,
@@ -790,7 +790,8 @@
           <li><b>Remis:</b> Patt, dreifache Stellungswiederholung, 50 Züge ohne Bauernzug oder Schlagen, zu wenig Material zum Mattsetzen.</li>
           <li><b>Bedienung:</b> Figur antippen und Zielfeld tippen – oder einfach ziehen. Punkte zeigen erlaubte Züge, Ringe mögliche Schlagzüge.</li>
           <li><b>Aufgaben:</b> Finde das Matt in 1 oder 2 Zügen. Falsche Züge darfst du beliebig oft wiederholen.</li>
-          <li><b>Sterne:</b> Sieg Leicht 10 · Mittel 20 · Schwer 40 ⭐, Remis die Hälfte, jede gelöste Aufgabe 5 ⭐.</li></ul>`
+          <li><b>Sterne:</b> Sieg Leicht 10 · Mittel 20 · Schwer 40 ⭐, Remis die Hälfte, jede gelöste Aufgabe 5 ⭐.</li></ul>`,
+        prevP: 'Vorherige Aufgabe', pQ: 'Dame', pR: 'Turm', pB: 'Läufer', pN: 'Springer'
       },
       ru: {
         modeGame: 'Партия', modePuzzle: 'Задачи', you: 'Вы', cpu: 'Компьютер', thinking: 'думает', yourTurn: 'Ваш ход', check: 'Шах!',
@@ -813,7 +814,56 @@
           <li><b>Ничья:</b> пат, троекратное повторение, 50 ходов без хода пешкой и взятия, недостаточно материала для мата.</li>
           <li><b>Управление:</b> нажмите фигуру, затем поле — или просто перетащите. Точки — возможные ходы, кольца — взятия.</li>
           <li><b>Задачи:</b> найдите мат в 1 или 2 хода. Ошибаться можно сколько угодно.</li>
-          <li><b>Звёзды:</b> победа Лёгкий 10 · Средний 20 · Сложный 40 ⭐, ничья — половина, каждая решённая задача 5 ⭐.</li></ul>`
+          <li><b>Звёзды:</b> победа Лёгкий 10 · Средний 20 · Сложный 40 ⭐, ничья — половина, каждая решённая задача 5 ⭐.</li></ul>`,
+        prevP: 'Предыдущая задача', pQ: 'Ферзь', pR: 'Ладья', pB: 'Слон', pN: 'Конь'
+      },
+      en: {
+        modeGame: 'Game', modePuzzle: 'Puzzles', you: 'You', cpu: 'Computer', thinking: 'thinking', yourTurn: 'Your move', check: 'Check!',
+        newTitle: 'New game', strength: 'Strength', colorQ: 'Your colour', white: 'White', black: 'Black', random: 'Random', start: 'Start game',
+        flip: 'Flip', newG: 'New', mate: 'Checkmate', stalemate: 'Stalemate', threefold: 'Threefold repetition', fifty: '50-move rule', material: 'Insufficient material',
+        winLine: 'Well played – you beat the computer ({lvl})!', loseTitle: 'Not this time', loseLine: 'Good fight! Every game makes you stronger – another one?',
+        drawLine: 'An honest draw against “{lvl}”.', noUndo: 'No move to take back yet', undoFree: 'Move taken back (free once per game)',
+        hintCalc: 'Looking for the best move…', hintIs: 'Hint: {san}', over: 'Game over – tap “New”', waitCpu: 'One moment – it’s the computer’s move',
+        puzzle: 'Puzzle', mateIn1: 'Mate in 1', mateIn2: 'Mate in 2', wMates: 'White to move and mate', bMates: 'Black to move and mate',
+        wrong: 'Not quite – try again', good: 'Correct! Now the mate…', solvedT: 'Solved!', solvedLine: 'Checkmate – neatly solved.', already: 'Already solved – good practice.',
+        nextP: 'Next puzzle', reset: 'Restart', solvedCount: '{n}/{t} solved', promo: 'Promote to', resumed: 'Game resumed', vs: 'vs',
+        allDone: 'All puzzles solved – brilliant!', wTurn: 'White to move', bTurn: 'Black to move', resign: 'Resign',
+        rulesT: 'Chess – rules',
+        rules: `<ul>
+          <li><b>Goal:</b> checkmate the opponent’s king – it is in check and cannot escape.</li>
+          <li><b>Moves:</b> king 1 square · queen any distance straight or diagonal · rook straight · bishop diagonal · knight in an “L” (may jump) · pawn 1 square forward (2 from the start), captures diagonally.</li>
+          <li><b>Castling:</b> the king moves 2 squares towards a rook and the rook jumps over it – only if neither has moved, nothing stands between them and the king does not pass through check.</li>
+          <li><b>En passant:</b> if a pawn moves 2 squares past your pawn, you may capture it right away “in passing”.</li>
+          <li><b>Promotion:</b> a pawn reaching the last rank becomes a queen, rook, bishop or knight.</li>
+          <li><b>Draw:</b> stalemate, threefold repetition, 50 moves without a pawn move or capture, not enough material to mate.</li>
+          <li><b>Controls:</b> tap a piece, then the target square – or just drag it. Dots show legal moves, rings show possible captures.</li>
+          <li><b>Puzzles:</b> find the mate in 1 or 2 moves. You may retry wrong moves as often as you like.</li>
+          <li><b>Stars:</b> win Easy 10 · Medium 20 · Hard 40 ⭐, draw half of that, every solved puzzle 5 ⭐.</li></ul>`,
+        prevP: 'Previous puzzle', pQ: 'Queen', pR: 'Rook', pB: 'Bishop', pN: 'Knight'
+      },
+      uk: {
+        modeGame: 'Партія', modePuzzle: 'Задачі', you: 'Ти', cpu: 'Комп’ютер', thinking: 'думає', yourTurn: 'Твій хід', check: 'Шах!',
+        newTitle: 'Нова партія', strength: 'Сила гри', colorQ: 'Твій колір', white: 'Білі', black: 'Чорні', random: 'Випадково', start: 'Почати партію',
+        flip: 'Повернути', newG: 'Заново', mate: 'Мат', stalemate: 'Пат', threefold: 'Триразове повторення позиції', fifty: 'Правило 50 ходів', material: 'Недостатньо матеріалу',
+        winLine: 'Сильна гра — перемога над комп’ютером ({lvl})!', loseTitle: 'Цього разу не вийшло', loseLine: 'Гарна боротьба! Кожна партія додає досвіду — зіграємо ще?',
+        drawLine: 'Чесна нічия проти рівня «{lvl}».', noUndo: 'Поки що немає чого скасовувати', undoFree: 'Хід скасовано (раз за партію безкоштовно)',
+        hintCalc: 'Шукаю найкращий хід…', hintIs: 'Підказка: {san}', over: 'Партію завершено — натисни «Заново»', waitCpu: 'Секунду — ходить комп’ютер',
+        puzzle: 'Задача', mateIn1: 'Мат в 1 хід', mateIn2: 'Мат у 2 ходи', wMates: 'Білі починають і ставлять мат', bMates: 'Чорні починають і ставлять мат',
+        wrong: 'Не зовсім — спробуй ще раз', good: 'Правильно! А тепер мат…', solvedT: 'Розв’язано!', solvedLine: 'Мат поставлено — чисте розв’язання.', already: 'Уже розв’язано — гарне тренування.',
+        nextP: 'Наступна задача', reset: 'Спочатку', solvedCount: 'розв’язано {n}/{t}', promo: 'Перетворити на', resumed: 'Партію продовжено', vs: 'проти',
+        allDone: 'Усі задачі розв’язано — чудово!', wTurn: 'Хід білих', bTurn: 'Хід чорних', resign: 'Здатися',
+        rulesT: 'Шахи — правила',
+        rules: `<ul>
+          <li><b>Мета:</b> поставити мат королю суперника — він під шахом і не може втекти.</li>
+          <li><b>Ходи:</b> король на 1 поле · ферзь по прямих і діагоналях · тура по прямих · слон по діагоналях · кінь літерою «Г» (може перестрибувати) · пішак на 1 поле вперед (з початкової — на 2), б’є навскіс.</li>
+          <li><b>Рокіровка:</b> король іде на 2 поля до тури, тура перестрибує через нього — якщо обидва не ходили, між ними порожньо і король не проходить через бите поле.</li>
+          <li><b>Взяття на проході:</b> якщо пішак суперника стрибнув на 2 поля повз твого пішака, його можна одразу взяти «на проході».</li>
+          <li><b>Перетворення:</b> пішак на останній горизонталі стає ферзем, турою, слоном або конем.</li>
+          <li><b>Нічия:</b> пат, триразове повторення, 50 ходів без ходу пішаком і взяття, недостатньо матеріалу для мату.</li>
+          <li><b>Керування:</b> натисни фігуру, потім поле — або просто перетягни. Крапки — можливі ходи, кільця — взяття.</li>
+          <li><b>Задачі:</b> знайди мат в 1 або 2 ходи. Помилятися можна скільки завгодно.</li>
+          <li><b>Зірки:</b> перемога Легкий 10 · Середній 20 · Складний 40 ⭐, нічия — половина, кожна розв’язана задача 5 ⭐.</li></ul>`,
+        prevP: 'Попередня задача', pQ: 'Ферзь', pR: 'Тура', pB: 'Слон', pN: 'Кінь'
       }
     });
 
@@ -1059,7 +1109,7 @@
     function showPromo(to, side, cb) {
       const col = colOf(to), down = rowOf(to) === 0;
       const opts = [C.Q, C.N, C.R, C.B];
-      elPromo.innerHTML = `<div class="ch-pbox${down ? '' : ' up'}" style="left:${col * 12.5}%;${down ? 'top:0' : 'bottom:0'}">${opts.map(t => `<button data-t="${t}" aria-label="promo">${useSvg(CODE(t | (side ? 8 : 0)))}</button>`).join('')}</div>`;
+      elPromo.innerHTML = `<div class="ch-pbox${down ? '' : ' up'}" style="left:${col * 12.5}%;${down ? 'top:0' : 'bottom:0'}">${opts.map(t => `<button data-t="${t}" aria-label="${UI.escapeHtml(s('promo') + ' ' + s(t === C.Q ? 'pQ' : t === C.R ? 'pR' : t === C.B ? 'pB' : 'pN'))}">${useSvg(CODE(t | (side ? 8 : 0)))}</button>`).join('')}</div>`;
       elPromo.classList.add('on');
       const done = v => { elPromo.classList.remove('on'); elPromo.innerHTML = ''; elPromo.onpointerdown = null; cb(v); };
       elPromo.onpointerdown = e => { e.stopPropagation(); const b = e.target.closest('button'); done(b ? +b.dataset.t : 0); };
@@ -1389,9 +1439,9 @@
     function renderPuzzleChrome() {
       if (mode !== 'puzzle') return;
       const solved = d.solved.includes(P0.id);
-      elTop.innerHTML = `<button class="ch-nav" data-nav="-1" aria-label="prev">${IC.prev}</button>
+      elTop.innerHTML = `<button class="ch-nav" data-nav="-1" aria-label="${UI.escapeHtml(s('prevP'))}">${IC.prev}</button>
         <span class="ch-ptitle"><b>${s('puzzle')} ${pIdx + 1}<small>/${PUZZLES.length}</small></b><span class="ch-tag n${P0.n}">${P0.n === 1 ? s('mateIn1') : s('mateIn2')}</span>${solved ? '<span class="ch-ok">✓</span>' : ''}</span>
-        <button class="ch-nav" data-nav="1" aria-label="next">${IC.next}</button>`;
+        <button class="ch-nav" data-nav="1" aria-label="${UI.escapeHtml(s('nextP'))}">${IC.next}</button>`;
       elTop.querySelectorAll('[data-nav]').forEach(b => b.addEventListener('click', () => { UI.sound('click'); loadPuzzle(pIdx + +b.dataset.nav); }));
       const side = pos.side;
       elBot.innerHTML = `<span class="ch-ava ${P0.side ? 'b' : 'w'} turn">${useSvg(P0.side ? 'bk' : 'wk')}</span>

@@ -324,8 +324,53 @@
         <li><b>Подсказка</b> открывает логически определимую клетку и объясняет почему.</li>
         <li>Клавиатура: 1–9, стрелки, Backspace, N — заметки, Ctrl+Z.</li>
         <li>Звёзды: лёгкий 8 · средний 15 · сложный 25 · эксперт 40, головоломка дня +10.</li></ul>`
+    },
+    en: {
+      daily: 'Puzzle of the day', dailyShort: 'Day', mistakes: 'Mistakes', pause: 'Pause', paused: 'Paused', resume: 'Resume',
+      notes: 'Notes', erase: 'Erase', generating: 'Creating puzzle …', newPuzzle: 'New puzzle',
+      solved: 'Solved!', bestTime: 'Best', yourTime: 'Your time', newRecord: 'New record!', dailyDone: 'Today’s puzzle is already solved ✓ – a new one comes tomorrow.',
+      dailyBonus: '+10 ⭐ daily bonus', streak: 'Streak: {n} days',
+      overTitle: 'Three mistakes', overText: 'You’ve reached the mistake limit. Watch an ad to keep playing – and donate while you’re at it.',
+      continueAd: 'Keep playing (ad)', secondChance: 'Here we go – one more mistake allowed.',
+      wrong: 'That doesn’t fit here.', locked: 'This cell is already fixed.', selectCell: 'Select a cell first.',
+      h_naked: 'Only {d} is still possible in this cell.',
+      h_row: 'This is the only place for {d} in this row.', h_col: 'This is the only place for {d} in this column.', h_box: 'This is the only place for {d} in this box.',
+      h_reveal: '{d} goes here.', h_with: 'After “{t}”: ', h_fixed: 'Wrong digit corrected: {d} goes here.',
+      t_locked: 'Locked candidates', t_pair: 'Naked pair', t_hpair: 'Hidden pair', t_triple: 'Naked triple', t_htriple: 'Hidden triple',
+      t_xwing: 'X-Wing', t_xywing: 'XY-Wing', t_swordfish: 'Swordfish', t_quad: 'Naked quad',
+      rulesHtml: `<ul>
+        <li>Fill the 9×9 grid so that every <b>row</b>, every <b>column</b> and every <b>3×3 box</b> contains the digits 1–9 exactly once.</li>
+        <li>Tap a cell, then a digit. Every puzzle has exactly <b>one</b> solution.</li>
+        <li><b>Notes</b> (N) keep track of possible digits; they disappear automatically when the digit is placed in the row, column or box.</li>
+        <li>After <b>3 mistakes</b> the game is over – or you keep playing with an ad.</li>
+        <li><b>Hint</b> reveals a cell that can be found by logic and explains why.</li>
+        <li>Keyboard: 1–9, arrow keys, Backspace, N for notes, Ctrl+Z.</li>
+        <li>Stars: Easy 8 · Medium 15 · Hard 25 · Expert 40, puzzle of the day +10.</li></ul>`
+    },
+    uk: {
+      daily: 'Головоломка дня', dailyShort: 'День', mistakes: 'Помилки', pause: 'Пауза', paused: 'Пауза', resume: 'Продовжити',
+      notes: 'Нотатки', erase: 'Стерти', generating: 'Створюємо головоломку …', newPuzzle: 'Нова головоломка',
+      solved: 'Розв’язано!', bestTime: 'Рекорд', yourTime: 'Твій час', newRecord: 'Новий рекорд!', dailyDone: 'Головоломку дня вже розв’язано ✓ — завтра буде нова.',
+      dailyBonus: '+10 ⭐ бонус дня', streak: 'Серія: {n} дн.',
+      overTitle: 'Три помилки', overText: 'Ліміт помилок вичерпано. Переглянь рекламу, щоб продовжити, — і зроби пожертву.',
+      continueAd: 'Продовжити (реклама)', secondChance: 'Продовжуємо — можна помилитися ще раз.',
+      wrong: 'Сюди це не підходить.', locked: 'Ця клітинка вже заповнена.', selectCell: 'Спершу вибери клітинку.',
+      h_naked: 'У цій клітинці можлива лише цифра {d}.',
+      h_row: 'Лише сюди в цьому рядку підходить {d}.', h_col: 'Лише сюди в цьому стовпці підходить {d}.', h_box: 'Лише сюди в цьому блоці підходить {d}.',
+      h_reveal: 'Тут має стояти {d}.', h_with: 'Після прийому «{t}»: ', h_fixed: 'Помилку виправлено: тут має стояти {d}.',
+      t_locked: 'Заблоковані кандидати', t_pair: 'Відкрита пара', t_hpair: 'Прихована пара', t_triple: 'Відкрита трійка', t_htriple: 'Прихована трійка',
+      t_xwing: 'X-Wing', t_xywing: 'XY-Wing', t_swordfish: 'Риба-меч', t_quad: 'Відкрита четвірка',
+      rulesHtml: `<ul>
+        <li>Заповни сітку 9×9 так, щоб у кожному <b>рядку</b>, кожному <b>стовпці</b> і кожному <b>блоці 3×3</b> цифри 1–9 траплялися рівно один раз.</li>
+        <li>Торкнися клітинки, потім цифри. Кожна головоломка має рівно <b>один</b> розв’язок.</li>
+        <li><b>Нотатки</b> (N) допомагають позначати варіанти; вони зникають самі, коли цифру ставлять у рядку, стовпці чи блоці.</li>
+        <li>Після <b>3 помилок</b> гру завершено — або продовж за перегляд реклами.</li>
+        <li><b>Підказка</b> відкриває клітинку, яку можна визначити логічно, і пояснює чому.</li>
+        <li>Клавіатура: 1–9, стрілки, Backspace, N — нотатки, Ctrl+Z.</li>
+        <li>Зірки: легкий 8 · середній 15 · складний 25 · експерт 40, головоломка дня +10.</li></ul>`
     }
   });
+  const NAME = { de: 'Sudoku', en: 'Sudoku', ru: 'Судоку', uk: 'Судоку' };
 
   const STARS = { easy: 8, medium: 15, hard: 25, expert: 40 };
   const MAX_MISTAKES = 3;
@@ -354,12 +399,12 @@
      ===================================================================== */
   Games.register({
     id: 'sudoku', icon: '🔢', partner: 'p3', tier: 'top', isNew: true,
-    name: { de: 'Sudoku', ru: 'Судоку' },
-    tagline: { de: 'Klassisches Zahlenrätsel – jedes mit genau einer Lösung', ru: 'Классика с цифрами — у каждой задачи ровно одно решение' },
-    kicker: { de: 'Täglich neu', ru: 'Новая каждый день' },
+    name: NAME,
+    tagline: { de: 'Klassisches Zahlenrätsel – jedes mit genau einer Lösung', en: 'The classic number puzzle – each with exactly one solution', ru: 'Классика с цифрами — у каждой задачи ровно одно решение', uk: 'Класика з цифрами — кожна задача має рівно один розв’язок' },
+    kicker: { de: 'Täglich neu', en: 'New every day', ru: 'Новая каждый день', uk: 'Нова щодня' },
     badges: [
-      { id: 'sudoku_win', icon: '🔢', name: { de: 'Erstes Sudoku gelöst', ru: 'Первое судоку решено' } },
-      { id: 'sudoku_expert', icon: '🧠', name: { de: 'Sudoku-Experte', ru: 'Эксперт судоку' } }
+      { id: 'sudoku_win', icon: '🔢', name: { de: 'Erstes Sudoku gelöst', en: 'First Sudoku solved', ru: 'Первое судоку решено', uk: 'Перше судоку розв’язано' } },
+      { id: 'sudoku_expert', icon: '🧠', name: { de: 'Sudoku-Experte', en: 'Sudoku expert', ru: 'Эксперт судоку', uk: 'Експерт судоку' } }
     ],
     logic: LOGIC,
     thumb() {
@@ -482,7 +527,7 @@
       ui.tool(`<span class="ico">${ICON.fresh}</span>${Kit.t('newGame')}`, () => {
         if (inProgress()) Kit.confirm(Kit.t('confirmNew'), () => newGame(D.diff)); else newGame(D.diff);
       });
-      ui.tool(`<span class="ico">${ICON.rules}</span>${Kit.t('rules')}`, () => Kit.rules(Kit.t('rules') + ' · Sudoku', s('rulesHtml')));
+      ui.tool(`<span class="ico">${ICON.rules}</span>${Kit.t('rules')}`, () => Kit.rules(Kit.t('rules') + ' · ' + L(NAME), s('rulesHtml')));
 
       // --- state ---
       let G = null, sel = -1, focusDigit = 0, notesMode = false, paused = false, busy = false, job = null, poolJob = null, destroyed = false;

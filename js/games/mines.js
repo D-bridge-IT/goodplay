@@ -214,7 +214,23 @@
       <li><b>Флажок:</b> долгое нажатие (≈ 0,35 с), правая кнопка мыши или режим флажков.</li>
       <li><b>Аккорд:</b> нажми на число, вокруг которого уже отмечены все мины, — остальные соседи откроются сразу.</li>
       <li>Уровни: лёгкий 9×9 (10 мин), средний 12×12 (24), сложный 12×16 (40). Лучшее время хранится для каждого уровня.</li>
-      <li><b>Второй шанс:</b> один раз за игру после подрыва можно продолжить за рекламу — она приносит пожертвование партнёру.</li></ul>`
+      <li><b>Второй шанс:</b> один раз за игру после подрыва можно продолжить за рекламу — она приносит пожертвование партнёру.</li></ul>`,
+    en: `<ul>
+      <li><b>Goal:</b> old mines and traps are hidden in this forest clearing. Uncover every square <i>without</i> a mine.</li>
+      <li>A number shows how many mines lie in the 8 neighbouring squares.</li>
+      <li>The first tap is always safe and opens an area.</li>
+      <li><b>Place a flag:</b> long press (≈ 0.35 s), right-click or switch on flag mode.</li>
+      <li><b>Chord:</b> tap a number whose mines are all flagged – the remaining neighbours open at once.</li>
+      <li>Levels: Easy 9×9 (10 mines), Medium 12×12 (24), Hard 12×16 (40). Best times are saved per level.</li>
+      <li><b>Second chance:</b> once per game you can keep playing after a hit by watching an ad – the ad donates to the partner.</li></ul>`,
+    uk: `<ul>
+      <li><b>Мета:</b> на лісовій галявині заховані старі міни й пастки. Відкрий усі клітинки <i>без</i> мін.</li>
+      <li>Число показує, скільки мін у 8 сусідніх клітинках.</li>
+      <li>Перше натискання завжди безпечне й відкриває ділянку.</li>
+      <li><b>Прапорець:</b> довге натискання (≈ 0,35 с), права кнопка миші або режим прапорців.</li>
+      <li><b>Акорд:</b> натисни на число, навколо якого вже позначені всі міни, — решта сусідів відкриються одразу.</li>
+      <li>Рівні: легкий 9×9 (10 мін), середній 12×12 (24), складний 12×16 (40). Найкращий час зберігається для кожного рівня.</li>
+      <li><b>Другий шанс:</b> один раз за гру після підриву можна продовжити за рекламу — вона приносить пожертву партнерові.</li></ul>`
   };
 
   const s = Kit.strings({
@@ -229,6 +245,18 @@
       watch: '▶ Продолжить', giveUp: 'Сдаться', loseTitle: 'Бум — старая мина!', lineTime: 'Время: {t}', newBest: 'Новый рекорд времени!', bestLine: 'Лучшее время: {t}',
       hintSafe: 'Эта клетка безопасна.', confirmLevel: 'Сменить уровень? Текущая игра будет прервана.', defused: 'Мина обезврежена — играем дальше!',
       flagOn: 'Режим флажков включён', flagOff: 'Режим флажков выключен', cleared: 'Расчищено {n} %', chanceUsed: 'Второй шанс использован'
+    },
+    en: {
+      flag: 'Flag', theme: 'Forest clearer', hitTitle: 'Mine hit!', hitText: 'Second chance: watch a short ad – the mine is defused and you keep playing. The donation goes to {p}.',
+      watch: '▶ Keep playing', giveUp: 'Give up', loseTitle: 'Boom – an old mine!', lineTime: 'Time: {t}', newBest: 'New best time!', bestLine: 'Best time: {t}',
+      hintSafe: 'This square is safe.', confirmLevel: 'Change level? The current game will be abandoned.', defused: 'Mine defused – let’s go on!',
+      flagOn: 'Flag mode on', flagOff: 'Flag mode off', cleared: '{n} % cleared', chanceUsed: 'Second chance used'
+    },
+    uk: {
+      flag: 'Прапорець', theme: 'Лісник', hitTitle: 'Підрив!', hitText: 'Другий шанс: переглянь коротку рекламу — міну буде знешкоджено, і гра продовжиться. Пожертву отримає {p}.',
+      watch: '▶ Продовжити', giveUp: 'Здатися', loseTitle: 'Бум — стара міна!', lineTime: 'Час: {t}', newBest: 'Новий рекорд часу!', bestLine: 'Найкращий час: {t}',
+      hintSafe: 'Ця клітинка безпечна.', confirmLevel: 'Змінити рівень? Поточну гру буде перервано.', defused: 'Міну знешкоджено — граємо далі!',
+      flagOn: 'Режим прапорців увімкнено', flagOff: 'Режим прапорців вимкнено', cleared: 'Розчищено {n} %', chanceUsed: 'Другий шанс використано'
     }
   });
 
@@ -238,11 +266,11 @@
 
   Games.register({
     id: 'mines', icon: '💣', partner: 'p1', isNew: true,
-    name: { de: 'Minensucher', ru: 'Сапёр' },
-    tagline: { de: 'Räume die Waldlichtung: Zahlen lesen, Fallen markieren.', ru: 'Расчисти лесную поляну: читай цифры, отмечай ловушки.' },
+    name: { de: 'Minensucher', en: 'Minesweeper', ru: 'Сапёр', uk: 'Сапер' },
+    tagline: { de: 'Räume die Waldlichtung: Zahlen lesen, Fallen markieren.', en: 'Clear the forest glade: read the numbers, mark the traps.', ru: 'Расчисти лесную поляну: читай цифры, отмечай ловушки.', uk: 'Розчисти лісову галявину: читай цифри, позначай пастки.' },
     badges: [
-      { id: 'mines_win', icon: '🚩', name: { de: 'Lichtung geräumt', ru: 'Поляна расчищена' } },
-      { id: 'mines_hard', icon: '🌲', name: { de: 'Waldräumer-Profi', ru: 'Профи-сапёр' } }
+      { id: 'mines_win', icon: '🚩', name: { de: 'Lichtung geräumt', en: 'Clearing cleared', ru: 'Поляна расчищена', uk: 'Галявину розчищено' } },
+      { id: 'mines_hard', icon: '🌲', name: { de: 'Waldräumer-Profi', en: 'Forest clearing pro', ru: 'Профи-сапёр', uk: 'Профі-сапер' } }
     ],
 
     thumb() {
@@ -297,7 +325,7 @@
       const btnNew = ui.tool(icon('neu') + Kit.t('newGame'), () => { if (busy) return; if (g.state === 'play' && !reveal) Kit.confirm(Kit.t('confirmNew'), () => newGame(g.level)); else newGame(g.level); });
       const btnFlag = ui.tool(icon('flag') + s('flag'), () => setFlagMode(!flagMode), 'ms-flagbtn');
       const btnHint = ui.tool(icon('hint') + Kit.t('hint'), () => hint());
-      ui.tool(icon('rules') + Kit.t('rules'), () => Kit.rules(Kit.t('rules') + ' · ' + (LANG === 'ru' ? 'Сапёр' : 'Minensucher'), RULES[LANG] || RULES.de));
+      ui.tool(icon('rules') + Kit.t('rules'), () => Kit.rules(Kit.t('rules') + ' · ' + L({ de: 'Minensucher', en: 'Minesweeper', ru: 'Сапёр', uk: 'Сапер' }), L(RULES)));
 
       function setFlagMode(on) {
         flagMode = on; btnFlag.classList.toggle('on', on); grid.classList.toggle('flagmode', on);

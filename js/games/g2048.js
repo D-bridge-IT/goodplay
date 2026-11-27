@@ -156,6 +156,34 @@
         <li>Нет свободных клеток и слияний → конец игры.</li>
         <li>Одна отмена хода бесплатно, дальше — за рекламу (пожертвование партнёру).</li>
         <li>Звёзды: 2048 = 30 ⭐ (5×5: 20, 6×6: 15). Конец игры: 1 ⭐ за каждые 1000 очков.</li></ul>`
+    },
+    en: {
+      size: 'Board', win2048: '2048 reached!', winLine: 'The forest stands – {n} points.', cont: 'Keep playing',
+      overTitle: 'No moves left', overLine: 'Score: {n}', bestLine: 'Best ({s}): {n}', newBest: 'New best!',
+      swipe: 'Swipe or use the arrow keys', free: '1× free', adSub: 'ad', noUndo: 'Nothing to undo', goal: 'Goal 2048',
+      resumed: 'Game resumed', r1024: '1024! Almost a forest 🌳',
+      rulesHtml: `<ul>
+        <li>Swipe (or use the arrow keys / WASD) to slide all tiles in one direction.</li>
+        <li>Two equal tiles merge into their sum – from a seed (2) to a deep forest (2048). Each tile merges only once per move.</li>
+        <li>After every move a new tile (2 or 4) grows in.</li>
+        <li>Score = sum of all merged tiles. Goal: the <b>2048</b> tile. After that you may keep playing.</li>
+        <li>No free cell and no merge possible → game over.</li>
+        <li>One undo is free, more for an ad (a donation to the partner).</li>
+        <li>Stars: 2048 reached = 30 ⭐ (5×5: 20, 6×6: 15). Game over: 1 ⭐ per 1000 points.</li></ul>`
+    },
+    uk: {
+      size: 'Поле', win2048: '2048 зібрано!', winLine: 'Ліс виріс — {n} очок.', cont: 'Грати далі',
+      overTitle: 'Ходів більше немає', overLine: 'Очки: {n}', bestLine: 'Рекорд ({s}): {n}', newBest: 'Новий рекорд!',
+      swipe: 'Свайпай або користуйся стрілками', free: '1× безкоштовно', adSub: 'реклама', noUndo: 'Немає чого скасовувати', goal: 'Мета 2048',
+      resumed: 'Гру продовжено', r1024: '1024! Майже ліс 🌳',
+      rulesHtml: `<ul>
+        <li>Свайп (або стрілки / WASD) зсуває всі плитки в один бік.</li>
+        <li>Дві однакові плитки зливаються в їхню суму — від насінини (2) до густого лісу (2048). За хід кожна плитка зливається лише один раз.</li>
+        <li>Після кожного ходу з’являється нова плитка (2 або 4).</li>
+        <li>Очки = сума всіх злитих плиток. Мета — плитка <b>2048</b>. Після цього можна грати далі.</li>
+        <li>Немає вільних клітинок і злиттів → кінець гри.</li>
+        <li>Одне скасування ходу безкоштовне, далі — за рекламу (пожертва партнерові).</li>
+        <li>Зірки: 2048 = 30 ⭐ (5×5: 20, 6×6: 15). Кінець гри: 1 ⭐ за кожні 1000 очок.</li></ul>`
     }
   };
   const KEYS = { ArrowLeft: 'left', ArrowRight: 'right', ArrowUp: 'up', ArrowDown: 'down', a: 'left', d: 'right', w: 'up', s: 'down', A: 'left', D: 'right', W: 'up', S: 'down' };
@@ -394,11 +422,11 @@
 
   Games.register({
     id: 'g2048', icon: '🌳', partner: 'p1', isNew: true,
-    name: { de: '2048', ru: '2048' },
-    tagline: { de: 'Vom Samen zum Wald: verschmelze Plättchen bis 2048.', ru: 'От семечка до леса: сливай плитки до 2048.' },
+    name: { de: '2048', en: '2048', ru: '2048', uk: '2048' },
+    tagline: { de: 'Vom Samen zum Wald: verschmelze Plättchen bis 2048.', en: 'From seed to forest: merge tiles up to 2048.', ru: 'От семечка до леса: сливай плитки до 2048.', uk: 'Від насінини до лісу: зливай плитки до 2048.' },
     badges: [
-      { id: 'g2048_win', icon: '🌳', name: { de: '2048 erreicht', ru: 'Собрано 2048' } },
-      { id: 'g2048_1024', icon: '🌱', name: { de: 'Plättchen 1024', ru: 'Плитка 1024' } }
+      { id: 'g2048_win', icon: '🌳', name: { de: '2048 erreicht', en: '2048 reached', ru: 'Собрано 2048', uk: 'Зібрано 2048' } },
+      { id: 'g2048_1024', icon: '🌱', name: { de: 'Plättchen 1024', en: 'Tile 1024', ru: 'Плитка 1024', uk: 'Плитка 1024' } }
     ],
     thumb, mount,
     logic: Logic

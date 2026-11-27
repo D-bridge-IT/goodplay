@@ -321,6 +321,44 @@
         <li>Кто не может сделать ход (нет шашек или все заперты), проигрывает.</li>
         <li><b>Ничья</b>: 30 ходов подряд (обеих сторон вместе) без взятий и без ходов простыми, или трёхкратное повторение позиции.</li>
         <li>Звёзды: лёгкий 8, средний 15, сложный 30 — за ничью половина. Первая отмена в партии бесплатно.</li></ul>`
+    },
+    en: {
+      you: 'You', cpu: 'Computer', white: 'White', black: 'Black', yourTurn: 'Your turn', cpuThinks: 'Computer is thinking …',
+      mustCapture: 'Capturing is compulsory!', mustCaptureShort: 'Must capture', continueJump: 'Keep jumping – choose the next square', choosePath: 'Several paths – choose the next square',
+      hintMove: 'Hint: {m}', thinking: 'Calculating …', noUndo: 'Nothing to undo', undoFree: 'Your first undo is free',
+      setupTitle: 'New game', difficulty: 'Level', color: 'Your colour', start: 'Let’s go', cancel: 'Cancel', newG: 'New',
+      winText: 'The computer has no moves left.', loseText: 'You have no moves left.', drawQuiet: 'Draw: 30 moves without a capture or a man move.',
+      drawRep: 'Draw: the same position occurred three times.', winTitle: 'You won!', loseTitle: 'The computer wins', captured: 'captured', record: 'Record',
+      inMoves: 'Game of {n} moves.', rulesT: 'Checkers – rules (Russian draughts)',
+      rulesHtml: `<ul>
+        <li>The game is played on the dark squares of an 8×8 board; each side has 12 men. <b>White moves first.</b></li>
+        <li>Men move one square diagonally <b>forward</b>. You capture by jumping over an opponent’s piece onto the empty square behind it – men may capture <b>backwards too</b>.</li>
+        <li><b>Capturing is compulsory.</b> If you can keep capturing after a jump, the whole chain must be completed in the same move. If there are several options, you may choose freely (no majority rule).</li>
+        <li>A man that reaches the far row becomes a <b>king</b> (crown). If this happens in the middle of a capture and it can capture further, it continues <b>as a king</b> right away.</li>
+        <li>Kings are <b>flying kings</b>: they move and capture any distance diagonally and may land on any empty square behind the captured piece – unless only certain squares allow a further capture; then they must land there.</li>
+        <li>Captured pieces are removed only <b>after the move</b> and may not be jumped twice (“Turkish strike”) – until then they block the way.</li>
+        <li>A player who cannot move (no pieces left or all blocked) loses.</li>
+        <li><b>Draw</b>: 30 moves in a row (both sides together) without a capture and without a man move, or the same position three times.</li>
+        <li>Stars: Easy 8, Medium 15, Hard 30 – half for a draw. The first undo per game is free.</li></ul>`
+    },
+    uk: {
+      you: 'Ти', cpu: 'Комп’ютер', white: 'Білі', black: 'Чорні', yourTurn: 'Твій хід', cpuThinks: 'Комп’ютер думає …',
+      mustCapture: 'Бити обов’язково!', mustCaptureShort: 'Обов’язкове взяття', continueJump: 'Бий далі — обери наступне поле', choosePath: 'Кілька шляхів — обери наступне поле',
+      hintMove: 'Підказка: {m}', thinking: 'Рахую …', noUndo: 'Немає чого скасовувати', undoFree: 'Перше скасування безкоштовне',
+      setupTitle: 'Нова партія', difficulty: 'Рівень', color: 'Твій колір', start: 'Почати', cancel: 'Скасувати', newG: 'Заново',
+      winText: 'У комп’ютера не залишилося ходів.', loseText: 'У тебе не залишилося ходів.', drawQuiet: 'Нічия: 30 ходів без взяття і без ходів простими.',
+      drawRep: 'Нічия: позиція повторилася тричі.', winTitle: 'Перемога!', loseTitle: 'Комп’ютер переміг', captured: 'взято', record: 'Рахунок',
+      inMoves: 'Партія з {n} ходів.', rulesT: 'Шашки — правила (російські)',
+      rulesHtml: `<ul>
+        <li>Гра йде на темних полях дошки 8×8, у кожної сторони 12 шашок. <b>Першими ходять білі.</b></li>
+        <li>Проста шашка ходить на одне поле по діагоналі <b>вперед</b>. Б’ють, перестрибуючи через шашку суперника на вільне поле за нею, — прості б’ють <b>і назад</b>.</li>
+        <li><b>Бити обов’язково.</b> Якщо після стрибка можна бити далі, серію треба довести до кінця в тому самому ході. Якщо варіантів кілька, можна обрати будь-який (не обов’язково найдовший).</li>
+        <li>Дійшовши до останнього ряду, шашка стає <b>дамкою</b> (корона). Якщо це сталося під час взяття і бити можна далі, вона продовжує бити <b>вже як дамка</b>.</li>
+        <li>Дамка <b>далекобійна</b>: ходить і б’є на будь-яку відстань по діагоналі й може стати на будь-яке вільне поле за побитою шашкою — крім випадку, коли продовжити взяття можна лише з деяких полів: тоді стати треба на них.</li>
+        <li>Побиті шашки знімаються <b>лише після ходу</b> і не можуть бути перестрибнуті двічі («турецький удар») — до кінця ходу вони загороджують шлях.</li>
+        <li>Хто не може зробити хід (немає шашок або всі заблоковані), програє.</li>
+        <li><b>Нічия</b>: 30 ходів поспіль (обох сторін разом) без взяття і без ходів простими, або триразове повторення позиції.</li>
+        <li>Зірки: легкий 8, середній 15, складний 30 — за нічию половина. Перше скасування в партії безкоштовне.</li></ul>`
     }
   };
   const STARS = { easy: 8, medium: 15, hard: 30 };
@@ -362,11 +400,11 @@
 
   Games.register({
     id: 'checkers', icon: '⚪', partner: 'p5', isNew: true,
-    name: { de: 'Dame', ru: 'Шашки' },
-    tagline: { de: 'Russische Dame mit Schlagzwang und Langschritt-Damen.', ru: 'Русские шашки: обязательное взятие и дальнобойные дамки.' },
+    name: { de: 'Dame', en: 'Checkers', ru: 'Шашки', uk: 'Шашки' },
+    tagline: { de: 'Russische Dame mit Schlagzwang und Langschritt-Damen.', en: 'Russian draughts with compulsory capture and flying kings.', ru: 'Русские шашки: обязательное взятие и дальнобойные дамки.', uk: 'Російські шашки: обов’язкове взяття й далекобійні дамки.' },
     badges: [
-      { id: 'checkers_win', icon: '⚪', name: { de: 'Dame – erster Sieg', ru: 'Шашки — первая победа' } },
-      { id: 'checkers_hard', icon: '👑', name: { de: 'Dame – Schwer besiegt', ru: 'Шашки — сложный уровень' } }
+      { id: 'checkers_win', icon: '⚪', name: { de: 'Dame – erster Sieg', en: 'Checkers – first win', ru: 'Шашки — первая победа', uk: 'Шашки — перша перемога' } },
+      { id: 'checkers_hard', icon: '👑', name: { de: 'Dame – Schwer besiegt', en: 'Checkers – Hard beaten', ru: 'Шашки — сложный уровень', uk: 'Шашки — складний рівень' } }
     ],
     logic: DM,
     thumb() {

@@ -1,13 +1,19 @@
-// Wort des Tages / Слово дня: a daily five-letter word puzzle (six tries, coloured feedback).
-// Language follows LANG (German with Ä Ö Ü, or Russian with Ё → Е). After every game the word is
-// explained in the other language, which helps language learners. Partner: p4 (Bildung & Integration).
+// Wort des Tages / Word of the Day / Слово дня: a daily five-letter word puzzle (six tries, coloured feedback).
+// The game plays in the UI language: German (Ä Ö Ü), English (A–Z), Russian (Ё → Е) or Ukrainian (Ґ Є І Ї, no apostrophe).
+// After every game the word is explained for language learners: German answers in Russian, English,
+// Russian and Ukrainian answers in German (the badge shows the language). Partner: p4 (Bildung & Integration).
+// Stats, saved games and the daily word are kept per language.
 // Word lists live in js/games/wordle-words.js (window.WORDLE_WORDS), loaded before this file.
 (function () {
   'use strict';
 
   /* ================= pure logic (no DOM) ================= */
   const ROWS = 6, LEN = 5;
-  const ALPHA = { de: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ', ru: 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ' };
+  const ALPHA = { de: 'ABCDEFGHIJKLMNOPQRSTUVWXYZÄÖÜ', en: 'ABCDEFGHIJKLMNOPQRSTUVWXYZ', ru: 'АБВГДЕЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ', uk: 'АБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯ' };
+  // Language the answer is explained in after the game (shown as a small badge).
+  const TR_LANG = { de: 'ru', en: 'de', ru: 'de', uk: 'de' };
+  // Seed offset per language so every language has its own daily word.
+  const DAY_SALT = { de: 3, en: 7, ru: 11, uk: 13 };
   const STAR_TABLE = [0, 30, 20, 15, 10, 7, 5];
   const DAILY_BONUS = 5;
 
@@ -106,17 +112,25 @@
   }
   function shownStreak(S, daily, today, yesterday) { return !daily || S.last === today || S.last === yesterday ? S.cur : 0; }
 
-  const Logic = { ROWS, LEN, ALPHA, norm, parse, evaluate, keyStates, knownPositions, pickHint, starsFor, dayKey, keyToDate, prevDayKey, dayNumber, msToMidnight, dailyIndex, shareText, blankStats, recordResult, shownStreak };
+  const Logic = { ROWS, LEN, ALPHA, TR_LANG, DAY_SALT, norm, parse, evaluate, keyStates, knownPositions, pickHint, starsFor, dayKey, keyToDate, prevDayKey, dayNumber, msToMidnight, dailyIndex, shareText, blankStats, recordResult, shownStreak };
   window.WordleLogic = Logic;
 
   /* ================= presentation ================= */
   const KB = {
     de: ['QWERTZUIOPÜ', 'ASDFGHJKLÖÄ', '+YXCVBNM-'],
-    ru: ['ЙЦУКЕНГШЩЗХЪ', 'ФЫВАПРОЛДЖЭ', '+ЯЧСМИТЬБЮ-']
+    en: ['QWERTYUIOP', 'ASDFGHJKL', '+ZXCVBNM-'],
+    ru: ['ЙЦУКЕНГШЩЗХЪ', 'ФЫВАПРОЛДЖЭ', '+ЯЧСМИТЬБЮ-'],
+    uk: ['ЙЦУКЕНГШЩЗХЇ', 'ФІВАПРОЛДЖЄҐ', '+ЯЧСМИТЬБЮ-']
   };
   // Physical keys on a Latin layout → ЙЦУКЕН, and the German umlaut positions on a US layout.
   const RU_CODE = { KeyQ: 'Й', KeyW: 'Ц', KeyE: 'У', KeyR: 'К', KeyT: 'Е', KeyY: 'Н', KeyU: 'Г', KeyI: 'Ш', KeyO: 'Щ', KeyP: 'З', BracketLeft: 'Х', BracketRight: 'Ъ', KeyA: 'Ф', KeyS: 'Ы', KeyD: 'В', KeyF: 'А', KeyG: 'П', KeyH: 'Р', KeyJ: 'О', KeyK: 'Л', KeyL: 'Д', Semicolon: 'Ж', Quote: 'Э', KeyZ: 'Я', KeyX: 'Ч', KeyC: 'С', KeyV: 'М', KeyB: 'И', KeyN: 'Т', KeyM: 'Ь', Comma: 'Б', Period: 'Ю', Backquote: 'Е' };
   const DE_CODE = { BracketLeft: 'Ü', Semicolon: 'Ö', Quote: 'Ä' };
+  // Ukrainian ЙЦУКЕН on the same physical keys; Ґ sits on the backslash key.
+  const UK_CODE = Object.assign({}, RU_CODE, { BracketRight: 'Ї', KeyS: 'І', Quote: 'Є', Backslash: 'Ґ', IntlBackslash: 'Ґ' });
+  delete UK_CODE.Backquote;
+  // English on a non-Latin layout: physical letter keys.
+  const EN_CODE = {}; 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('').forEach(c => { EN_CODE['Key' + c] = c; });
+  const CODE = { de: DE_CODE, en: EN_CODE, ru: RU_CODE, uk: UK_CODE };
 
   const ICON = {
     enter: '<svg viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 5v7a3 3 0 0 1-3 3H6"/><path d="M10 11l-4 4 4 4"/></svg>',
@@ -140,7 +154,7 @@
       hintGot: 'Tipp: Buchstabe {p} ist „{l}“', hintDone: 'Das Spiel ist schon vorbei', solved: 'Gelöst in {n} von 6 Versuchen',
       dailyBonus: 'Tagesbonus +5 ⭐', lostT: 'Knapp daneben', wordWas: 'Das gesuchte Wort war:', hint: 'Tipp', contrast: 'Kontrast',
       rules: 'Regeln', winT: ['Unglaublich!', 'Fantastisch!', 'Ausgezeichnet!', 'Sehr gut!', 'Gut gemacht!', 'Knapp geschafft!'],
-      rulesTitle: 'Wort des Tages – Regeln',
+      rulesTitle: 'Wort des Tages – Regeln', kEnter: 'Eingabe', kBack: 'Löschen',
       ex1: 'S ist im Wort und an der richtigen Stelle.', ex2: 'U ist im Wort, aber an einer anderen Stelle.', ex3: 'Z kommt im Wort nicht vor.',
       rulesHtml: '<p>Errate das gesuchte Wort in <b>6 Versuchen</b>. Jeder Versuch muss ein gültiges Wort mit 5 Buchstaben sein – tippe es ein und bestätige mit ⏎.</p><p>Die Farben zeigen nach jedem Versuch, wie nah du dran bist:</p>{ex}<ul><li><b>Ä, Ö, Ü</b> sind eigene Buchstaben. Wörter mit ß kommen nicht vor.</li><li>Doppelte Buchstaben werden einzeln bewertet: nur so oft farbig, wie sie im Wort vorkommen.</li><li><b>Täglich:</b> ein Wort für alle, jeden Tag neu, mit Teilen-Funktion. <b>Training:</b> unbegrenzt viele Wörter.</li><li><b>Tipp</b> deckt einen richtigen Buchstaben auf: erst ein gespeicherter Tipp, sonst eine Werbung, die an den Partner spendet.</li><li><b>Sterne:</b> 1 Versuch 30 · 2: 20 · 3: 15 · 4: 10 · 5: 7 · 6: 5. Das Tageswort bringt +5.</li><li>Nach jedem Spiel zeigt die <b>Wort-Erklärung</b> die Bedeutung auf Russisch – ideal zum Sprachenlernen.</li></ul>'
     },
@@ -154,27 +168,57 @@
       hintGot: 'Подсказка: буква {p} — «{l}»', hintDone: 'Игра уже окончена', solved: 'Угадано за {n} из 6 попыток',
       dailyBonus: 'Бонус дня +5 ⭐', lostT: 'Почти получилось', wordWas: 'Загаданное слово:', hint: 'Подсказка', contrast: 'Контраст',
       rules: 'Правила', winT: ['Невероятно!', 'Фантастика!', 'Великолепно!', 'Очень хорошо!', 'Молодец!', 'На волоске!'],
-      rulesTitle: 'Слово дня — правила',
+      rulesTitle: 'Слово дня — правила', kEnter: 'Ввод', kBack: 'Стереть',
       ex1: 'Буква С есть в слове и стоит на своём месте.', ex2: 'Буква У есть в слове, но в другом месте.', ex3: 'Буквы Ж в слове нет.',
       rulesHtml: '<p>Угадай загаданное слово за <b>6 попыток</b>. Каждая попытка — существующее слово из 5 букв: набери его и нажми ⏎.</p><p>После каждой попытки цвет подсказывает, насколько ты близко:</p>{ex}<ul><li><b>Ё</b> пишется как Е, <b>Й</b> — отдельная буква.</li><li>Повторяющиеся буквы оцениваются отдельно: окрашиваются столько раз, сколько встречаются в слове.</li><li><b>Дневное:</b> одно слово для всех, каждый день новое, можно поделиться результатом. <b>Тренировка:</b> сколько угодно слов.</li><li><b>Подсказка</b> открывает одну верную букву: сначала сохранённая подсказка, иначе реклама — она приносит пожертвование партнёру.</li><li><b>Звёзды:</b> 1 попытка 30 · 2: 20 · 3: 15 · 4: 10 · 5: 7 · 6: 5. Слово дня даёт +5.</li><li>После игры <b>значение слова</b> показывается по-немецки — удобно для изучения языка.</li></ul>'
+    },
+    en: {
+      daily: 'Daily', free: 'Practice', shareTitle: 'Word of the Day', notWord: 'Not in word list', short: 'Not enough letters',
+      tryN: 'Try {n} of 6', dailyNo: 'Word no. {n}', solvedShort: 'solved in {n}/6', notSolved: 'not solved',
+      next: 'Next word in', explain: 'Word explained', inLang: 'German', share: 'Share', copied: 'Result copied – now paste and share it',
+      copyManual: 'Select the text and copy it:', newWord: 'New word', practice: 'Play practice', stats: 'Statistics',
+      played: 'Played', winPct: 'Win %', streak: 'Streak', maxStreak: 'Best streak', dist: 'Guess distribution',
+      hcOn: 'High contrast on', hcOff: 'High contrast off', hintNone: 'No more hints for this word',
+      hintGot: 'Hint: letter {p} is “{l}”', hintDone: 'The game is already over', solved: 'Solved in {n} of 6 tries',
+      dailyBonus: 'Daily bonus +5 ⭐', lostT: 'So close', wordWas: 'The word was:', hint: 'Hint', contrast: 'Contrast',
+      rules: 'Rules', winT: ['Unbelievable!', 'Fantastic!', 'Excellent!', 'Very good!', 'Well done!', 'Phew, just made it!'],
+      rulesTitle: 'Word of the Day – rules', kEnter: 'Enter', kBack: 'Backspace',
+      ex1: 'S is in the word and in the correct spot.', ex2: 'U is in the word but in a different spot.', ex3: 'Z is not in the word.',
+      rulesHtml: '<p>Guess the hidden word in <b>6 tries</b>. Every guess must be a valid five-letter word – type it and confirm with ⏎.</p><p>After each guess, the colours show how close you are:</p>{ex}<ul><li>Only the letters <b>A–Z</b> are used.</li><li>Repeated letters are scored one by one: they are coloured only as often as they appear in the word.</li><li><b>Daily:</b> one word for everyone, new every day, with a share button. <b>Practice:</b> as many words as you like.</li><li><b>Hint</b> reveals one correct letter: first a saved hint, otherwise an ad that donates to the partner.</li><li><b>Stars:</b> 1 try 30 · 2: 20 · 3: 15 · 4: 10 · 5: 7 · 6: 5. The daily word gives +5.</li><li>After every game, <b>Word explained</b> shows the German translation – great for learning German.</li></ul>'
+    },
+    uk: {
+      daily: 'Денне', free: 'Тренування', shareTitle: 'Слово дня', notWord: 'Немає в словнику', short: 'Недостатньо літер',
+      tryN: 'Спроба {n} з 6', dailyNo: 'Слово № {n}', solvedShort: 'вгадано за {n}/6', notSolved: 'не вгадано',
+      next: 'Нове слово через', explain: 'Значення слова', inLang: 'німецькою', share: 'Поділитися', copied: 'Результат скопійовано — встав і поділися',
+      copyManual: 'Виділи текст і скопіюй:', newWord: 'Нове слово', practice: 'Грати тренування', stats: 'Статистика',
+      played: 'Зіграно', winPct: 'Перемог %', streak: 'Серія', maxStreak: 'Найкраща серія', dist: 'Розподіл спроб',
+      hcOn: 'Високий контраст увімкнено', hcOff: 'Високий контраст вимкнено', hintNone: 'Більше підказок для цього слова немає',
+      hintGot: 'Підказка: літера {p} — «{l}»', hintDone: 'Гру вже закінчено', solved: 'Вгадано за {n} з 6 спроб',
+      dailyBonus: 'Бонус дня +5 ⭐', lostT: 'Майже вдалося', wordWas: 'Загадане слово:', hint: 'Підказка', contrast: 'Контраст',
+      rules: 'Правила', winT: ['Неймовірно!', 'Фантастика!', 'Чудово!', 'Дуже добре!', 'Молодець!', 'На волосинці!'],
+      rulesTitle: 'Слово дня — правила', kEnter: 'Ввід', kBack: 'Стерти',
+      ex1: 'Літера С є в слові й стоїть на своєму місці.', ex2: 'Літера У є в слові, але в іншому місці.', ex3: 'Літери Ж у слові немає.',
+      rulesHtml: '<p>Вгадай загадане слово за <b>6 спроб</b>. Кожна спроба — справжнє слово з 5 літер: набери його й натисни ⏎.</p><p>Після кожної спроби колір підказує, наскільки ти близько:</p>{ex}<ul><li><b>Ґ, Є, І, Ї</b> — окремі літери. Слів з апострофом (’) у грі немає.</li><li>Літери, що повторюються, оцінюються окремо: фарбуються стільки разів, скільки трапляються в слові.</li><li><b>Денне:</b> одне слово для всіх, щодня нове, можна поділитися результатом. <b>Тренування:</b> скільки завгодно слів.</li><li><b>Підказка</b> відкриває одну правильну літеру: спершу збережена підказка, інакше реклама — вона приносить пожертву партнерові.</li><li><b>Зірки:</b> 1 спроба 30 · 2: 20 · 3: 15 · 4: 10 · 5: 7 · 6: 5. Слово дня дає +5.</li><li>Після гри <b>значення слова</b> показується німецькою — зручно для вивчення мови.</li></ul>'
     }
   };
 
   // Used only if wordle-words.js is missing, so the game still starts.
   const FALLBACK = {
     de: { answers: 'das Haus=дом|der Baum=дерево|die Katze=кошка|das Licht=свет|die Blume=цветок|der Tisch=стол|die Sonne=солнце|lesen=читать', valid: '' },
-    ru: { answers: 'книга=das Buch|слово=das Wort|школа=die Schule|город=die Stadt|кошка=die Katze|птица=der Vogel|лампа=die Lampe|ветер=der Wind', valid: '' }
+    en: { answers: 'house=das Haus|water=das Wasser|light=das Licht|plant=die Pflanze|bread=das Brot|chair=der Stuhl|green=grün|happy=glücklich', valid: '' },
+    ru: { answers: 'книга=das Buch|слово=das Wort|школа=die Schule|город=die Stadt|кошка=die Katze|птица=der Vogel|лампа=die Lampe|ветер=der Wind', valid: '' },
+    uk: { answers: 'книга=das Buch|слово=das Wort|школа=die Schule|місто=die Stadt|вітер=der Wind|пісня=das Lied|сонце=die Sonne|земля=die Erde', valid: '' }
   };
 
   const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 
   Games.register({
     id: 'wordle', icon: '🔤', partner: 'p4', isNew: true,
-    name: { de: 'Wort des Tages', ru: 'Слово дня' },
-    tagline: { de: 'Errate das Wort in sechs Versuchen – jeden Tag ein neues.', ru: 'Угадай слово за шесть попыток — каждый день новое.' },
+    name: { de: 'Wort des Tages', en: 'Word of the Day', ru: 'Слово дня', uk: 'Слово дня' },
+    tagline: { de: 'Errate das Wort in sechs Versuchen – jeden Tag ein neues.', en: 'Guess the word in six tries – a new one every day.', ru: 'Угадай слово за шесть попыток — каждый день новое.', uk: 'Вгадай слово за шість спроб — щодня нове.' },
     badges: [
-      { id: 'wordle_win', icon: '🔤', name: { de: 'Erstes Wort erraten', ru: 'Первое слово угадано' } },
-      { id: 'wordle_streak7', icon: '🔥', name: { de: '7 Tage in Folge', ru: '7 дней подряд' } }
+      { id: 'wordle_win', icon: '🔤', name: { de: 'Erstes Wort erraten', en: 'First word guessed', ru: 'Первое слово угадано', uk: 'Перше слово вгадано' } },
+      { id: 'wordle_streak7', icon: '🔥', name: { de: '7 Tage in Folge', en: '7 days in a row', ru: '7 дней подряд', uk: '7 днів поспіль' } }
     ],
     thumb() {
       const col = { c: '#22c55e', p: '#f59e0b', a: 'rgba(255,255,255,.22)' };
@@ -190,7 +234,7 @@
     },
 
     mount(root, ctx) {
-      const lang = LANG === 'ru' ? 'ru' : 'de';
+      const lang = ALPHA[LANG] ? LANG : 'de';
       const s = Kit.strings(STR);
       const src = (window.WORDLE_WORDS && window.WORDLE_WORDS[lang]) || FALLBACK[lang];
       const W = parse(src, lang);
@@ -240,8 +284,8 @@
 
       ui.tools.classList.add('wd-bottom');
       ui.tools.innerHTML = `<div class="wd-kb">${KB[lang].map(row => `<div class="wd-kr">${[...row].map(ch =>
-        ch === '+' ? `<button class="wd-key wd-wide" data-k="ENTER" tabindex="-1" aria-label="Enter">${ICON.enter}</button>`
-          : ch === '-' ? `<button class="wd-key wd-wide" data-k="BACK" tabindex="-1" aria-label="Backspace">${ICON.back}</button>`
+        ch === '+' ? `<button class="wd-key wd-wide" data-k="ENTER" tabindex="-1" aria-label="${esc(s('kEnter'))}">${ICON.enter}</button>`
+          : ch === '-' ? `<button class="wd-key wd-wide" data-k="BACK" tabindex="-1" aria-label="${esc(s('kBack'))}">${ICON.back}</button>`
             : `<button class="wd-key" data-k="${ch}" tabindex="-1">${ch}</button>`).join('')}</div>`).join('')}</div><div class="wd-end" hidden></div>`;
       const kbEl = ui.tools.querySelector('.wd-kb'), endEl = ui.tools.querySelector('.wd-end');
       const keyEls = {}; kbEl.querySelectorAll('[data-k]').forEach(b => { keyEls[b.dataset.k] = b; });
@@ -254,7 +298,7 @@
 
       // ---- game state ----
       function todayKey() { return dayKey(new Date()); }
-      function dailyAnswer() { return W.answers[dailyIndex(Kit.daySeed(lang === 'ru' ? 11 : 3), W.answers.length, Kit.rng)].w; }
+      function dailyAnswer() { return W.answers[dailyIndex(Kit.daySeed(DAY_SALT[lang] || 3), W.answers.length, Kit.rng)].w; }
       function freshGame(answer, day) { return { day: day || '', answer, guesses: [], hints: [], cur: '', done: false, won: false, rewarded: false }; }
       function newFreeAnswer() {
         const avoid = new Set([gs.daily && gs.daily.answer, gs.free && gs.free.answer]);
@@ -319,7 +363,7 @@
         endEl.innerHTML = `<div class="wd-card">
           <div class="wd-lbl">${esc(s('explain'))}</div>
           <div class="wd-word">${A.art ? `<small>${esc(A.art)}</small> ` : ''}<b>${esc(A.word)}</b></div>
-          <div class="wd-tr"><span class="wd-flag">${lang === 'de' ? 'RU' : 'DE'}</span><span>${esc(A.tr)}</span></div>
+          <div class="wd-tr"><span class="wd-flag">${(TR_LANG[lang] || 'de').toUpperCase()}</span><span>${esc(A.tr)}</span></div>
           <div class="wd-actions">
             ${daily ? `<button class="wd-btn wd-primary" data-a="share">${ICON.share}<span>${esc(s('share'))}</span></button>`
             : `<button class="wd-btn wd-primary" data-a="new">${ICON.next}<span>${esc(s('newWord'))}</span></button>`}
@@ -410,8 +454,7 @@
         else if (e.key && e.key.length === 1) {
           const c = norm(e.key, lang);
           if (alpha.includes(c)) k = c;
-          else if (lang === 'ru' && RU_CODE[e.code]) k = RU_CODE[e.code];
-          else if (lang === 'de' && DE_CODE[e.code]) k = DE_CODE[e.code];
+          else if (CODE[lang] && CODE[lang][e.code]) k = CODE[lang][e.code];
         }
         if (!k) return;
         e.preventDefault();
@@ -518,9 +561,14 @@
         return `<div class="wd-ex">${[...word].map((ch, i) => `<span class="wd-tile wd-mini"${i === idx ? ` data-s="${state}"` : ''}>${ch}</span>`).join('')}</div>`;
       }
       function openRules() {
-        const ex = lang === 'de'
-          ? exampleRow('STERN', 0, 'c') + `<p class="wd-exl">${esc(s('ex1'))}</p>` + exampleRow('BLUME', 2, 'p') + `<p class="wd-exl">${esc(s('ex2'))}</p>` + exampleRow('KATZE', 3, 'a') + `<p class="wd-exl">${esc(s('ex3'))}</p>`
-          : exampleRow('СОСНА', 0, 'c') + `<p class="wd-exl">${esc(s('ex1'))}</p>` + exampleRow('ГРУША', 2, 'p') + `<p class="wd-exl">${esc(s('ex2'))}</p>` + exampleRow('ЖИВОТ', 0, 'a') + `<p class="wd-exl">${esc(s('ex3'))}</p>`;
+        // [word, index, state] for the three colour examples; the letters match ex1–ex3.
+        const EX = {
+          de: [['STERN', 0, 'c'], ['BLUME', 2, 'p'], ['KATZE', 3, 'a']],
+          en: [['STONE', 0, 'c'], ['HOUSE', 2, 'p'], ['BLAZE', 3, 'a']],
+          ru: [['СОСНА', 0, 'c'], ['ГРУША', 2, 'p'], ['ЖИВОТ', 0, 'a']],
+          uk: [['СОСНА', 0, 'c'], ['ГРУША', 2, 'p'], ['ЖИТЛО', 0, 'a']]
+        }[lang];
+        const ex = EX.map(([w, i, st], n) => exampleRow(w, i, st) + `<p class="wd-exl">${esc(s('ex' + (n + 1)))}</p>`).join('');
         Kit.rules(s('rulesTitle'), `<div class="wd-rules${d.hc ? ' wd-hc' : ''}">${s('rulesHtml').replace('{ex}', ex)}</div>`);
       }
       function openStats(tab) {

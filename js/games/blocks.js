@@ -362,6 +362,40 @@
         <li>Каждая собранная линия — <b>один кирпичик</b> для языкового кафе для беженцев (D-Bridge e.V.). Цель: 500.</li>
         <li>Если ни одна фигура не помещается, игра окончена. Один раз за игру можно продолжить за рекламу с тремя маленькими фигурами.</li>
         <li>В конце игры — 3 ⭐ за каждые 1000 очков.</li></ul>`
+    },
+    en: {
+      cafe: 'Bricks for the café', cafeDone: 'Café stage complete! Thanks for helping build ☕', drag: 'Drag a piece onto the board',
+      noFit: 'No room left', noFitSub: 'None of the pieces fits on the board any more.', cont: '▶ Continue for an ad',
+      contSub: 'You get three small pieces – the ad donates to the language café.', end: 'End game',
+      over: 'Game over', newBest: 'New best!', scoreLine: 'Score: {n}', bestLine: 'Best: {n}',
+      bricksLine: '{n} lines cleared = {n} bricks for the café', combo: 'Combo', streak: 'Streak!', perfect: 'Board clear!',
+      lines: 'lines', resumed: 'Game resumed', stage: 'Stage {n}',
+      rulesHtml: `<ul>
+        <li>Drag the three offered pieces onto the 9×9 board. Pieces cannot be rotated.</li>
+        <li>Full <b>rows, columns and 3×3 boxes</b> are cleared – several at once, too.</li>
+        <li>Points: 1 per placed cell, clearing 18 × lines² (2 lines = 72, 3 = 162).</li>
+        <li><b>Combo:</b> clear again within 3 moves and the multiplier rises: ×1.5 · ×2 · … up to ×5.</li>
+        <li><b>Streak:</b> all three pieces of a round clear lines → +100. Board completely empty → +300.</li>
+        <li>Every cleared line is <b>one brick</b> for the language café for refugees (D-Bridge e.V.). Goal: 500.</li>
+        <li>If no piece fits, the game is over. Once per game you can keep playing with three small pieces for an ad.</li>
+        <li>At the end of the game you get 3 ⭐ per 1000 points.</li></ul>`
+    },
+    uk: {
+      cafe: 'Цеглинки для кафе', cafeDone: 'Етап кафе збудовано! Дякуємо за допомогу ☕', drag: 'Перетягни фігуру на поле',
+      noFit: 'Місця більше немає', noFitSub: 'Жодна фігура вже не вміщується на поле.', cont: '▶ Продовжити за рекламу',
+      contSub: 'Ти отримаєш три маленькі фігури — реклама підтримає мовне кафе.', end: 'Завершити гру',
+      over: 'Гру завершено', newBest: 'Новий рекорд!', scoreLine: 'Очки: {n}', bestLine: 'Рекорд: {n}',
+      bricksLine: 'Зібрано ліній: {n} = {n} цеглинок для кафе', combo: 'Комбо', streak: 'Серія!', perfect: 'Поле чисте!',
+      lines: 'лінії', resumed: 'Гру продовжено', stage: 'Етап {n}',
+      rulesHtml: `<ul>
+        <li>Перетягуй три запропоновані фігури на поле 9×9. Повертати їх не можна.</li>
+        <li>Заповнені <b>рядки, стовпці та квадрати 3×3</b> зникають — можна кілька одразу.</li>
+        <li>Очки: 1 за кожну клітинку, за лінії 18 × лінії² (2 лінії = 72, 3 = 162).</li>
+        <li><b>Комбо:</b> якщо знову збираєш лінію протягом 3 ходів, множник зростає: ×1,5 · ×2 · … до ×5.</li>
+        <li><b>Серія:</b> усі три фігури раунду зібрали лінії → +100. Поле повністю порожнє → +300.</li>
+        <li>Кожна зібрана лінія — <b>одна цеглинка</b> для мовного кафе для біженців (D-Bridge e.V.). Мета: 500.</li>
+        <li>Якщо жодна фігура не вміщується, гру завершено. Один раз за гру можна продовжити за рекламу з трьома маленькими фігурами.</li>
+        <li>Наприкінці гри — 3 ⭐ за кожні 1000 очок.</li></ul>`
     }
   };
 
@@ -442,7 +476,7 @@
     function renderCombo() {
       const on = st.combo >= 2;
       comboEl.classList.toggle('on', on);
-      if (on) comboEl.querySelector('.bb-combo-t').textContent = `${s('combo')} ×${String(Logic.comboMult(st.combo)).replace('.', ',')}`;
+      if (on) comboEl.querySelector('.bb-combo-t').textContent = `${s('combo')} ×${Logic.comboMult(st.combo).toLocaleString(LOCALE())}`;
     }
     function animateScore() {
       cancelAnimationFrame(raf);
@@ -645,7 +679,7 @@
       const fr = grid.getBoundingClientRect(), W = fr.width;
       const cx = Math.max(40, Math.min(W - 40, x + 8));
       txt(res.n ? 'big' : '', '+' + (res.pts - res.bonus), cx, y + 10);
-      if (res.n && res.combo >= 2) txt('combo', `${s('combo')} ×${String(res.mult).replace('.', ',')}`, W / 2 + 8, W / 2 - 10, 120);
+      if (res.n && res.combo >= 2) txt('combo', `${s('combo')} ×${Number(res.mult).toLocaleString(LOCALE())}`, W / 2 + 8, W / 2 - 10, 120);
       else if (res.n >= 2) txt('combo', `${res.n} ${s('lines')}!`, W / 2 + 8, W / 2 - 10, 120);
       res.events.forEach((ev, k) => txt('bonus', `${s(ev)} +${ev === 'perfect' ? Logic.PERFECT_BONUS : Logic.STREAK_BONUS}`, W / 2 + 8, W / 2 + 30 + k * 34, 300 + k * 150));
     }
@@ -733,12 +767,12 @@
 
   Games.register({
     id: 'blocks', icon: '🧱', partner: 'p6', isNew: true,
-    name: { de: 'Bausteine', ru: 'Кирпичики' },
-    tagline: { de: 'Jede volle Reihe ist ein Baustein fürs Sprachcafé.', ru: 'Каждая собранная линия — кирпичик для языкового кафе.' },
-    kicker: { de: 'Projekt des Monats', ru: 'Проект месяца' },
+    name: { de: 'Bausteine', en: 'Bricks', ru: 'Кирпичики', uk: 'Цеглинки' },
+    tagline: { de: 'Jede volle Reihe ist ein Baustein fürs Sprachcafé.', en: 'Every full line is a brick for the language café.', ru: 'Каждая собранная линия — кирпичик для языкового кафе.', uk: 'Кожна зібрана лінія — цеглинка для мовного кафе.' },
+    kicker: { de: 'Projekt des Monats', en: 'Project of the month', ru: 'Проект месяца', uk: 'Проєкт місяця' },
     badges: [
-      { id: 'blocks_1000', icon: '🏗️', name: { de: '1000 Punkte in Bausteine', ru: '1000 очков в «Кирпичиках»' } },
-      { id: 'blocks_cafe', icon: '☕', name: { de: 'Café-Bauer: 500 Bausteine', ru: 'Строитель кафе: 500 кирпичиков' } }
+      { id: 'blocks_1000', icon: '🏗️', name: { de: '1000 Punkte in Bausteine', en: '1000 points in Bricks', ru: '1000 очков в «Кирпичиках»', uk: '1000 очок у «Цеглинках»' } },
+      { id: 'blocks_cafe', icon: '☕', name: { de: 'Café-Bauer: 500 Bausteine', en: 'Café builder: 500 bricks', ru: 'Строитель кафе: 500 кирпичиков', uk: 'Будівничий кафе: 500 цеглинок' } }
     ],
     thumb, art, mount,
     logic: Logic

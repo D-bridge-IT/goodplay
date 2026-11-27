@@ -204,7 +204,7 @@
       starts: 'Wer beginnt?', me: 'Ich', start: 'Los geht’s', cancel: 'Abbrechen', twoPChip: '2 Spieler',
       winYou: 'Du hast gewonnen!', loseYou: 'Der Computer gewinnt', winColor: '{who} gewinnt!', drawText: 'Das Brett ist voll – keiner hat vier in einer Reihe.',
       inMoves: 'Entschieden nach {n} Zügen.', undoFree: 'Erste Rücknahme ist gratis', noUndo: 'Nichts zum Zurücknehmen',
-      newG: 'Neu', rulesT: 'Vier gewinnt – Regeln', record: 'Bilanz', wins: 'S', losses: 'N', draws: 'U',
+      newG: 'Neu', rulesT: 'Vier gewinnt – Regeln', record: 'Bilanz', wins: 'S', losses: 'N', draws: 'U', board: 'Spielbrett',
       rulesHtml: `<ul>
         <li>Ihr werft abwechselnd einen Stein in eine der 7 Spalten. Er fällt bis ganz nach unten.</li>
         <li>Wer zuerst <b>vier eigene Steine in einer Reihe</b> hat – waagerecht, senkrecht oder diagonal – gewinnt.</li>
@@ -221,7 +221,7 @@
       starts: 'Кто начинает?', me: 'Я', start: 'Начать', cancel: 'Отмена', twoPChip: 'Вдвоём',
       winYou: 'Ты победил!', loseYou: 'Компьютер победил', winColor: 'Победили {who}!', drawText: 'Поле заполнено — ни у кого нет четырёх в ряд.',
       inMoves: 'Партия решилась за {n} ходов.', undoFree: 'Первая отмена бесплатно', noUndo: 'Нечего отменять',
-      newG: 'Заново', rulesT: 'Четыре в ряд — правила', record: 'Счёт', wins: 'П', losses: 'П', draws: 'Н',
+      newG: 'Заново', rulesT: 'Четыре в ряд — правила', record: 'Счёт', wins: 'П', losses: 'П', draws: 'Н', board: 'Игровое поле',
       rulesHtml: `<ul>
         <li>Игроки по очереди бросают фишку в один из 7 столбцов. Она падает до самого низа.</li>
         <li>Побеждает тот, кто первым выстроит <b>четыре свои фишки в ряд</b> — по горизонтали, вертикали или диагонали.</li>
@@ -230,17 +230,51 @@
         <li>Нажми или наведи на столбец, чтобы прицелиться; отпусти — фишка упадёт.</li>
         <li><b>Отмена</b>: первая в партии бесплатно, дальше за подсказку или рекламу. <b>Подсказка</b> показывает лучший столбец.</li>
         <li>Звёзды против компьютера: лёгкий 6, средний 12, сложный 25 — за ничью половина.</li></ul>`
+    },
+    en: {
+      you: 'You', cpu: 'Computer', red: 'Red', yellow: 'Yellow', yourTurn: 'Your turn', cpuThinks: 'Computer is thinking …',
+      turnOf: '{who} to move', full: 'This column is full', hintCol: 'Hint: column {n}', thinking: 'Calculating …',
+      setupTitle: 'New game', opponent: 'Opponent', vsCpu: '🤖 Computer', twoP: '👥 2 players', difficulty: 'Level',
+      starts: 'Who starts?', me: 'Me', start: 'Let’s go', cancel: 'Cancel', twoPChip: '2 players',
+      winYou: 'You won!', loseYou: 'The computer wins', winColor: '{who} wins!', drawText: 'The board is full – nobody has four in a row.',
+      inMoves: 'Decided after {n} moves.', undoFree: 'Your first undo is free', noUndo: 'Nothing to undo',
+      newG: 'New', rulesT: 'Connect Four – rules', record: 'Record', wins: 'W', losses: 'L', draws: 'D', board: 'Game board',
+      rulesHtml: `<ul>
+        <li>Take turns dropping a disc into one of the 7 columns. It falls all the way down.</li>
+        <li>The first to get <b>four of their own discs in a row</b> – horizontally, vertically or diagonally – wins.</li>
+        <li>If the board is full and nobody has four in a row, the game is a draw.</li>
+        <li>Tip: the centre is the most valuable. Build threats your opponent cannot block all at once.</li>
+        <li>Tap or hover over a column to aim; release to drop the disc.</li>
+        <li><b>Undo</b>: the first undo per game is free, after that it costs a hint or an ad. <b>Hint</b> shows the best column.</li>
+        <li>Stars against the computer: Easy 6, Medium 12, Hard 25 – half for a draw.</li></ul>`
+    },
+    uk: {
+      you: 'Ти', cpu: 'Комп’ютер', red: 'Червоні', yellow: 'Жовті', yourTurn: 'Твій хід', cpuThinks: 'Комп’ютер думає …',
+      turnOf: 'Ходять {who}', full: 'Цей стовпчик заповнений', hintCol: 'Підказка: стовпчик {n}', thinking: 'Рахую …',
+      setupTitle: 'Нова гра', opponent: 'Суперник', vsCpu: '🤖 Комп’ютер', twoP: '👥 Удвох', difficulty: 'Рівень',
+      starts: 'Хто починає?', me: 'Я', start: 'Почати', cancel: 'Скасувати', twoPChip: 'Удвох',
+      winYou: 'Ти переміг!', loseYou: 'Комп’ютер переміг', winColor: 'Перемогли {who}!', drawText: 'Поле заповнене — ні в кого немає чотирьох у ряд.',
+      inMoves: 'Партія вирішилася за {n} ходів.', undoFree: 'Перше скасування безкоштовне', noUndo: 'Немає чого скасовувати',
+      newG: 'Заново', rulesT: 'Чотири в ряд — правила', record: 'Рахунок', wins: 'П', losses: 'П', draws: 'Н', board: 'Ігрове поле',
+      rulesHtml: `<ul>
+        <li>Гравці по черзі кидають фішку в один із 7 стовпчиків. Вона падає до самого низу.</li>
+        <li>Перемагає той, хто першим вишикує <b>чотири свої фішки в ряд</b> — по горизонталі, вертикалі чи діагоналі.</li>
+        <li>Якщо поле заповнене, а чотирьох у ряд немає ні в кого, — нічия.</li>
+        <li>Порада: центр найцінніший. Створюй загрози, які суперник не встигне закрити всі.</li>
+        <li>Натисни або наведи на стовпчик, щоб прицілитися; відпусти — фішка впаде.</li>
+        <li><b>Скасування</b>: перше в партії безкоштовне, далі за підказку або рекламу. <b>Підказка</b> показує найкращий стовпчик.</li>
+        <li>Зірки проти комп’ютера: легкий 6, середній 12, складний 25 — за нічию половина.</li></ul>`
     }
   };
   const STARS = { easy: 6, medium: 12, hard: 25 };
 
   Games.register({
     id: 'connect4', icon: '🔴', partner: 'p3', isNew: true,
-    name: { de: 'Vier gewinnt', ru: 'Четыре в ряд' },
-    tagline: { de: 'Der Klassiker: vier in eine Reihe – gegen eine starke KI.', ru: 'Классика: четыре в ряд — против сильного компьютера.' },
+    name: { de: 'Vier gewinnt', en: 'Connect Four', ru: 'Четыре в ряд', uk: 'Чотири в ряд' },
+    tagline: { de: 'Der Klassiker: vier in eine Reihe – gegen eine starke KI.', en: 'The classic: four in a row – against a strong AI.', ru: 'Классика: четыре в ряд — против сильного компьютера.', uk: 'Класика: чотири в ряд — проти сильного комп’ютера.' },
     badges: [
-      { id: 'connect4_win', icon: '🔴', name: { de: 'Vier in Reihe – erster Sieg', ru: 'Четыре в ряд — первая победа' } },
-      { id: 'connect4_hard', icon: '🏆', name: { de: 'Vier gewinnt – Schwer besiegt', ru: 'Четыре в ряд — сложный уровень' } }
+      { id: 'connect4_win', icon: '🔴', name: { de: 'Vier in Reihe – erster Sieg', en: 'Four in a row – first win', ru: 'Четыре в ряд — первая победа', uk: 'Чотири в ряд — перша перемога' } },
+      { id: 'connect4_hard', icon: '🏆', name: { de: 'Vier gewinnt – Schwer besiegt', en: 'Connect Four – Hard beaten', ru: 'Четыре в ряд — сложный уровень', uk: 'Чотири в ряд — складний рівень' } }
     ],
     logic: C4,
     thumb() {
@@ -308,7 +342,7 @@
           </svg>
           <div class="c4-colhl" style="top:${pctY(PRE)};height:${pctY(SH - PRE)};width:${pctX(1)}"></div>
           <svg class="c4-over" style="top:${pctY(PRE)};height:${pctY(SH - PRE)}" viewBox="0 0 740 640" preserveAspectRatio="none" aria-hidden="true"></svg>
-          <div class="c4-hit" role="grid" aria-label="Board"></div>
+          <div class="c4-hit" role="grid" aria-label="${s('board')}"></div>
         </div>`;
       const stage = ui.board.querySelector('.c4-stage'), coinsEl = ui.board.querySelector('.c4-coins');
       const overEl = ui.board.querySelector('.c4-over'), colhl = ui.board.querySelector('.c4-colhl'), hit = ui.board.querySelector('.c4-hit');

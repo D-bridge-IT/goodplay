@@ -245,9 +245,13 @@
   const TINT = ['#eef1f5', '#fdecef', '#fdecef', '#eef1f5'];
   const GOLD = '#e8b54a', GOLD_D = '#8d6414';
   const FONT = "Inter, 'Segoe UI', Roboto, -apple-system, Helvetica, Arial, sans-serif";
-  const labels = () => LANG === 'ru'
-    ? ['Т', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'В', 'Д', 'К']
-    : ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'B', 'D', 'K'];
+  const RANKS = {
+    de: ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'B', 'D', 'K'],
+    en: ['A', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'J', 'Q', 'K'],
+    ru: ['Т', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'В', 'Д', 'К'],
+    uk: ['Т', '2', '3', '4', '5', '6', '7', '8', '9', '10', 'В', 'Д', 'К']
+  };
+  const labels = () => L(RANKS);
 
   const SUIT_D = [
     'M50 6C41 22 8 40 8 62c0 13 10 22 22 22 8 0 14-3 18-9-1 9-5 16-13 21h30c-8-5-12-12-13-21 4 6 10 9 18 9 12 0 22-9 22-22C92 40 59 22 50 6z',
@@ -313,7 +317,23 @@
       <li>Нажми на колоду слева вверху, чтобы открыть 1 или 3 карты. <b>По 1:</b> не больше 3 кругов. <b>По 3:</b> без ограничений.</li>
       <li><b>Управление:</b> перетаскивание · нажатие = лучший ход (сначала в дом) · двойное нажатие = в дом.</li>
       <li><b>Очки (как в Windows):</b> колода → расклад +5, в дом +10, открыть карту +5, из дома в расклад −15, новый круг −100 (по 1) или −20 начиная с 4-го круга (по 3), −2 за каждые 10 секунд. За победу — бонус за время.</li>
-      <li>3 отмены за партию бесплатно, дальше — за подсказку или рекламу. Когда все карты открыты, кнопка «Авто» доиграет сама.</li></ul>`
+      <li>3 отмены за партию бесплатно, дальше — за подсказку или рекламу. Когда все карты открыты, кнопка «Авто» доиграет сама.</li></ul>`,
+    en: `<ul>
+      <li><b>Goal:</b> move all 52 cards by suit, from ace to king, onto the four foundations at the top right.</li>
+      <li>In the tableau you build down in alternating colours, e.g. a black 7 on a red 8. Ordered runs move together.</li>
+      <li>Only a king (or a run starting with a king) may go into an empty column.</li>
+      <li>Tap the stock at the top left to turn over 1 or 3 cards. <b>Draw 1:</b> at most 3 passes. <b>Draw 3:</b> unlimited.</li>
+      <li><b>Controls:</b> drag and drop cards · tap = best move (foundation first) · double-tap = to the foundation.</li>
+      <li><b>Score (Windows scoring):</b> stock → tableau +5, to a foundation +10, turn over a card +5, foundation → tableau −15, new pass −100 (Draw 1) or −20 from the 4th pass (Draw 3), −2 per 10 seconds. Winning gives a time bonus.</li>
+      <li>3 undos per game are free, after that for a hint or an ad. Once all cards are face up, “Auto” finishes the rest.</li></ul>`,
+    uk: `<ul>
+      <li><b>Мета:</b> розкласти всі 52 карти за мастями від туза до короля в чотири «будинки» праворуч угорі.</li>
+      <li>У розкладі карти кладуть за спаданням із чергуванням кольору: чорна 7 на червону 8. Упорядковані ряди переносяться цілком.</li>
+      <li>На порожню колонку можна покласти лише короля (або ряд, що починається з короля).</li>
+      <li>Натисни на колоду ліворуч угорі, щоб відкрити 1 або 3 карти. <b>По 1:</b> не більше 3 кіл. <b>По 3:</b> без обмежень.</li>
+      <li><b>Керування:</b> перетягування · натискання = найкращий хід (спершу в будинок) · подвійне натискання = в будинок.</li>
+      <li><b>Очки (як у Windows):</b> колода → розклад +5, у будинок +10, відкрити карту +5, з будинку в розклад −15, нове коло −100 (по 1) або −20 починаючи з 4-го кола (по 3), −2 за кожні 10 секунд. За перемогу — бонус за час.</li>
+      <li>3 скасування за партію безкоштовно, далі — за підказку або рекламу. Коли всі карти відкриті, кнопка «Авто» дограє сама.</li></ul>`
   };
 
   const s = Kit.strings({
@@ -328,20 +348,33 @@
       noMoves: 'Полезных ходов больше нет.', noMovesSub: 'Отмени ход или начни новую партию.', keep: 'Играть дальше',
       noRecycle: 'Круги закончились', hintDraw: 'Подсказка: открой карту из колоды', changeMode: 'Сменить режим? Текущая партия будет прервана.',
       lineScore: 'Очки: {n}', lineBonus: 'из них бонус за время: +{n}', lineTime: 'Время {t} · ходов: {m}', record: 'Новый рекорд!', mode1: 'По 1', mode3: 'По 3', tapSkip: 'Нажми, чтобы пропустить'
+    },
+    en: {
+      draw1: 'Draw 1', draw3: 'Draw 3', auto: 'Auto', pass: 'Pass {n}/3', passInf: 'Pass {n}', free: '{n} free', adUndo: 'for a hint',
+      noMoves: 'No useful moves left.', noMovesSub: 'Undo a move or start a new game.', keep: 'Keep playing',
+      noRecycle: 'No passes left', hintDraw: 'Hint: turn over a card from the stock', changeMode: 'Change mode? The current game will be abandoned.',
+      lineScore: 'Score: {n}', lineBonus: 'incl. time bonus: +{n}', lineTime: 'Time {t} · {m} moves', record: 'New record!', mode1: 'Draw 1', mode3: 'Draw 3', tapSkip: 'Tap to skip'
+    },
+    uk: {
+      draw1: 'По 1', draw3: 'По 3', auto: 'Авто', pass: 'Коло {n}/3', passInf: 'Коло {n}', free: '{n} безкошт.', adUndo: 'за підказку',
+      noMoves: 'Корисних ходів більше немає.', noMovesSub: 'Скасуй хід або почни нову партію.', keep: 'Грати далі',
+      noRecycle: 'Кола закінчилися', hintDraw: 'Підказка: відкрий карту з колоди', changeMode: 'Змінити режим? Поточну партію буде перервано.',
+      lineScore: 'Очки: {n}', lineBonus: 'з них бонус за час: +{n}', lineTime: 'Час {t} · ходів: {m}', record: 'Новий рекорд!', mode1: 'По 1', mode3: 'По 3', tapSkip: 'Натисни, щоб пропустити'
     }
   });
+  const NAME_SHORT = { de: 'Solitär', en: 'Solitaire', ru: 'Косынка', uk: 'Косинка' };
 
   const FREE_UNDO = 3;
   const STARS = { 1: 15, 3: 25 };
 
   Games.register({
     id: 'solitaire', icon: '🃏', partner: 'p5', tier: 'top', isNew: true,
-    name: { de: 'Solitär', ru: 'Пасьянс «Косынка»' },
-    tagline: { de: 'Klondike mit Ziehen 1 oder 3 – der Kartenklassiker, frisch gelegt.', ru: 'Классическая «Косынка»: сдача по одной или по три карты.' },
-    kicker: { de: 'Der Kartenklassiker', ru: 'Карточная классика' },
+    name: { de: 'Solitär', en: 'Solitaire', ru: 'Пасьянс «Косынка»', uk: 'Пасьянс «Косинка»' },
+    tagline: { de: 'Klondike mit Ziehen 1 oder 3 – der Kartenklassiker, frisch gelegt.', en: 'Klondike with Draw 1 or Draw 3 – the card classic, freshly dealt.', ru: 'Классическая «Косынка»: сдача по одной или по три карты.', uk: 'Класична «Косинка»: здача по одній або по три карти.' },
+    kicker: { de: 'Der Kartenklassiker', en: 'The card classic', ru: 'Карточная классика', uk: 'Карткова класика' },
     badges: [
-      { id: 'solitaire_win', icon: '🃏', name: { de: 'Solitär gelegt', ru: 'Пасьянс сошёлся' } },
-      { id: 'solitaire_draw3', icon: '🎴', name: { de: 'Meister „Ziehen 3“', ru: 'Мастер «по 3»' } }
+      { id: 'solitaire_win', icon: '🃏', name: { de: 'Solitär gelegt', en: 'Solitaire solved', ru: 'Пасьянс сошёлся', uk: 'Пасьянс зійшовся' } },
+      { id: 'solitaire_draw3', icon: '🎴', name: { de: 'Meister „Ziehen 3“', en: 'Draw 3 master', ru: 'Мастер «по 3»', uk: 'Майстер «по 3»' } }
     ],
 
     thumb() {
@@ -425,8 +458,7 @@
       const btnUndo = ui.tool('', () => undo());
       const btnHint = ui.tool(icon('hint') + Kit.t('hint'), () => hint());
       const btnAuto = ui.tool(icon('auto') + s('auto'), () => autoComplete(), 'so-auto');
-      ui.tool(icon('rules') + Kit.t('rules'), () => Kit.rules(Kit.t('rules') + ' · ' + L({ de: 'Solitär', ru: 'Косынка' }), RULES[LANG] || RULES.de));
-      function L(o) { return o[LANG] || o.de; }
+      ui.tool(icon('rules') + Kit.t('rules'), () => Kit.rules(Kit.t('rules') + ' · ' + L(NAME_SHORT), L(RULES)));
 
       /* ---------------- geometry & layout ---------------- */
       function availHeight(fallback) {
