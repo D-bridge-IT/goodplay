@@ -288,7 +288,7 @@
       you: 'Du', cpu: 'Computer', white: 'Weiß', black: 'Schwarz', yourTurn: 'Du bist am Zug', cpuThinks: 'Computer denkt …',
       mustCapture: 'Schlagen ist Pflicht!', mustCaptureShort: 'Schlagpflicht', continueJump: 'Weiterschlagen – wähle das nächste Feld', choosePath: 'Mehrere Wege – wähle das nächste Feld',
       hintMove: 'Tipp: {m}', thinking: 'Rechne …', noUndo: 'Nichts zum Zurücknehmen', undoFree: 'Erste Rücknahme ist gratis',
-      setupTitle: 'Neue Partie', difficulty: 'Stufe', color: 'Deine Farbe', start: 'Los geht’s', cancel: 'Abbrechen', newG: 'Neu',
+      setupTitle: 'Neue Partie', resign: 'Aufgeben', resignQ: 'Partie wirklich aufgeben?', resignText: 'Du hast aufgegeben.', notStarted: 'Die Partie hat noch nicht begonnen', difficulty: 'Stufe', color: 'Deine Farbe', start: 'Los geht’s', cancel: 'Abbrechen', newG: 'Neu',
       winText: 'Der Computer kann nicht mehr ziehen.', loseText: 'Du kannst nicht mehr ziehen.', drawQuiet: 'Remis: 30 Züge ohne Schlagen und ohne Steinzug.',
       drawRep: 'Remis: dreimal dieselbe Stellung.', winTitle: 'Gewonnen!', loseTitle: 'Der Computer gewinnt', captured: 'geschlagen', record: 'Bilanz',
       inMoves: 'Partie mit {n} Zügen.', rulesT: 'Dame – Regeln (russische Variante)',
@@ -307,7 +307,7 @@
       you: 'Ты', cpu: 'Компьютер', white: 'Белые', black: 'Чёрные', yourTurn: 'Твой ход', cpuThinks: 'Компьютер думает …',
       mustCapture: 'Бить обязательно!', mustCaptureShort: 'Обязательное взятие', continueJump: 'Бей дальше — выбери следующее поле', choosePath: 'Несколько путей — выбери следующее поле',
       hintMove: 'Подсказка: {m}', thinking: 'Считаю …', noUndo: 'Нечего отменять', undoFree: 'Первая отмена бесплатно',
-      setupTitle: 'Новая партия', difficulty: 'Уровень', color: 'Твой цвет', start: 'Начать', cancel: 'Отмена', newG: 'Заново',
+      setupTitle: 'Новая партия', resign: 'Сдаться', resignQ: 'Точно сдать партию?', resignText: 'Ты сдался.', notStarted: 'Партия ещё не началась', difficulty: 'Уровень', color: 'Твой цвет', start: 'Начать', cancel: 'Отмена', newG: 'Заново',
       winText: 'У компьютера не осталось ходов.', loseText: 'У тебя не осталось ходов.', drawQuiet: 'Ничья: 30 ходов без взятий и без ходов простыми.',
       drawRep: 'Ничья: позиция повторилась трижды.', winTitle: 'Победа!', loseTitle: 'Компьютер победил', captured: 'взято', record: 'Счёт',
       inMoves: 'Партия из {n} ходов.', rulesT: 'Шашки — правила (русские)',
@@ -326,7 +326,7 @@
       you: 'You', cpu: 'Computer', white: 'White', black: 'Black', yourTurn: 'Your turn', cpuThinks: 'Computer is thinking …',
       mustCapture: 'Capturing is compulsory!', mustCaptureShort: 'Must capture', continueJump: 'Keep jumping – choose the next square', choosePath: 'Several paths – choose the next square',
       hintMove: 'Hint: {m}', thinking: 'Calculating …', noUndo: 'Nothing to undo', undoFree: 'Your first undo is free',
-      setupTitle: 'New game', difficulty: 'Level', color: 'Your colour', start: 'Let’s go', cancel: 'Cancel', newG: 'New',
+      setupTitle: 'New game', resign: 'Resign', resignQ: 'Really resign this game?', resignText: 'You resigned.', notStarted: 'The game has not started yet', difficulty: 'Level', color: 'Your colour', start: 'Let’s go', cancel: 'Cancel', newG: 'New',
       winText: 'The computer has no moves left.', loseText: 'You have no moves left.', drawQuiet: 'Draw: 30 moves without a capture or a man move.',
       drawRep: 'Draw: the same position occurred three times.', winTitle: 'You won!', loseTitle: 'The computer wins', captured: 'captured', record: 'Record',
       inMoves: 'Game of {n} moves.', rulesT: 'Checkers – rules (Russian draughts)',
@@ -345,7 +345,7 @@
       you: 'Ти', cpu: 'Комп’ютер', white: 'Білі', black: 'Чорні', yourTurn: 'Твій хід', cpuThinks: 'Комп’ютер думає …',
       mustCapture: 'Бити обов’язково!', mustCaptureShort: 'Обов’язкове взяття', continueJump: 'Бий далі — обери наступне поле', choosePath: 'Кілька шляхів — обери наступне поле',
       hintMove: 'Підказка: {m}', thinking: 'Рахую …', noUndo: 'Немає чого скасовувати', undoFree: 'Перше скасування безкоштовне',
-      setupTitle: 'Нова партія', difficulty: 'Рівень', color: 'Твій колір', start: 'Почати', cancel: 'Скасувати', newG: 'Заново',
+      setupTitle: 'Нова партія', resign: 'Здатися', resignQ: 'Справді здати партію?', resignText: 'Ти здався.', notStarted: 'Партія ще не почалася', difficulty: 'Рівень', color: 'Твій колір', start: 'Почати', cancel: 'Скасувати', newG: 'Заново',
       winText: 'У комп’ютера не залишилося ходів.', loseText: 'У тебе не залишилося ходів.', drawQuiet: 'Нічия: 30 ходів без взяття і без ходів простими.',
       drawRep: 'Нічия: позиція повторилася тричі.', winTitle: 'Перемога!', loseTitle: 'Комп’ютер переміг', captured: 'взято', record: 'Рахунок',
       inMoves: 'Партія з {n} ходів.', rulesT: 'Шашки — правила (російські)',
@@ -456,6 +456,7 @@
       const tool = (ico, label, fn) => ui.tool(`<span class="ico">${ico}</span>${label}`, fn);
       const bUndo = tool('↶', s('undo'), () => doUndo());
       const bHint = tool('💡', s('hint'), () => doHint());
+      tool('🏳️', s('resign'), () => doResign());
       tool('＋', s('newG'), () => openSetup());
       tool('📖', s('rules'), () => Kit.rules(s('rulesT'), s('rulesHtml')));
 
@@ -610,6 +611,15 @@
           later(() => doMove(res.move), Math.max(0, 380 - (Date.now() - t0)));
         }, 80);
       }
+      function doResign() {
+        if (over) return;
+        if (!g || !g.ply) { ctx.toast(s('notStarted')); return; }
+        Kit.confirm(s('resignQ'), () => {
+          if (over) return;
+          gen++; timers.forEach(clearTimeout); timers.clear(); busy = false;
+          finish({ winner: -human(), reason: 'resign' });
+        });
+      }
       function finish(stt) {
         over = true; busy = false; legalNow = [];
         clearSel();
@@ -618,7 +628,7 @@
         if (stt.winner === human()) {
           res = 'win'; stars = STARS[cfg.diff]; title = s('winTitle'); line = s('winText'); rec.w++;
           ctx.badge('checkers_win'); if (cfg.diff === 'hard') ctx.badge('checkers_hard');
-        } else if (stt.winner === -human()) { res = 'lose'; title = s('loseTitle'); line = s('loseText'); rec.l++; }
+        } else if (stt.winner === -human()) { res = 'lose'; title = s('loseTitle'); line = stt.reason === 'resign' ? s('resignText') : s('loseText'); rec.l++; }
         else { res = 'draw'; stars = Math.round(STARS[cfg.diff] / 2); line = stt.reason === 'quiet' ? s('drawQuiet') : s('drawRep'); rec.d++; }
         ui.msg(title || Kit.t('draw'), res === 'win' ? 'good' : res === 'lose' ? 'bad' : '');
         save(); renderBars(); drawMarks();

@@ -2417,6 +2417,8 @@
     };
 
     return {
+      // The hub asks before leaving while a level is being played (progress in a level is not saved).
+      leaveGuard() { return screen === 'level' && !!G && G.state === 'play'; },
       destroy() {
         alive = false; cancelAnimationFrame(raf);
         window.removeEventListener('keydown', onKey); window.removeEventListener('keyup', onKey);

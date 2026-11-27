@@ -741,7 +741,8 @@
     rules: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5a2 2 0 012-2h13v16H6a2 2 0 00-2 2z"/><path d="M4 19V5M9 8h6"/></svg>',
     reset: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M3 12a9 9 0 109-9 9.7 9.7 0 00-6.7 2.8L3 8"/><path d="M3 3v5h5"/></svg>',
     prev: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>',
-    next: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>'
+    next: '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M9 18l6-6-6-6"/></svg>',
+    flag: '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 21V4"/><path d="M5 4h11l-2 4 2 4H5"/></svg>'
   };
 
   const FIG = { K: '♔', Q: '♕', R: '♖', B: '♗', N: '♘' };
@@ -772,7 +773,7 @@
       de: {
         modeGame: 'Partie', modePuzzle: 'Aufgaben', you: 'Du', cpu: 'Computer', thinking: 'denkt nach', yourTurn: 'Du bist am Zug', check: 'Schach!',
         newTitle: 'Neue Partie', strength: 'Spielstärke', colorQ: 'Deine Farbe', white: 'Weiß', black: 'Schwarz', random: 'Zufall', start: 'Partie starten',
-        flip: 'Drehen', newG: 'Neu', mate: 'Schachmatt', stalemate: 'Patt', threefold: 'Dreifache Stellungswiederholung', fifty: '50-Züge-Regel', material: 'Ungenügendes Material',
+        flip: 'Drehen', newG: 'Neu', mate: 'Schachmatt', stalemate: 'Patt', threefold: 'Dreifache Stellungswiederholung', fifty: '50-Züge-Regel', material: 'Ungenügendes Material', resign: 'Aufgeben', resignQ: 'Partie wirklich aufgeben?', resigned: 'Du hast aufgegeben', notStarted: 'Die Partie hat noch nicht begonnen',
         winLine: 'Stark gespielt – du hast den Computer ({lvl}) besiegt!', loseTitle: 'Diesmal nicht', loseLine: 'Gut gekämpft! Jede Partie macht dich stärker – gleich noch eine?',
         drawLine: 'Ein ehrliches Remis gegen „{lvl}“.', noUndo: 'Noch kein Zug zum Zurücknehmen', undoFree: 'Zug zurückgenommen (einmal pro Partie gratis)',
         hintCalc: 'Suche den besten Zug…', hintIs: 'Tipp: {san}', over: 'Partie beendet – tippe auf „Neu“', waitCpu: 'Einen Moment – der Computer ist am Zug',
@@ -796,8 +797,8 @@
       ru: {
         modeGame: 'Партия', modePuzzle: 'Задачи', you: 'Вы', cpu: 'Компьютер', thinking: 'думает', yourTurn: 'Ваш ход', check: 'Шах!',
         newTitle: 'Новая партия', strength: 'Сила игры', colorQ: 'Ваш цвет', white: 'Белые', black: 'Чёрные', random: 'Случайно', start: 'Начать партию',
-        flip: 'Повернуть', newG: 'Заново', mate: 'Мат', stalemate: 'Пат', threefold: 'Троекратное повторение позиции', fifty: 'Правило 50 ходов', material: 'Недостаточно материала',
-        winLine: 'Сильная игра — вы победили компьютер ({lvl})!', loseTitle: 'В этот раз не вышло', loseLine: 'Хорошая борьба! Каждая партия делает вас сильнее — сыграем ещё?',
+        flip: 'Повернуть', newG: 'Заново', mate: 'Мат', stalemate: 'Пат', threefold: 'Троекратное повторение позиции', fifty: 'Правило 50 ходов', material: 'Недостаточно материала', resign: 'Сдаться', resignQ: 'Точно сдать партию?', resigned: 'Ты сдался', notStarted: 'Партия ещё не началась',
+        winLine: 'Сильная игра — вы победили компьютер ({lvl})!', loseTitle: 'В этот раз не вышло', loseLine: 'Хорошая борьба! Каждая партия делает тебя сильнее — сыграем ещё?',
         drawLine: 'Честная ничья против уровня «{lvl}».', noUndo: 'Пока нечего отменять', undoFree: 'Ход отменён (раз за партию бесплатно)',
         hintCalc: 'Ищу лучший ход…', hintIs: 'Подсказка: {san}', over: 'Партия окончена — нажмите «Заново»', waitCpu: 'Секунду — ходит компьютер',
         puzzle: 'Задача', mateIn1: 'Мат в 1 ход', mateIn2: 'Мат в 2 хода', wMates: 'Белые начинают и ставят мат', bMates: 'Чёрные начинают и ставят мат',
@@ -809,7 +810,7 @@
           <li><b>Цель:</b> поставить мат королю соперника — он под шахом и не может уйти.</li>
           <li><b>Ходы:</b> король на 1 поле · ферзь по прямым и диагоналям · ладья по прямым · слон по диагоналям · конь буквой «Г» (может перепрыгивать) · пешка на 1 поле вперёд (с начальной — на 2), бьёт наискосок.</li>
           <li><b>Рокировка:</b> король идёт на 2 поля к ладье, ладья перепрыгивает через него — если оба не ходили, между ними пусто и король не проходит через битое поле.</li>
-          <li><b>Взятие на проходе:</b> если пешка соперника прыгнула на 2 поля мимо вашей пешки, её можно сразу взять «на проходе».</li>
+          <li><b>Взятие на проходе:</b> если пешка соперника прыгнула на 2 поля мимо твоей пешки, её можно сразу взять «на проходе».</li>
           <li><b>Превращение:</b> пешка на последней горизонтали становится ферзём, ладьёй, слоном или конём.</li>
           <li><b>Ничья:</b> пат, троекратное повторение, 50 ходов без хода пешкой и взятия, недостаточно материала для мата.</li>
           <li><b>Управление:</b> нажмите фигуру, затем поле — или просто перетащите. Точки — возможные ходы, кольца — взятия.</li>
@@ -820,7 +821,7 @@
       en: {
         modeGame: 'Game', modePuzzle: 'Puzzles', you: 'You', cpu: 'Computer', thinking: 'thinking', yourTurn: 'Your move', check: 'Check!',
         newTitle: 'New game', strength: 'Strength', colorQ: 'Your colour', white: 'White', black: 'Black', random: 'Random', start: 'Start game',
-        flip: 'Flip', newG: 'New', mate: 'Checkmate', stalemate: 'Stalemate', threefold: 'Threefold repetition', fifty: '50-move rule', material: 'Insufficient material',
+        flip: 'Flip', newG: 'New', mate: 'Checkmate', stalemate: 'Stalemate', threefold: 'Threefold repetition', fifty: '50-move rule', material: 'Insufficient material', resign: 'Resign', resignQ: 'Really resign this game?', resigned: 'You resigned', notStarted: 'The game has not started yet',
         winLine: 'Well played – you beat the computer ({lvl})!', loseTitle: 'Not this time', loseLine: 'Good fight! Every game makes you stronger – another one?',
         drawLine: 'An honest draw against “{lvl}”.', noUndo: 'No move to take back yet', undoFree: 'Move taken back (free once per game)',
         hintCalc: 'Looking for the best move…', hintIs: 'Hint: {san}', over: 'Game over – tap “New”', waitCpu: 'One moment – it’s the computer’s move',
@@ -844,7 +845,7 @@
       uk: {
         modeGame: 'Партія', modePuzzle: 'Задачі', you: 'Ти', cpu: 'Комп’ютер', thinking: 'думає', yourTurn: 'Твій хід', check: 'Шах!',
         newTitle: 'Нова партія', strength: 'Сила гри', colorQ: 'Твій колір', white: 'Білі', black: 'Чорні', random: 'Випадково', start: 'Почати партію',
-        flip: 'Повернути', newG: 'Заново', mate: 'Мат', stalemate: 'Пат', threefold: 'Триразове повторення позиції', fifty: 'Правило 50 ходів', material: 'Недостатньо матеріалу',
+        flip: 'Повернути', newG: 'Заново', mate: 'Мат', stalemate: 'Пат', threefold: 'Триразове повторення позиції', fifty: 'Правило 50 ходів', material: 'Недостатньо матеріалу', resign: 'Здатися', resignQ: 'Справді здати партію?', resigned: 'Ти здався', notStarted: 'Партія ще не почалася',
         winLine: 'Сильна гра — перемога над комп’ютером ({lvl})!', loseTitle: 'Цього разу не вийшло', loseLine: 'Гарна боротьба! Кожна партія додає досвіду — зіграємо ще?',
         drawLine: 'Чесна нічия проти рівня «{lvl}».', noUndo: 'Поки що немає чого скасовувати', undoFree: 'Хід скасовано (раз за партію безкоштовно)',
         hintCalc: 'Шукаю найкращий хід…', hintIs: 'Підказка: {san}', over: 'Партію завершено — натисни «Заново»', waitCpu: 'Секунду — ходить комп’ютер',
@@ -1466,6 +1467,7 @@
         ui.tool(lbl(IC.neu, s('newG')), onNew);
         btnUndo = ui.tool(lbl(IC.undo, Kit.t('undo')), undo);
         ui.tool(lbl(IC.hint, Kit.t('hint')), gameHint);
+        ui.tool(lbl(IC.flag, s('resign')), resign);
         ui.tool(lbl(IC.flip, s('flip')), flip);
         ui.tool(lbl(IC.rules, Kit.t('rules')), showRules);
       } else {
@@ -1477,6 +1479,15 @@
       }
     }
     function showRules() { Kit.rules(s('rulesT'), s('rules')); }
+    // Resign: the computer wins; no stars.
+    function resign() {
+      if (mode !== 'game' || G.over || !G.moves.length) { ctx.toast(s(G && G.over ? 'over' : 'notStarted')); return; }
+      Kit.confirm(s('resignQ'), () => {
+        if (G.over) return;
+        engine.cancel(); thinking = false; thinkTok++; hintMove = 0;
+        finishGame({ winner: 1 - G.color, reason: 'resigned' });
+      });
+    }
     function flip() {
       flipped = !flipped;
       if (mode === 'game') { G.flipped = flipped !== (G.color === 1); saveGame(); }

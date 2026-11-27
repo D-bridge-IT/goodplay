@@ -541,7 +541,14 @@
         if (isCpu() && st.turn === 2) cpuTurn();
       }
 
+      // Keep the settings valid even if saved data or a caller passes something odd.
+      function sanitize() {
+        if (cfg.mode !== 'cpu' && cfg.mode !== '2p') cfg.mode = 'cpu';
+        if (!['easy', 'medium', 'hard'].includes(cfg.diff)) cfg.diff = 'medium';
+        cfg.first = +cfg.first === 2 ? 2 : 1;
+      }
       function newGame(fromSave) {
+        sanitize();
         gen++; timers.forEach(clearTimeout); timers.clear();
         over = false; busy = false; hintCol = -1;
         if (fromSave) {
