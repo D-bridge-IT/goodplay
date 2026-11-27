@@ -1,4 +1,4 @@
-// Audio v3: recorded sound effects (Kenney, CC0) + licensed music tracks (Kevin MacLeod, CC BY 4.0).
+// Audio v4: recorded sound effects (Kenney, CC0) + public-domain classical music synthesized live (js/music.js).
 // Snd.sfx(name, arg) · Snd.music(themeId) · Snd.setMusic(on) · Snd.setVolume(v) · Snd.duck(on) · Snd.preload()
 (function () {
   const BASE = 'assets/';
@@ -105,39 +105,39 @@
     } catch (e) { }
   }
 
-  /* ---------- music: streamed tracks with crossfade ---------- */
-  const TRACKS = {
-    hub: 'wallpaper', obby: 'pixelland', tower: 'pixelland', garden: 'carefree', pets: 'fluffing_a_duck', island: 'move_forward',
-    pfoten: 'happy_bee', projekt: 'monkeys_spinning_monkeys', doktorquiz: 'investigations', kleinstadt: 'carefree', wortbruecke: 'sneaky_snitch', waldklicker: 'happy_bee',
-    chess: 'investigations', checkers: 'investigations', sudoku: 'carefree', solitaire: 'carefree', blocks: 'happy_bee', g2048: 'move_forward', connect4: 'monkeys_spinning_monkeys', mines: 'sneaky_snitch', nonogram: 'fluffing_a_duck', wordle: 'sneaky_snitch'
+  /* ---------- music: public-domain classical pieces synthesized live by js/music.js (window.Music) ---------- */
+  const PIECE = {
+    hub: 'satie',
+    chess: 'bach', sudoku: 'satie', solitaire: 'mozart', wordle: 'traumerei', nonogram: 'clair',
+    checkers: 'canon', connect4: 'elise', mines: 'chopin', g2048: 'canon', blocks: 'elise',
+    platformer: 'mozart', explorer: 'canon', deepsea: 'clair',
+    obby: 'mozart', tower: 'mozart', garden: 'satie', pets: 'elise', island: 'canon',
+    pfoten: 'traumerei', projekt: 'bach', doktorquiz: 'bach', kleinstadt: 'mozart', wortbruecke: 'traumerei', waldklicker: 'canon'
   };
-  const MUSIC_LEVEL = 0.45;
-  let cur = null, fadeTimer = null;
-  function target() { return MUSIC_LEVEL * vol() * (ducked ? 0.25 : 1); }
-  function fadeTo(el, v, ms, done) {
-    const start = el.volume, t0 = performance.now();
-    const step = () => { const k = Math.min(1, (performance.now() - t0) / ms); el.volume = Math.max(0, Math.min(1, start + (v - start) * k)); if (k < 1 && !el.__dead) requestAnimationFrame(step); else if (done) done(); };
-    step();
+  const DEFAULT_PIECE = 'satie';
+  let cur = null, attached = false;
+  function M() {
+    const m = window.Music; if (!m || !ensure()) return null;
+    if (!attached) { m.attach(ctx, comp); m.setVolume(vol()); m.duck(ducked); attached = true; }
+    return m;
   }
   function start(id) {
-    const track = TRACKS[id] || TRACKS.hub;
-    if (cur && cur.track === track) return;
-    const old = cur;
-    const el = new Audio(`${BASE}music/${track}.mp3`); el.loop = true; el.preload = 'auto'; el.volume = 0;
-    cur = { id, track, el };
-    const p = el.play(); if (p && p.catch) p.catch(() => { });
-    fadeTo(el, target(), 1500);
-    if (old) { old.el.__dead = false; fadeTo(old.el, 0, 900, () => { old.el.pause(); old.el.src = ''; old.el.__dead = true; }); }
+    const piece = PIECE[id] || DEFAULT_PIECE, m = M();
+    if (!m) return;
+    if (ctx.state === 'suspended' && !document.hidden) ctx.resume().catch(() => { });
+    if (cur && cur.piece === piece && m.current() === piece) { cur.id = id; return; }
+    cur = { id, piece };
+    m.play(piece);
   }
-  function stop() { if (!cur) return; const old = cur; cur = null; fadeTo(old.el, 0, 600, () => { old.el.pause(); old.el.src = ''; old.el.__dead = true; }); }
+  function stop() { cur = null; if (attached && window.Music) Music.stop(0.8); }
   function music(id) {
     lastTheme = id;
     if (!S().music) { stop(); return; }
     if (!unlocked) { pendingTheme = id; return; }
     start(id);
   }
-  function duck(on) { ducked = on; if (cur) fadeTo(cur.el, target(), 400); }
-  function setVolume(v) { if (window.State) { State.data.volume = v; State.save(); } if (master && ctx) { const t = ctx.currentTime; master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(master.gain.value, t); master.gain.linearRampToValueAtTime(v, t + 0.15); } if (cur) cur.el.volume = target(); }
+  function duck(on) { ducked = on; if (attached && window.Music) Music.duck(on); }
+  function setVolume(v) { if (window.State) { State.data.volume = v; State.save(); } if (master && ctx) { const t = ctx.currentTime; master.gain.cancelScheduledValues(t); master.gain.setValueAtTime(master.gain.value, t); master.gain.linearRampToValueAtTime(v, t + 0.15); } if (attached && window.Music) Music.setVolume(v); }
   function setMusic(on) { if (window.State) { State.data.music = on; State.save(); } if (on) { if (lastTheme) music(lastTheme); } else stop(); }
 
   function unlock() {
@@ -148,9 +148,9 @@
   }
   ['pointerdown', 'keydown', 'touchstart'].forEach(ev => document.addEventListener(ev, unlock, { capture: true, passive: true }));
   document.addEventListener('visibilitychange', () => {
-    if (document.hidden) { if (ctx) ctx.suspend().catch(() => { }); if (cur) cur.el.pause(); }
-    else { if (ctx && unlocked) ctx.resume().catch(() => { }); if (cur && S().music) { const p = cur.el.play(); if (p && p.catch) p.catch(() => { }); } }
+    if (document.hidden) { if (ctx) ctx.suspend().catch(() => { }); } // pauses sound effects and music together
+    else if (ctx && unlocked) ctx.resume().catch(() => { });
   });
 
-  window.Snd = { sfx, music, stop, duck, setVolume, setMusic, preload, themes: Object.keys(TRACKS), playing: () => cur ? cur.id : null, bank: BANK, _nodes: () => ({ ctx, master }) };
+  window.Snd = { sfx, music, stop, duck, setVolume, setMusic, preload, themes: Object.keys(PIECE), playing: () => cur ? cur.id : null, pieceOf: id => PIECE[id] || DEFAULT_PIECE, bank: BANK, _nodes: () => ({ ctx, master }) };
 })();

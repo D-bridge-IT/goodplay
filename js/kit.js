@@ -19,14 +19,30 @@
       score: 'Очки', best: 'Рекорд', level: 'Уровень', hint: 'Подсказка', undo: 'Отмена', newGame: 'Заново', noHints: 'Подсказки закончились — подсказка за рекламу?',
       hintAd: 'Подсказка за рекламу', undoAd: 'Отмена хода за рекламу', rules: 'Правила', close: 'Закрыть', earned: 'получено',
       easy: 'Лёгкий', medium: 'Средний', hard: 'Сложный', expert: 'Эксперт', confirmNew: 'Прервать текущую игру?', yes: 'Да', no: 'Нет'
+    },
+    en: {
+      win: 'You won!', lose: 'You lost', draw: 'Draw', again: 'New game', home: 'Back to games', next: 'Next',
+      double: 'Double the stars', doubleSub: 'Watch an ad – 0.5 ct goes to', time: 'Time', moves: 'Moves',
+      score: 'Score', best: 'Best', level: 'Level', hint: 'Hint', undo: 'Undo', newGame: 'New', noHints: 'No hints left – hint for an ad?',
+      hintAd: 'Hint for an ad', undoAd: 'Undo for an ad', rules: 'Rules', close: 'Close', earned: 'earned',
+      easy: 'Easy', medium: 'Medium', hard: 'Hard', expert: 'Expert', confirmNew: 'Abandon the current game?', yes: 'Yes', no: 'No'
+    },
+    uk: {
+      win: 'Перемога!', lose: 'Поразка', draw: 'Нічия', again: 'Нова гра', home: 'До списку ігор', next: 'Далі',
+      double: 'Подвоїти зірки', doubleSub: 'Переглянути рекламу — 0,5 ц отримає', time: 'Час', moves: 'Ходи',
+      score: 'Очки', best: 'Рекорд', level: 'Рівень', hint: 'Підказка', undo: 'Скасувати', newGame: 'Заново', noHints: 'Підказки закінчилися — підказка за рекламу?',
+      hintAd: 'Підказка за рекламу', undoAd: 'Скасування ходу за рекламу', rules: 'Правила', close: 'Закрити', earned: 'отримано',
+      easy: 'Легкий', medium: 'Середній', hard: 'Складний', expert: 'Експерт', confirmNew: 'Перервати поточну гру?', yes: 'Так', no: 'Ні'
     }
   };
-  const k = key => (S[LANG] || S.de)[key] || key;
+  const chain = () => (window.LANG_FALLBACK && LANG_FALLBACK[LANG]) || [LANG, 'de'];
+  const k = key => { for (const l of chain()) if (S[l] && S[l][key] != null) return S[l][key]; return key; };
 
   // Per-game string table helper: Kit.strings({de:{...}, ru:{...}}) → s(key, vars)
   function strings(dict) {
     return (key, vars) => {
-      let v = (dict[LANG] || dict.de)[key];
+      let v = null;
+      for (const l of chain()) if (dict[l] && dict[l][key] != null) { v = dict[l][key]; break; }
       if (v == null) v = (dict.de || {})[key];
       if (v == null) v = k(key);
       if (vars) for (const n in vars) v = v.replace(new RegExp('\\{' + n + '\\}', 'g'), vars[n]);
@@ -145,5 +161,12 @@
   function daySeed(extra = 0) { const d = new Date(); return (d.getFullYear() * 10000 + (d.getMonth() + 1) * 100 + d.getDate()) * 7 + extra; }
   function shuffle(a, r = Math.random) { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(r() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; }
 
-  window.Kit = { strings, shell, segmented, timer, useHelp, result, rules, confirm, bump, rng, daySeed, shuffle, t: k };
+  // Load a script once (e.g. vendor/phaser.min.js for the action games). Resolves when ready.
+  const loaded = {};
+  function loadScript(src) {
+    if (!loaded[src]) loaded[src] = new Promise((res, rej) => { const el = document.createElement('script'); el.src = src; el.onload = () => res(); el.onerror = () => { delete loaded[src]; rej(new Error('load ' + src)); }; document.head.appendChild(el); });
+    return loaded[src];
+  }
+
+  window.Kit = { loadScript, strings, shell, segmented, timer, useHelp, result, rules, confirm, bump, rng, daySeed, shuffle, t: k };
 })();

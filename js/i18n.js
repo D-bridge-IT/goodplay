@@ -1,4 +1,4 @@
-// UI strings: German (target market) and Russian (for review).
+// UI strings: German (target market), English, Russian, Ukrainian.
 window.I18N = {
   de: {
     tab_home: 'Spiele', tab_impact: 'Wirkung', tab_shop: 'Shop', tab_profile: 'Profil',
@@ -6,7 +6,7 @@ window.I18N = {
     community_total: 'Gemeinsam gespendet', your_share: 'Dein Anteil', players_today: 'Heute aktiv',
     split_note: '50 % jeder Netto-Einnahme gehen an Partnerprojekte. Alles einsehbar unter „Wirkung“.',
     project_month: 'Projekt des Monats', join_build: 'Mitbauen', goal: 'Ziel',
-    games_title: 'Spiele', partner: 'Partner', play: 'Spielen', feature_new: 'Neu', feature_kicker: 'Top-Spiel', top_games: 'Top-Spiele', mini_games: 'Logik & Denkspiele', credits: 'Musik: Kevin MacLeod (incompetech.com), CC BY 4.0 · Sounds: Kenney (kenney.nl), CC0.', badge_obby: 'Obby-Profi (Stage 5)', badge_tower: 'Gipfelstürmer (Tagesturm)', badge_garden: 'Grüner Daumen', badge_pets: 'Tierfreund', badge_island: 'Allwetter-Überlebender', stars: 'Sterne', level: 'Level', back: 'Zurück',
+    games_title: 'Spiele', partner: 'Partner', play: 'Spielen', feature_new: 'Neu', feature_kicker: 'Top-Spiel', top_games: 'Top-Spiele', mini_games: 'Logik & Denkspiele', credits: 'Musik: klassische Werke (Bach, Satie, Beethoven, Mozart u. a., gemeinfrei), live im Browser gespielt (Notenvorlagen: Mutopia Project) · Sounds: Kenney (kenney.nl), CC0.', badge_obby: 'Obby-Profi (Stage 5)', badge_tower: 'Gipfelstürmer (Tagesturm)', badge_garden: 'Grüner Daumen', badge_pets: 'Tierfreund', badge_island: 'Allwetter-Überlebender', stars: 'Sterne', level: 'Level', back: 'Zurück',
     ad_title: 'Anzeige · Simulation',
     ad_sub: 'Belohnte Videoanzeige. Im Prototyp dauert sie 5 Sekunden, in der App 15–30.',
     ad_wait: 'Belohnung in {s} s', ad_claim: 'Belohnung abholen', ad_cancel: 'Abbrechen',
@@ -62,7 +62,7 @@ window.I18N = {
     community_total: 'Собрано вместе', your_share: 'Твой вклад', players_today: 'Активны сегодня',
     split_note: '50 % каждого нетто-дохода идут партнёрским проектам. Всё видно во вкладке «Эффект».',
     project_month: 'Проект месяца', join_build: 'Строить вместе', goal: 'Цель',
-    games_title: 'Игры', partner: 'Партнёр', play: 'Играть', feature_new: 'Новое', feature_kicker: 'Топ-игра', top_games: 'Топ-игры', mini_games: 'Логика и головоломки', credits: 'Музыка: Kevin MacLeod (incompetech.com), CC BY 4.0 · Звуки: Kenney (kenney.nl), CC0.', badge_obby: 'Профи обби (этап 5)', badge_tower: 'Покоритель вершины', badge_garden: 'Зелёный палец', badge_pets: 'Друг животных', badge_island: 'Выживший в любую погоду', stars: 'Звёзды', level: 'Уровень', back: 'Назад',
+    games_title: 'Игры', partner: 'Партнёр', play: 'Играть', feature_new: 'Новое', feature_kicker: 'Топ-игра', top_games: 'Топ-игры', mini_games: 'Логика и головоломки', credits: 'Музыка: классические произведения (Бах, Сати, Бетховен, Моцарт и др., общественное достояние), звучат прямо в браузере (ноты: Mutopia Project) · Звуки: Kenney (kenney.nl), CC0.', badge_obby: 'Профи обби (этап 5)', badge_tower: 'Покоритель вершины', badge_garden: 'Зелёный палец', badge_pets: 'Друг животных', badge_island: 'Выживший в любую погоду', stars: 'Звёзды', level: 'Уровень', back: 'Назад',
     ad_title: 'Реклама · симуляция',
     ad_sub: 'Видеореклама с наградой. В прототипе 5 секунд, в приложении 15–30.',
     ad_wait: 'Награда через {s} с', ad_claim: 'Забрать награду', ad_cancel: 'Отмена',
@@ -111,19 +111,143 @@ window.I18N = {
     badge_doctor: 'Доктор-эрудит · 8/8', badge_mayor: 'Мэр', badge_builder: 'Строитель моста', badge_paws: 'Профи лапок · 1 000 очков',
     restart: 'Заново', continue: 'Дальше', watch_ad: 'Смотреть рекламу', score: 'Очки', moves: 'Ходы', time: 'Время',
     close: 'Закрыть', hints_left: 'Подсказки: {n}',
+  },
+  en: {
+    tab_home: 'Games', tab_impact: 'Impact', tab_shop: 'Shop', tab_profile: 'Profile',
+    hello: 'Hi', demo: 'Demo data',
+    community_total: 'Donated together', your_share: 'Your share', players_today: 'Active today',
+    split_note: '50 % of every net euro goes to partner projects. You can see it all under “Impact”.',
+    project_month: 'Project of the month', join_build: 'Help build', goal: 'Goal',
+    games_title: 'Games', partner: 'Partner', play: 'Play', feature_new: 'New', feature_kicker: 'Top game', top_games: 'Top games', mini_games: 'Logic & brain games', credits: 'Music: classical works (Bach, Satie, Beethoven, Mozart and others, public domain), played live in the browser (scores: Mutopia Project) · Sounds: Kenney (kenney.nl), CC0.', badge_obby: 'Obby pro (stage 5)', badge_tower: 'Summit climber (daily tower)', badge_garden: 'Green thumb', badge_pets: 'Animal lover', badge_island: 'All-weather survivor', stars: 'Stars', level: 'Level', back: 'Back',
+    ad_title: 'Ad · simulation',
+    ad_sub: 'Rewarded video ad. In the prototype it lasts 5 seconds, in the app 15–30.',
+    ad_wait: 'Reward in {s} s', ad_claim: 'Claim reward', ad_cancel: 'Cancel',
+    ad_brand: 'Sample ad · language app “Sprachfuchs”', ad_slogan: 'Learn German in 5 minutes a day',
+    ad_donated: '+{amt} for {partner}',
+    ad_nonpers: 'Non-personalised ad (consent: essential only).',
+    ad_math: 'Each ad brings in about 1 ct net revenue. 50 % of it, i.e. 0.5 ct, goes to this game’s partner project.',
+    shop_title: 'Shop',
+    shop_note: 'Purchases are simulated in the prototype. In the app they go through Google Play or the App Store (15 % fee in the small business programme).',
+    shop_to_partner: 'to partners', buy: 'Buy', bought: 'Bought', owned: 'Active',
+    purchase_title: 'Confirm purchase · simulation',
+    purchase_body: 'Price {price}. Store fee 15 %: {fee}. Net {net} → 50 % partner projects: {charity}, 50 % GoodPlay: {app}.',
+    confirm: 'Confirm', cancel: 'Cancel',
+    no_lootboxes: 'No loot boxes, no random purchases, no pay-to-win.',
+    item_stars: 'Star pack (500 ⭐)', item_stars_d: 'Level up faster. Purely cosmetic.',
+    item_adfree: 'Ad-free (1 month)', item_adfree_d: 'No interstitial ads. Rewarded ads stay optional.',
+    item_badge: 'Supporter badge', item_badge_d: 'Shown on your profile and on the impact wall.',
+    item_hints: 'Hint pack (5)', item_hints_d: 'For Word Bridge and Doctor Quiz.',
+    impact_title: 'Impact',
+    split_title: 'How every net euro is shared',
+    split_partner: 'Partner projects', split_app: 'Development & running costs',
+    split_fee_note: 'Before that, Apple/Google take their store fee (15 %). Ad revenue arrives without a store fee.',
+    partners_title: 'Partner projects', from_you: 'from your play', month_goal: 'Monthly goal',
+    history_title: 'Your recent contributions',
+    history_empty: 'No contributions yet. Watch a rewarded ad in any game or buy something in the shop.',
+    src_ad: 'Ad', src_iap: 'Purchase',
+    how_title: 'How it works',
+    how_1: 'You play for free. Optional ads and purchases create revenue.',
+    how_2: '50 % of net revenue goes to verified nonprofit partners every month.',
+    how_3: 'Every transfer is published here with a receipt – transparency instead of promises.',
+    profile_title: 'Profile',
+    stat_games: 'Games played', stat_ads: 'Ads watched', stat_contrib: 'Your contribution', stat_stars: 'Total stars',
+    badges: 'Badges', settings: 'Settings', lang: 'Language', sound: 'Sound effects', music: 'Music', volume: 'Volume', music_on: 'Music on', music_off: 'Music off',
+    consent: 'Ad consent', consent_all: 'all', consent_min: 'essential only', change: 'Change',
+    age_ok: 'Age confirmed 18+', about: 'About the prototype',
+    about_text: 'GoodPlay prototype 0.6 · D-Bridge e.V. · d-bridge.eu. All amounts and partners are demo data; partner names marked “(Beispiel)” are fictional.',
+    reset: 'Reset progress', reset_confirm: 'Really reset everything? Stars, contributions and saved games will be lost.',
+    welcome_title: 'Welcome to GoodPlay',
+    welcome_text: 'Play, watch ads or buy something – 50 % of net revenue goes to nonprofit projects. For ads we need your consent (TCF 2.2 on Android, ATT on iOS).',
+    welcome_age: 'I am at least 18 years old.',
+    accept_all: 'Accept all', accept_min: 'Essential only',
+    need_age: 'Please confirm your age first.',
+    stars_earned: '+{n} ⭐', new_level: 'Level {n} reached!',
+    footer: 'Prototype · D-Bridge e.V. · d-bridge.eu',
+    badge_supporter: 'Supporter', badge_forest: 'Friend of the forest · 10 trees', badge_words: 'Wordsmith · 3 bridges',
+    badge_doctor: 'Quiz doctor · 8/8', badge_mayor: 'Mayor', badge_builder: 'Bridge builder', badge_paws: 'Paw pro · 1,000 points',
+    restart: 'Restart', continue: 'Continue', watch_ad: 'Watch ad', score: 'Score', moves: 'Moves', time: 'Time',
+    close: 'Close', hints_left: 'Hints: {n}',
+  },
+  uk: {
+    tab_home: 'Ігри', tab_impact: 'Вплив', tab_shop: 'Магазин', tab_profile: 'Профіль',
+    hello: 'Привіт', demo: 'Демо-дані',
+    community_total: 'Зібрано разом', your_share: 'Твій внесок', players_today: 'Активні сьогодні',
+    split_note: '50 % кожного чистого доходу йдуть партнерським проєктам. Усе видно у вкладці «Вплив».',
+    project_month: 'Проєкт місяця', join_build: 'Будувати разом', goal: 'Мета',
+    games_title: 'Ігри', partner: 'Партнер', play: 'Грати', feature_new: 'Нове', feature_kicker: 'Топ-гра', top_games: 'Топ-ігри', mini_games: 'Логіка та головоломки', credits: 'Музика: класичні твори (Бах, Саті, Бетховен, Моцарт та ін., суспільне надбання), звучать просто в браузері (ноти: Mutopia Project) · Звуки: Kenney (kenney.nl), CC0.', badge_obby: 'Профі обі (етап 5)', badge_tower: 'Підкорювач вершини (щоденна вежа)', badge_garden: 'Зелені руки', badge_pets: 'Друг тварин', badge_island: 'Вцілілий за будь-якої погоди', stars: 'Зірки', level: 'Рівень', back: 'Назад',
+    ad_title: 'Реклама · симуляція',
+    ad_sub: 'Відеореклама з винагородою. У прототипі триває 5 секунд, у застосунку 15–30.',
+    ad_wait: 'Винагорода через {s} с', ad_claim: 'Забрати винагороду', ad_cancel: 'Скасувати',
+    ad_brand: 'Приклад реклами · застосунок «Sprachfuchs»', ad_slogan: 'Німецька за 5 хвилин на день',
+    ad_donated: '+{amt} для {partner}',
+    ad_nonpers: 'Неперсоналізована реклама (згода: лише необхідне).',
+    ad_math: 'Кожен перегляд приносить близько 1 цента чистого доходу. 50 % від нього, тобто 0,5 ц, отримує партнерський проєкт цієї гри.',
+    shop_title: 'Магазин',
+    shop_note: 'Покупки в прототипі симульовані. У застосунку вони проходять через Google Play або App Store (комісія 15 % у програмі для малого бізнесу).',
+    shop_to_partner: 'з них партнерам', buy: 'Купити', bought: 'Куплено', owned: 'Активно',
+    purchase_title: 'Підтвердження покупки · симуляція',
+    purchase_body: 'Ціна {price}. Комісія магазину 15 %: {fee}. Чистий дохід {net} → 50 % партнерам: {charity}, 50 % GoodPlay: {app}.',
+    confirm: 'Підтвердити', cancel: 'Скасувати',
+    no_lootboxes: 'Без лутбоксів, випадкових покупок і pay-to-win.',
+    item_stars: 'Пакет зірок (500 ⭐)', item_stars_d: 'Швидше підвищуй рівень. Лише косметика.',
+    item_adfree: 'Без реклами (1 місяць)', item_adfree_d: 'Без міжсторінкової реклами. Реклама з винагородою лишається добровільною.',
+    item_badge: 'Значок «Підтримка»', item_badge_d: 'Видно в профілі та на стіні впливу.',
+    item_hints: 'Пакет підказок (5)', item_hints_d: 'Для «Словесного мосту» і «Доктор-квізу».',
+    impact_title: 'Вплив',
+    split_title: 'Як розподіляється кожен чистий євро',
+    split_partner: 'Партнерські проєкти', split_app: 'Розробка та підтримка',
+    split_fee_note: 'Перед цим Apple/Google утримують комісію магазину (15 %). Дохід від реклами надходить без комісії магазину.',
+    partners_title: 'Партнерські проєкти', from_you: 'від твоєї гри', month_goal: 'Мета місяця',
+    history_title: 'Твої останні внески',
+    history_empty: 'Поки що немає внесків. Переглянь рекламу з винагородою в будь-якій грі або купи щось у магазині.',
+    src_ad: 'Реклама', src_iap: 'Покупка',
+    how_title: 'Як це працює',
+    how_1: 'Ти граєш безкоштовно. Добровільна реклама та покупки створюють дохід.',
+    how_2: '50 % чистого доходу щомісяця йдуть перевіреним благодійним партнерам.',
+    how_3: 'Кожен переказ публікується тут із підтвердженням — прозорість замість обіцянок.',
+    profile_title: 'Профіль',
+    stat_games: 'Зіграно ігор', stat_ads: 'Переглянуто реклами', stat_contrib: 'Твій внесок', stat_stars: 'Усього зірок',
+    badges: 'Значки', settings: 'Налаштування', lang: 'Мова', sound: 'Звукові ефекти', music: 'Музика', volume: 'Гучність', music_on: 'Музику ввімкнено', music_off: 'Музику вимкнено',
+    consent: 'Згода на рекламу', consent_all: 'усе', consent_min: 'лише необхідне', change: 'Змінити',
+    age_ok: 'Підтвердження 18+', about: 'Про прототип',
+    about_text: 'Прототип GoodPlay 0.6 · D-Bridge e.V. · d-bridge.eu. Усі суми й партнери — демо-дані; партнери з позначкою «(Beispiel)» вигадані.',
+    reset: 'Скинути прогрес', reset_confirm: 'Справді скинути все? Зірки, внески та збереження зникнуть.',
+    welcome_title: 'Ласкаво просимо до GoodPlay',
+    welcome_text: 'Грай, дивися рекламу або купуй — 50 % чистого доходу йдуть благодійним проєктам. Для реклами потрібна твоя згода (TCF 2.2 на Android, ATT на iOS).',
+    welcome_age: 'Мені щонайменше 18 років.',
+    accept_all: 'Прийняти все', accept_min: 'Лише необхідне',
+    need_age: 'Спершу підтвердь вік.',
+    stars_earned: '+{n} ⭐', new_level: 'Рівень {n}!',
+    footer: 'Прототип · D-Bridge e.V. · d-bridge.eu',
+    badge_supporter: 'Підтримка', badge_forest: 'Друг лісу · 10 дерев', badge_words: 'Словотвір · 3 мости',
+    badge_doctor: 'Доктор-ерудит · 8/8', badge_mayor: 'Мер', badge_builder: 'Будівничий мосту', badge_paws: 'Профі лапок · 1 000 очок',
+    restart: 'Заново', continue: 'Далі', watch_ad: 'Дивитися рекламу', score: 'Очки', moves: 'Ходи', time: 'Час',
+    close: 'Закрити', hints_left: 'Підказки: {n}',
   }
 };
 
-window.LANG = localStorage.getItem('gp_lang') || ((navigator.language || 'de').toLowerCase().startsWith('ru') ? 'ru' : 'de');
+window.LANGS = ['de', 'en', 'ru', 'uk'];
+window.LANG = (function () {
+  const saved = localStorage.getItem('gp_lang'); if (LANGS.includes(saved)) return saved;
+  const nav = (navigator.language || 'de').toLowerCase().slice(0, 2);
+  return LANGS.includes(nav) ? nav : (nav === 'be' ? 'ru' : 'de');
+})();
+// Fallback chain when a string is missing in the current language.
+window.LANG_FALLBACK = { de: ['de'], en: ['en', 'de'], ru: ['ru', 'de'], uk: ['uk', 'ru', 'de'] };
+window.LOCALE = function () { return { de: 'de-DE', en: 'en-GB', ru: 'ru-RU', uk: 'uk-UA' }[LANG] || 'de-DE'; };
 
 window.t = function (key, vars) {
-  const dict = I18N[LANG] || I18N.de;
-  let s = dict[key] != null ? dict[key] : (I18N.de[key] != null ? I18N.de[key] : key);
+  let s = key;
+  for (const l of (LANG_FALLBACK[LANG] || ['de'])) { const d = I18N[l]; if (d && d[key] != null) { s = d[key]; break; } }
   if (vars) for (const k of Object.keys(vars)) s = s.split('{' + k + '}').join(vars[k]);
   return s;
 };
 // Pick a language variant from an inline {de, ru} object.
-window.L = function (obj) { return obj == null ? '' : (typeof obj === 'string' ? obj : (obj[LANG] != null ? obj[LANG] : obj.de)); };
+window.L = function (obj) {
+  if (obj == null) return ''; if (typeof obj === 'string') return obj;
+  for (const l of (LANG_FALLBACK[LANG] || ['de'])) if (obj[l] != null) return obj[l];
+  return obj.de != null ? obj.de : '';
+};
 window.setLang = function (lang) {
   LANG = lang; localStorage.setItem('gp_lang', lang); document.documentElement.lang = lang;
   document.dispatchEvent(new Event('lang-changed'));

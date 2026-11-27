@@ -17,12 +17,12 @@
 
   // Fictional partner organisations ("Beispiel" = example). Amounts in cents.
   const PARTNERS = {
-    p1: { icon: '🌲', bg: '#dff1e7', name: 'Waldfreunde Niederrhein e.V. (Beispiel)', cat: { de: 'Umwelt & Aufforstung', ru: 'Экология и лес' }, goal: 150000, raised: 98400 },
-    p2: { icon: '🐾', bg: '#fde7ec', name: 'Tierschutz-Initiative Niederrhein (Beispiel)', cat: { de: 'Tierschutz', ru: 'Защита животных' }, goal: 120000, raised: 61200 },
-    p3: { icon: '🩺', bg: '#e0f2fe', name: 'Gesund im Quartier (Beispiel)', cat: { de: 'Gesundheit & Prävention', ru: 'Здоровье и профилактика' }, goal: 100000, raised: 43750 },
-    p4: { icon: '📚', bg: '#e7e6fb', name: 'Lesestart NRW (Beispiel)', cat: { de: 'Bildung & Integration', ru: 'Образование и интеграция' }, goal: 90000, raised: 72100 },
-    p5: { icon: '🏘️', bg: '#fef3c7', name: 'Spielplatz-Initiative Nordstadt (Beispiel)', cat: { de: 'Nachbarschaft', ru: 'Соседство' }, goal: 80000, raised: 25600 },
-    p6: { icon: '☕', bg: '#ffedd5', name: 'Sprachcafé Neuss · D-Bridge e.V.', cat: { de: 'Projekt des Monats', ru: 'Проект месяца' }, goal: 1200000, raised: 743000 }
+    p1: { icon: '🌲', bg: '#dff1e7', name: 'Waldfreunde Niederrhein e.V. (Beispiel)', cat: { de: 'Umwelt & Aufforstung', en: 'Environment & reforestation', ru: 'Экология и лес', uk: 'Екологія та ліс' }, goal: 150000, raised: 98400 },
+    p2: { icon: '🐾', bg: '#fde7ec', name: 'Tierschutz-Initiative Niederrhein (Beispiel)', cat: { de: 'Tierschutz', en: 'Animal welfare', ru: 'Защита животных', uk: 'Захист тварин' }, goal: 120000, raised: 61200 },
+    p3: { icon: '🩺', bg: '#e0f2fe', name: 'Gesund im Quartier (Beispiel)', cat: { de: 'Gesundheit & Prävention', en: 'Health & prevention', ru: 'Здоровье и профилактика', uk: 'Здоров’я та профілактика' }, goal: 100000, raised: 43750 },
+    p4: { icon: '📚', bg: '#e7e6fb', name: 'Lesestart NRW (Beispiel)', cat: { de: 'Bildung & Integration', en: 'Education & integration', ru: 'Образование и интеграция', uk: 'Освіта та інтеграція' }, goal: 90000, raised: 72100 },
+    p5: { icon: '🏘️', bg: '#fef3c7', name: 'Spielplatz-Initiative Nordstadt (Beispiel)', cat: { de: 'Nachbarschaft', en: 'Neighbourhood', ru: 'Соседство', uk: 'Сусідство' }, goal: 80000, raised: 25600 },
+    p6: { icon: '☕', bg: '#ffedd5', name: 'Sprachcafé Neuss · D-Bridge e.V.', cat: { de: 'Projekt des Monats', en: 'Project of the month', ru: 'Проект месяца', uk: 'Проєкт місяця' }, goal: 1200000, raised: 743000 }
   };
 
   // Economics from the Skizze: eCPM ≈ 10 € → ≈ 1 ct net per rewarded view → 0.5 ct to partners.
@@ -38,14 +38,14 @@
     return COMMUNITY_BASE + grown + data.donatedCents;
   }
 
-  function locale() { return LANG === 'ru' ? 'ru-RU' : 'de-DE'; }
+  function locale() { return window.LOCALE ? LOCALE() : 'de-DE'; }
   function fmtEuro(cents) {
     return (cents / 100).toLocaleString(locale(), { minimumFractionDigits: 2, maximumFractionDigits: 2 }) + ' €';
   }
   function fmtCents(cents) {
     if (cents < 100) {
       const v = Math.round(cents * 10) / 10;
-      return v.toLocaleString(locale(), { maximumFractionDigits: 1 }) + (LANG === 'ru' ? ' ц' : ' ct');
+      return v.toLocaleString(locale(), { maximumFractionDigits: 1 }) + ((LANG === 'ru' || LANG === 'uk') ? ' ц' : ' ct');
     }
     return fmtEuro(cents);
   }

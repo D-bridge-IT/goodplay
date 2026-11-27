@@ -27,10 +27,18 @@
   }
   function badgeName(id) { const b = allBadges().find(x => x.id === id); return b ? L(b.name) : t('badge_' + id); }
   const PROJECT_GAME = 'blocks';
+  function featureCard(g) {
+    return `<button class="feature-card" data-game="${g.id}">
+          <span class="scene">${g.art ? g.art() : thumbOf(g)}</span>
+          <span class="body"><span class="kicker">${g.kicker ? `<span class="pill amber">${esc(L(g.kicker))}</span>` : ''}${g.isNew ? `<span class="pill demo">${t('feature_new')}</span>` : ''}</span>
+          <b>${esc(L(g.name))}</b><small>${esc(L(g.tagline))}</small>
+          <span class="row between"><span class="tag">${State.PARTNERS[g.partner].icon} ${esc(partnerName(g.partner))}</span><span class="btn btn-indigo btn-sm">▶ ${t('play')}</span></span></span>
+        </button>`;
+  }
 
   function starsPill() { return `<span class="pill" id="stars-pill">⭐ ${State.data.stars}</span>`; }
   function langToggle() {
-    return `<span class="lang-toggle"><button data-lang="de" class="${LANG === 'de' ? 'active' : ''}">DE</button><button data-lang="ru" class="${LANG === 'ru' ? 'active' : ''}">RU</button></span>`;
+    return `<span class="lang-toggle">${LANGS.map(l => `<button data-lang="${l}" class="${LANG === l ? 'active' : ''}">${l === 'uk' ? 'UA' : l.toUpperCase()}</button>`).join('')}</span>`;
   }
   function bindLang(root) {
     root.querySelectorAll('[data-lang]').forEach(b => b.addEventListener('click', () => { setLang(b.dataset.lang); show(screen); }));
@@ -78,7 +86,7 @@
         <div class="sub">${esc(t('split_note'))}</div>
         <div class="split">
           <div class="box"><b>${State.fmtCents(d.donatedCents)}</b><span>${t('your_share')}</span></div>
-          <div class="box"><b>${players.toLocaleString(LANG === 'ru' ? 'ru-RU' : 'de-DE')}</b><span>${t('players_today')}</span></div>
+          <div class="box"><b>${players.toLocaleString(LOCALE())}</b><span>${t('players_today')}</span></div>
           <div class="box"><b>${t('level')} ${State.level()}</b><span>${d.stars} ${t('stars')}</span></div>
         </div>
       </div>
@@ -86,21 +94,20 @@
         <div class="row between"><span class="pill amber">☕ ${t('project_month')}</span><span class="small muted">${t('goal')}: ${State.fmtEuro(pom.goal)}</span></div>
         <span class="cafe">${Art.cafe()}</span>
         <h3>${esc(pom.name)}</h3>
-        <p class="small muted" style="margin:0 0 8px">${LANG === 'ru' ? 'Языковое кафе для беженцев в Нойсе: 2 встречи в неделю, волонтёры-носители языка.' : 'Sprachcafé für Geflüchtete in Neuss: zwei Treffen pro Woche mit ehrenamtlichen Muttersprachlern.'}</p>
+        <p class="small muted" style="margin:0 0 8px">${esc(L({ de: 'Sprachcafé für Geflüchtete in Neuss: zwei Treffen pro Woche mit ehrenamtlichen Muttersprachlern.', en: 'Language café for refugees in Neuss: two meetings a week with volunteer native speakers.', ru: 'Языковое кафе для беженцев в Нойсе: 2 встречи в неделю, волонтёры-носители языка.', uk: 'Мовне кафе для біженців у Нойсі: дві зустрічі на тиждень із волонтерами — носіями мови.' }))}</p>
         <div class="progress amber"><i style="width:${pomPct}%"></i></div>
         <div class="row between mt"><b>${State.fmtEuro(pom.raised)} · ${pomPct} %</b>${Games[PROJECT_GAME] ? `<button class="btn btn-amber btn-sm" data-game="${PROJECT_GAME}">🧱 ${t('join_build')}</button>` : ''}</div>
       </div>
-      <div class="section-title"><h2>🔥 ${t('top_games')}</h2><span class="small muted">${Games.list.filter(g => g.tier === 'top').length}</span></div>
-      ${Games.list.filter(g => g.tier === 'top').map(g => `
-        <button class="feature-card" data-game="${g.id}">
-          <span class="scene">${g.art ? g.art() : thumbOf(g)}</span>
-          <span class="body"><span class="kicker">${g.kicker ? `<span class="pill amber">${esc(L(g.kicker))}</span>` : ''}${g.isNew ? `<span class="pill demo">${t('feature_new')}</span>` : ''}</span>
-          <b>${esc(L(g.name))}</b><small>${esc(L(g.tagline))}</small>
-          <span class="row between"><span class="tag">${State.PARTNERS[g.partner].icon} ${esc(partnerName(g.partner))}</span><span class="btn btn-indigo btn-sm">▶ ${t('play')}</span></span></span>
-        </button>`).join('')}
-      <div class="section-title"><h2>🧠 ${t('mini_games')}</h2><span class="small muted">${Games.list.filter(g => g.tier !== 'top').length}</span></div>
+      ${(() => {
+        const adv = Games.list.filter(g => g.cat === 'adventure');
+        const top = Games.list.filter(g => g.tier === 'top' && g.cat !== 'adventure');
+        const T = { adv: { de: 'Abenteuer', en: 'Adventures', ru: 'Приключения', uk: 'Пригоди' }, top: { de: 'Klassiker', en: 'Classics', ru: 'Классика', uk: 'Класика' } };
+        return (adv.length ? `<div class="section-title"><h2>🗺️ ${esc(L(T.adv))}</h2><span class="small muted">${adv.length}</span></div>${adv.map(featureCard).join('')}` : '')
+          + (top.length ? `<div class="section-title"><h2>🔥 ${esc(L(T.top))}</h2><span class="small muted">${top.length}</span></div><div class="h-scroll">${top.map(featureCard).join('')}</div>` : '');
+      })()}
+      <div class="section-title"><h2>🧠 ${t('mini_games')}</h2><span class="small muted">${Games.list.filter(g => g.tier !== 'top' && g.cat !== 'adventure').length}</span></div>
       <div class="grid-games" id="game-grid">
-        ${Games.list.filter(g => g.tier !== 'top').map(g => `
+        ${Games.list.filter(g => g.tier !== 'top' && g.cat !== 'adventure').map(g => `
           <button class="game-card" data-game="${g.id}">
             <span class="art">${thumbOf(g)}</span>
             <b>${esc(L(g.name))}</b>
@@ -143,7 +150,7 @@
     }).join('');
     const hist = d.history.length ? d.history.slice(0, 12).map(h => {
       const p = State.PARTNERS[h.partnerId]; const dt = new Date(h.ts);
-      return `<div><span>${dt.toLocaleDateString(LANG === 'ru' ? 'ru-RU' : 'de-DE')} ${dt.toLocaleTimeString(LANG === 'ru' ? 'ru-RU' : 'de-DE', { hour: '2-digit', minute: '2-digit' })} · ${t(h.type === 'ad' ? 'src_ad' : 'src_iap')} → ${p ? p.icon : ''}</span><b>${State.fmtCents(h.cents)}</b></div>`;
+      return `<div><span>${dt.toLocaleDateString(LOCALE())} ${dt.toLocaleTimeString(LOCALE(), { hour: '2-digit', minute: '2-digit' })} · ${t(h.type === 'ad' ? 'src_ad' : 'src_iap')} → ${p ? p.icon : ''}</span><b>${State.fmtCents(h.cents)}</b></div>`;
     }).join('') : `<p class="muted small">${t('history_empty')}</p>`;
     $('#screen').innerHTML = `
       <div class="card">
