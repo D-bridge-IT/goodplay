@@ -13,6 +13,21 @@
     { id: 'hints', icon: '💡', bg: '#e7e6fb', price: 99, name: 'item_hints', desc: 'item_hints_d', repeat: true }
   ];
 
+  // Card art: a game may bring its own thumbnail (inner SVG for a 160×80 viewBox).
+  function thumbOf(g) {
+    if (g.thumb) { try { return `<svg viewBox="0 0 160 80" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="display:block">${g.thumb()}</svg>`; } catch (e) { } }
+    return Art.thumb(g.id);
+  }
+  const partnerName = id => State.PARTNERS[id].name.replace(' (Beispiel)', '');
+  // Achievements: the supporter badge plus whatever every game declares.
+  function allBadges() {
+    const list = [{ id: 'supporter', icon: '🎖️', name: { de: t('badge_supporter'), ru: t('badge_supporter') } }];
+    Games.list.forEach(g => (g.badges || []).forEach(b => list.push(b)));
+    return list;
+  }
+  function badgeName(id) { const b = allBadges().find(x => x.id === id); return b ? L(b.name) : t('badge_' + id); }
+  const PROJECT_GAME = 'blocks';
+
   function starsPill() { return `<span class="pill" id="stars-pill">⭐ ${State.data.stars}</span>`; }
   function langToggle() {
     return `<span class="lang-toggle"><button data-lang="de" class="${LANG === 'de' ? 'active' : ''}">DE</button><button data-lang="ru" class="${LANG === 'ru' ? 'active' : ''}">RU</button></span>`;
@@ -71,26 +86,26 @@
         <div class="row between"><span class="pill amber">☕ ${t('project_month')}</span><span class="small muted">${t('goal')}: ${State.fmtEuro(pom.goal)}</span></div>
         <span class="cafe">${Art.cafe()}</span>
         <h3>${esc(pom.name)}</h3>
-        <p class="small muted" style="margin:0 0 8px">${LANG === 'ru' ? 'Языковое кафе для беженцев в Дортмунде: 2 встречи в неделю, волонтёры-носители языка.' : 'Sprachcafé für Geflüchtete in Dortmund: zwei Treffen pro Woche mit ehrenamtlichen Muttersprachlern.'}</p>
+        <p class="small muted" style="margin:0 0 8px">${LANG === 'ru' ? 'Языковое кафе для беженцев в Нойсе: 2 встречи в неделю, волонтёры-носители языка.' : 'Sprachcafé für Geflüchtete in Neuss: zwei Treffen pro Woche mit ehrenamtlichen Muttersprachlern.'}</p>
         <div class="progress amber"><i style="width:${pomPct}%"></i></div>
-        <div class="row between mt"><b>${State.fmtEuro(pom.raised)} · ${pomPct} %</b><button class="btn btn-amber btn-sm" data-game="projekt">🧱 ${t('join_build')}</button></div>
+        <div class="row between mt"><b>${State.fmtEuro(pom.raised)} · ${pomPct} %</b>${Games[PROJECT_GAME] ? `<button class="btn btn-amber btn-sm" data-game="${PROJECT_GAME}">🧱 ${t('join_build')}</button>` : ''}</div>
       </div>
       <div class="section-title"><h2>🔥 ${t('top_games')}</h2><span class="small muted">${Games.list.filter(g => g.tier === 'top').length}</span></div>
       ${Games.list.filter(g => g.tier === 'top').map(g => `
         <button class="feature-card" data-game="${g.id}">
-          <span class="scene">${g.art ? g.art() : Art.obbyScene()}</span>
+          <span class="scene">${g.art ? g.art() : thumbOf(g)}</span>
           <span class="body"><span class="kicker">${g.kicker ? `<span class="pill amber">${esc(L(g.kicker))}</span>` : ''}${g.isNew ? `<span class="pill demo">${t('feature_new')}</span>` : ''}</span>
           <b>${esc(L(g.name))}</b><small>${esc(L(g.tagline))}</small>
-          <span class="row between"><span class="tag">${State.PARTNERS[g.partner].icon} ${esc(State.PARTNERS[g.partner].name.replace(' (Beispiel)', ''))}</span><span class="btn btn-indigo btn-sm">▶ ${t('play')}</span></span></span>
+          <span class="row between"><span class="tag">${State.PARTNERS[g.partner].icon} ${esc(partnerName(g.partner))}</span><span class="btn btn-indigo btn-sm">▶ ${t('play')}</span></span></span>
         </button>`).join('')}
-      <div class="section-title"><h2>${t('mini_games')}</h2><span class="small muted">${Games.list.filter(g => g.id !== 'projekt' && g.tier !== 'top').length}</span></div>
+      <div class="section-title"><h2>🧠 ${t('mini_games')}</h2><span class="small muted">${Games.list.filter(g => g.tier !== 'top').length}</span></div>
       <div class="grid-games" id="game-grid">
-        ${Games.list.filter(g => g.id !== 'projekt' && g.tier !== 'top').map(g => `
+        ${Games.list.filter(g => g.tier !== 'top').map(g => `
           <button class="game-card" data-game="${g.id}">
-            <span class="art">${Art.thumb(g.id)}</span>
+            <span class="art">${thumbOf(g)}</span>
             <b>${esc(L(g.name))}</b>
             <small>${esc(L(g.tagline))}</small>
-            <span class="tag">${State.PARTNERS[g.partner].icon} ${esc(State.PARTNERS[g.partner].name.replace(' (Beispiel)', ''))}</span>
+            <span class="tag">${State.PARTNERS[g.partner].icon} ${esc(partnerName(g.partner))}</span>
           </button>`).join('')}
       </div>
       <div class="footer">${t('footer')}</div>`;
@@ -210,10 +225,7 @@
     const d = State.data; const lp = State.levelProgress();
     $('#topbar').innerHTML = `<div class="title">👤 ${t('profile_title')}</div>${langToggle()}${starsPill()}`;
     bindLang($('#topbar'));
-    const badges = [
-      ['supporter', '🎖️', 'badge_supporter'], ['forest', '🌲', 'badge_forest'], ['words', '🌉', 'badge_words'],
-      ['doctor', '🩺', 'badge_doctor'], ['paws', '🐾', 'badge_paws'], ['mayor', '🏘️', 'badge_mayor'], ['builder', '🧱', 'badge_builder'], ['obby', '🏃', 'badge_obby'], ['tower', '🗼', 'badge_tower'], ['garden', '🌱', 'badge_garden'], ['pets', '🐾', 'badge_pets'], ['island', '🏝️', 'badge_island']
-    ];
+    const badges = allBadges();
     const adfree = d.adfreeUntil > Date.now();
     $('#screen').innerHTML = `
       <div class="card">
@@ -233,7 +245,7 @@
         </div>
       </div>
       <div class="card"><h3>${t('badges')}</h3>
-        <div class="badge-list">${badges.map(([id, ico, key]) => `<span class="badge ${d.badges[id] ? '' : 'locked'}">${ico} ${t(key)}</span>`).join('')}</div>
+        <div class="badge-list">${badges.map(b => `<span class="badge ${d.badges[b.id] ? '' : 'locked'}">${b.icon} ${esc(L(b.name))}</span>`).join('')}</div>
       </div>
       <div class="card"><h3>${t('settings')}</h3>
         <div class="setting"><span>${t('lang')}</span>${langToggle()}</div>
@@ -305,7 +317,7 @@
         if (r.levelUp) setTimeout(() => { UI.sound('levelup'); UI.toast(`🎉 ${t('new_level', { n: r.level })}`, 'good'); FX.confetti(); }, 500);
       },
       ad() { return UI.rewardedAd({ partnerId: g.partner, gameId: id }); },
-      badge(bid) { if (State.unlockBadge(bid)) setTimeout(() => UI.toast(`🏅 ${t('badge_' + bid)}`, 'good'), 600); },
+      badge(bid) { if (State.unlockBadge(bid)) setTimeout(() => UI.toast(`🏅 ${badgeName(bid)}`, 'good'), 600); },
       toast: UI.toast, sound: UI.sound, modal: UI.modal, partner: State.PARTNERS[g.partner]
     };
     current = { game: g, handle: g.mount($('#game-root'), ctx) };

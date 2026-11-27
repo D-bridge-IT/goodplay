@@ -76,7 +76,7 @@
     const rip = document.createElement('span'); rip.className = 'fx-ripple';
     rip.style.cssText = `width:${s}px;height:${s}px;left:${e.clientX - r.left - s / 2}px;top:${e.clientY - r.top - s / 2}px`;
     if (getComputedStyle(b).position === 'static') b.style.position = 'relative';
-    b.style.overflow = 'hidden'; b.appendChild(rip); setTimeout(() => rip.remove(), 550);
+    b.appendChild(rip); setTimeout(() => rip.remove(), 550);
   }, { passive: true });
 
   window.FX = { burst, burstAt, confetti, float, floatAt, fly, countUp, shake, bump, flash };

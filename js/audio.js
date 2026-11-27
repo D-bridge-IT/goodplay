@@ -108,7 +108,8 @@
   /* ---------- music: streamed tracks with crossfade ---------- */
   const TRACKS = {
     hub: 'wallpaper', obby: 'pixelland', tower: 'pixelland', garden: 'carefree', pets: 'fluffing_a_duck', island: 'move_forward',
-    pfoten: 'happy_bee', projekt: 'monkeys_spinning_monkeys', doktorquiz: 'investigations', kleinstadt: 'carefree', wortbruecke: 'sneaky_snitch', waldklicker: 'happy_bee'
+    pfoten: 'happy_bee', projekt: 'monkeys_spinning_monkeys', doktorquiz: 'investigations', kleinstadt: 'carefree', wortbruecke: 'sneaky_snitch', waldklicker: 'happy_bee',
+    chess: 'investigations', checkers: 'investigations', sudoku: 'carefree', solitaire: 'carefree', blocks: 'happy_bee', g2048: 'move_forward', connect4: 'monkeys_spinning_monkeys', mines: 'sneaky_snitch', nonogram: 'fluffing_a_duck', wordle: 'sneaky_snitch'
   };
   const MUSIC_LEVEL = 0.45;
   let cur = null, fadeTimer = null;

@@ -17,12 +17,12 @@
 
   // Fictional partner organisations ("Beispiel" = example). Amounts in cents.
   const PARTNERS = {
-    p1: { icon: '🌲', bg: '#dff1e7', name: 'Waldfreunde Ruhr e.V. (Beispiel)', cat: { de: 'Umwelt & Aufforstung', ru: 'Экология и лес' }, goal: 150000, raised: 98400 },
-    p2: { icon: '🐾', bg: '#fde7ec', name: 'Tierheim Dortmund-Nord (Beispiel)', cat: { de: 'Tierschutz', ru: 'Защита животных' }, goal: 120000, raised: 61200 },
+    p1: { icon: '🌲', bg: '#dff1e7', name: 'Waldfreunde Niederrhein e.V. (Beispiel)', cat: { de: 'Umwelt & Aufforstung', ru: 'Экология и лес' }, goal: 150000, raised: 98400 },
+    p2: { icon: '🐾', bg: '#fde7ec', name: 'Tierschutz-Initiative Niederrhein (Beispiel)', cat: { de: 'Tierschutz', ru: 'Защита животных' }, goal: 120000, raised: 61200 },
     p3: { icon: '🩺', bg: '#e0f2fe', name: 'Gesund im Quartier (Beispiel)', cat: { de: 'Gesundheit & Prävention', ru: 'Здоровье и профилактика' }, goal: 100000, raised: 43750 },
-    p4: { icon: '📚', bg: '#e7e6fb', name: 'Lesestart Ruhrgebiet (Beispiel)', cat: { de: 'Bildung & Integration', ru: 'Образование и интеграция' }, goal: 90000, raised: 72100 },
+    p4: { icon: '📚', bg: '#e7e6fb', name: 'Lesestart NRW (Beispiel)', cat: { de: 'Bildung & Integration', ru: 'Образование и интеграция' }, goal: 90000, raised: 72100 },
     p5: { icon: '🏘️', bg: '#fef3c7', name: 'Spielplatz-Initiative Nordstadt (Beispiel)', cat: { de: 'Nachbarschaft', ru: 'Соседство' }, goal: 80000, raised: 25600 },
-    p6: { icon: '☕', bg: '#ffedd5', name: 'Sprachcafé Dortmund · D-Bridge e.V.', cat: { de: 'Projekt des Monats', ru: 'Проект месяца' }, goal: 1200000, raised: 743000 }
+    p6: { icon: '☕', bg: '#ffedd5', name: 'Sprachcafé Neuss · D-Bridge e.V.', cat: { de: 'Projekt des Monats', ru: 'Проект месяца' }, goal: 1200000, raised: 743000 }
   };
 
   // Economics from the Skizze: eCPM ≈ 10 € → ≈ 1 ct net per rewarded view → 0.5 ct to partners.
