@@ -1,0 +1,85 @@
+/* Shared look for the logic games (Kit). Games add their own board styles with a
+   short prefix (e.g. .ch- chess, .su- sudoku) and reuse these tokens. */
+:root {
+  --gk-surface: #ffffff;
+  --gk-ink: #17202b;
+  --gk-muted: #6b7684;
+  --gk-line: #e4e8ee;
+  --gk-accent: #4f46e5;      /* selection / primary action */
+  --gk-accent-soft: #eef0ff;
+  --gk-good: #16a34a;
+  --gk-good-soft: #dcfce7;
+  --gk-bad: #e11d48;
+  --gk-bad-soft: #ffe4ea;
+  --gk-gold: #f59e0b;
+  --gk-wood-light: #f0d9b5;  /* classic board squares */
+  --gk-wood-dark: #b58863;
+  --gk-shadow: 0 10px 30px rgba(23, 32, 43, .10), 0 2px 6px rgba(23, 32, 43, .06);
+  --gk-radius: 18px;
+}
+
+.gk { display: flex; flex-direction: column; gap: 10px; padding: 6px 2px 18px; user-select: none; -webkit-user-select: none; }
+.gk-top { display: flex; gap: 8px; align-items: center; justify-content: space-between; flex-wrap: wrap; }
+
+.gk-head { display: flex; gap: 8px; flex-wrap: wrap; }
+.gk-head:empty { display: none; }
+.gk-stat {
+  flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 6px; justify-content: center;
+  background: var(--gk-surface); border-radius: 14px; padding: 8px 10px; box-shadow: var(--gk-shadow);
+  font-size: 13px; color: var(--gk-muted); white-space: nowrap;
+}
+.gk-stat i { font-style: normal; font-size: 15px; }
+.gk-stat b { color: var(--gk-ink); font-size: 15px; font-variant-numeric: tabular-nums; }
+.gk-stat small { font-size: 11px; }
+.gk-bump { animation: gkBump .28s ease; }
+@keyframes gkBump { 0% { transform: scale(1) } 45% { transform: scale(1.12) } 100% { transform: scale(1) } }
+
+.gk-board {
+  position: relative; background: var(--gk-surface); border-radius: var(--gk-radius); box-shadow: var(--gk-shadow);
+  padding: 12px; display: flex; flex-direction: column; align-items: center; gap: 10px;
+}
+.gk-board.flush { padding: 0; overflow: hidden; }
+.gk-board.clear { background: transparent; box-shadow: none; padding: 0; }
+
+.gk-msg { min-height: 20px; text-align: center; font-size: 14px; font-weight: 600; color: var(--gk-muted); transition: color .2s; }
+.gk-msg.good { color: var(--gk-good); }
+.gk-msg.bad { color: var(--gk-bad); }
+.gk-msg.accent { color: var(--gk-accent); }
+
+.gk-tools { display: flex; gap: 8px; flex-wrap: wrap; }
+.gk-tools:empty { display: none; }
+.gk-btn {
+  flex: 1 1 0; min-width: 0; border: 0; cursor: pointer; border-radius: 14px; padding: 11px 8px;
+  background: var(--gk-surface); box-shadow: var(--gk-shadow); font-weight: 600; font-size: 13px; color: var(--gk-ink);
+  display: flex; flex-direction: column; align-items: center; gap: 2px; line-height: 1.15; transition: transform .1s, background .15s;
+}
+.gk-btn .ico { font-size: 19px; line-height: 1; }
+.gk-btn:active { transform: scale(.96); }
+.gk-btn:disabled { opacity: .4; pointer-events: none; }
+.gk-btn.on { background: var(--gk-accent); color: #fff; }
+.gk-btn.primary { background: var(--gk-accent); color: #fff; }
+.gk-btn.ad { background: var(--amber-soft, #fef3c7); color: #92400e; }
+
+.gk-seg { display: flex; background: #e9edf2; border-radius: 12px; padding: 3px; gap: 2px; }
+.gk-seg button { border: 0; background: transparent; border-radius: 10px; padding: 7px 10px; font-size: 12.5px; font-weight: 600; color: var(--gk-muted); cursor: pointer; white-space: nowrap; }
+.gk-seg button.on { background: #fff; color: var(--gk-ink); box-shadow: 0 1px 4px rgba(0,0,0,.12); }
+
+.gk-chip { display: inline-flex; align-items: center; gap: 4px; background: var(--gk-accent-soft); color: var(--gk-accent); border-radius: 999px; padding: 4px 10px; font-size: 12px; font-weight: 700; }
+.gk-link { border: 0; background: none; color: var(--gk-accent); font-weight: 600; font-size: 13px; cursor: pointer; padding: 4px 2px; }
+
+.gk-result { text-align: center; padding: 6px 4px 2px; }
+.gk-result h3 { margin: 6px 0 6px; font-size: 22px; }
+.gk-result p { margin: 4px 0; }
+.gk-r-icon { font-size: 54px; line-height: 1; animation: gkPopIn .45s cubic-bezier(.2, 1.4, .4, 1); }
+.gk-r-stars { margin: 12px auto 6px; display: inline-block; background: var(--amber-soft, #fef3c7); color: #92400e; font-weight: 800; font-size: 20px; padding: 8px 16px; border-radius: 14px; }
+.gk-r-stars small { font-weight: 600; font-size: 12px; }
+@keyframes gkPopIn { from { transform: scale(.3); opacity: 0 } to { transform: scale(1); opacity: 1 } }
+
+.gk-rules { font-size: 14px; line-height: 1.5; }
+.gk-rules ul { padding-left: 18px; margin: 6px 0; }
+.gk-rules li { margin: 4px 0; }
+
+/* Square grid helper many games use: set --n on the element. */
+.gk-grid { display: grid; grid-template-columns: repeat(var(--n, 8), 1fr); width: 100%; aspect-ratio: 1; }
+
+@media (prefers-reduced-motion: reduce) { .gk-bump, .gk-r-icon { animation: none; } }

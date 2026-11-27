@@ -1,0 +1,102 @@
+/* 2048 — forest edition. Prefix: .g48- */
+
+.g48 .gk-top { justify-content: space-between; }
+.g48-goal { background: #e3f2d6; color: #2f6b34; }
+.g48 .gk-stat { position: relative; overflow: visible; }
+.g48-plus {
+  position: absolute; left: 50%; top: -4px; font-weight: 800; font-size: 14px; color: #2f8a3e; pointer-events: none; white-space: nowrap;
+}
+.g48-area { gap: 0 !important; }
+
+/* ---------- board ---------- */
+.g48-board {
+  --n: 4; --gap: 10px; --r: 11px;
+  position: relative; box-sizing: border-box;
+  width: 100%; width: min(100%, 392px, calc(100dvh - 330px)); min-width: 270px; aspect-ratio: 1;
+  padding: var(--gap); border-radius: 20px; touch-action: none; cursor: grab;
+  container-type: inline-size;
+  background:
+    radial-gradient(120% 80% at 20% 0%, rgba(255, 255, 255, .35), rgba(255, 255, 255, 0) 60%),
+    linear-gradient(160deg, #c9e2b6 0%, #a9cf91 100%);
+  box-shadow: 0 14px 30px rgba(47, 107, 52, .22), 0 3px 8px rgba(47, 107, 52, .15), inset 0 2px 0 rgba(255, 255, 255, .5), inset 0 -3px 0 rgba(30, 80, 30, .12);
+}
+.g48-board[data-n="5"] { --gap: 8px; --r: 9px; }
+.g48-board[data-n="6"] { --gap: 7px; --r: 8px; }
+.g48-bgrid { display: grid; grid-template-columns: repeat(var(--n), 1fr); grid-template-rows: repeat(var(--n), 1fr); gap: var(--gap); width: 100%; height: 100%; }
+.g48-bgrid i { display: block; border-radius: var(--r); background: rgba(255, 255, 255, .42); box-shadow: inset 0 2px 3px rgba(40, 90, 40, .12); }
+.g48-tiles { position: absolute; inset: var(--gap); }
+
+/* ---------- tiles ---------- */
+.g48-tile {
+  --k: .45;
+  position: absolute; left: 0; top: 0;
+  width: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n));
+  height: calc((100% - (var(--n) - 1) * var(--gap)) / var(--n));
+  transform: translate(calc(var(--x) * (100% + var(--gap))), calc(var(--y) * (100% + var(--gap))));
+  transition: transform 120ms ease-in-out;
+  z-index: 1; will-change: transform;
+}
+.g48-tile.g48-merged { z-index: 2; }
+.g48-in {
+  position: relative; width: 100%; height: 100%; display: grid; place-items: center; overflow: hidden;
+  border-radius: var(--r); font-weight: 800; letter-spacing: -.02em; font-variant-numeric: tabular-nums; line-height: 1;
+  font-size: 26px; font-size: calc(100cqw / var(--n) * var(--k));
+  background: linear-gradient(160deg, var(--t1), var(--t2)); color: var(--tc);
+  box-shadow: inset 0 2px 0 rgba(255, 255, 255, .45), inset 0 -3px 0 rgba(0, 0, 0, .1), 0 2px 4px rgba(30, 70, 30, .2);
+}
+.g48-d3 { --k: .38; } .g48-d4 { --k: .3; } .g48-d5 { --k: .24; }
+/* leaf watermark from 8 upward */
+.g48-in::after {
+  content: ''; position: absolute; right: 7%; top: 7%; width: 24%; height: 24%; opacity: 0; pointer-events: none;
+  background: no-repeat center / contain url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 3C10 3 4 8 4 15c0 2 .6 3.6 1.4 4.8L3 22l1.4 1 2.2-2.2C7.8 21.5 9.3 22 11 22c7 0 10-7 9-19zM8 18c2-4 5-7 9-9-3 3-5.5 6-7.5 10z' fill='%23ffffff'/%3E%3C/svg%3E");
+}
+.g48-v8 .g48-in::after, .g48-v16 .g48-in::after, .g48-v32 .g48-in::after {
+  opacity: .22;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M20 3C10 3 4 8 4 15c0 2 .6 3.6 1.4 4.8L3 22l1.4 1 2.2-2.2C7.8 21.5 9.3 22 11 22c7 0 10-7 9-19zM8 18c2-4 5-7 9-9-3 3-5.5 6-7.5 10z' fill='%232f6b34'/%3E%3C/svg%3E");
+}
+.g48-v64 .g48-in::after, .g48-v128 .g48-in::after, .g48-v256 .g48-in::after, .g48-v512 .g48-in::after,
+.g48-v1024 .g48-in::after, .g48-v2048 .g48-in::after, .g48-v4096 .g48-in::after { opacity: .28; }
+
+/* seed-green → deep forest; text contrast kept high */
+.g48-v2 { --t1: #f8fcf2; --t2: #edf6e2; --tc: #3d5a2a; }
+.g48-v4 { --t1: #ecf7dd; --t2: #dceec4; --tc: #36532a; }
+.g48-v8 { --t1: #d6eeb3; --t2: #c1e293; --tc: #2b4a1c; }
+.g48-v16 { --t1: #b8e08f; --t2: #9bd06c; --tc: #21401a; }
+.g48-v32 { --t1: #98cf72; --t2: #79bd55; --tc: #173511; }
+.g48-v64 { --t1: #5fae52; --t2: #45963f; --tc: #ffffff; }
+.g48-v128 { --t1: #48994f; --t2: #36833f; --tc: #ffffff; }
+.g48-v256 { --t1: #3a8850; --t2: #2a7140; --tc: #ffffff; }
+.g48-v512 { --t1: #2f7a4d; --t2: #21613b; --tc: #ffffff; }
+.g48-v1024 { --t1: #256a48; --t2: #185235; --tc: #ffffff; }
+.g48-v2048 { --t1: #1b5a40; --t2: #0f402c; --tc: #ffe38a; }
+.g48-v4096 { --t1: #123a2b; --t2: #0a271c; --tc: #ffd76a; }
+.g48-v64 .g48-in, .g48-v128 .g48-in, .g48-v256 .g48-in, .g48-v512 .g48-in, .g48-v1024 .g48-in { text-shadow: 0 1px 2px rgba(0, 0, 0, .25); }
+.g48-v128 .g48-in, .g48-v256 .g48-in { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .3), inset 0 -3px 0 rgba(0, 0, 0, .12), 0 0 10px rgba(110, 200, 90, .35); }
+.g48-v512 .g48-in, .g48-v1024 .g48-in { box-shadow: inset 0 2px 0 rgba(255, 255, 255, .3), inset 0 -3px 0 rgba(0, 0, 0, .14), 0 0 14px rgba(110, 200, 90, .5); }
+.g48-v2048 .g48-in, .g48-v4096 .g48-in {
+  box-shadow: inset 0 0 0 2px #f5c542, inset 0 2px 0 rgba(255, 255, 255, .3), 0 0 16px rgba(245, 197, 66, .6);
+  text-shadow: 0 1px 0 rgba(0, 0, 0, .4), 0 0 10px rgba(255, 215, 106, .5);
+}
+
+/* animations */
+.g48-new .g48-in { animation: g48Appear 200ms cubic-bezier(.2, .9, .3, 1.2) 110ms backwards; }
+.g48-merged .g48-in { animation: g48Pop 220ms ease 100ms backwards; }
+.g48-fade .g48-in { animation: g48Fade 220ms ease; }
+@keyframes g48Appear { from { transform: scale(0); opacity: 0 } to { transform: scale(1); opacity: 1 } }
+@keyframes g48Pop { 0% { transform: scale(0) } 55% { transform: scale(1.2) } 100% { transform: scale(1) } }
+@keyframes g48Fade { from { opacity: .3; transform: scale(.92) } to { opacity: 1; transform: scale(1) } }
+
+/* blocked move: small nudge */
+.g48-nudge-left { animation: g48NL .18s ease; } .g48-nudge-right { animation: g48NR .18s ease; }
+.g48-nudge-up { animation: g48NU .18s ease; } .g48-nudge-down { animation: g48ND .18s ease; }
+@keyframes g48NL { 50% { transform: translateX(-4px) } } @keyframes g48NR { 50% { transform: translateX(4px) } }
+@keyframes g48NU { 50% { transform: translateY(-4px) } } @keyframes g48ND { 50% { transform: translateY(4px) } }
+
+.g48-glow { box-shadow: 0 0 0 3px #f5c542, 0 0 30px rgba(245, 197, 66, .55), 0 14px 30px rgba(47, 107, 52, .22); transition: box-shadow .4s; }
+
+.g48-undo-sub { font-size: 10.5px; font-weight: 600; color: var(--gk-muted); }
+
+@media (prefers-reduced-motion: reduce) {
+  .g48-tile { transition: none; }
+  .g48-new .g48-in, .g48-merged .g48-in, .g48-fade .g48-in { animation: none; }
+}

@@ -1,0 +1,90 @@
+/* Vier gewinnt / Четыре в ряд — prefix .c4- */
+.c4-wrap { gap: 10px; }
+.gk-top .c4-rec { font-size: 12px; font-weight: 600; color: var(--gk-muted); font-variant-numeric: tabular-nums; }
+
+.c4-players { display: flex; gap: 8px; width: 100%; }
+.c4-pl {
+  flex: 1 1 0; min-width: 0; display: flex; align-items: center; gap: 8px; padding: 7px 10px;
+  background: var(--gk-surface); border-radius: 14px; box-shadow: var(--gk-shadow);
+  font-weight: 700; font-size: 13.5px; color: var(--gk-ink); border: 2px solid transparent;
+  transition: border-color .2s, transform .2s, box-shadow .2s;
+}
+.c4-pl span { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.c4-pl small { margin-left: auto; font-size: 11.5px; font-weight: 600; color: var(--gk-muted); white-space: nowrap; }
+.c4-pl.on { transform: translateY(-1px); }
+.c4-pl[data-p="1"].on { border-color: #f43f5e; box-shadow: 0 6px 18px rgba(244, 63, 94, .22); }
+.c4-pl[data-p="2"].on { border-color: #f59e0b; box-shadow: 0 6px 18px rgba(245, 158, 11, .25); }
+.c4-pl.think small::after { content: ''; display: inline-block; width: 6px; height: 6px; margin-left: 6px; border-radius: 50%; background: #f59e0b; animation: c4blink .8s ease-in-out infinite alternate; vertical-align: middle; }
+@keyframes c4blink { from { opacity: .2; transform: scale(.7); } to { opacity: 1; transform: scale(1.1); } }
+.c4-mini { width: 18px; height: 18px; border-radius: 50%; flex: none; box-shadow: inset 0 -2px 3px rgba(0,0,0,.25), inset 0 2px 3px rgba(255,255,255,.4); }
+.c4-mini.p1 { background: radial-gradient(circle at 34% 30%, #ffa3b1 0, #f43f5e 40%, #9f1239 100%); }
+.c4-mini.p2 { background: radial-gradient(circle at 34% 30%, #fff3b0 0, #fbbf24 40%, #b45309 100%); }
+
+/* Stage: 7.4 × 7.5 units (preview row + framed board) */
+.c4-stage {
+  position: relative; width: min(100%, 420px, calc((100dvh - 318px) * 7.4 / 7.5)); aspect-ratio: 7.4 / 7.5;
+  margin: 0 auto; user-select: none; -webkit-user-select: none;
+}
+.c4-back {
+  position: absolute; left: 0; right: 0; bottom: 0; border-radius: 4.8% / 5.5%;
+  background: radial-gradient(120% 90% at 50% 0%, #26338f 0%, #151c5c 70%, #10164a 100%);
+  box-shadow: 0 16px 28px rgba(35, 45, 140, .32), 0 4px 8px rgba(20, 25, 80, .25);
+}
+.c4-coins { position: absolute; inset: 0; pointer-events: none; z-index: 1; }
+.c4-face { position: absolute; left: 0; width: 100%; z-index: 2; pointer-events: none; overflow: visible; }
+.c4-over { position: absolute; left: 0; width: 100%; z-index: 4; pointer-events: none; overflow: visible; }
+.c4-hit { position: absolute; inset: 0; z-index: 5; cursor: pointer; touch-action: none; }
+.c4-colhl {
+  position: absolute; z-index: 3; pointer-events: none; border-radius: 999px; opacity: 0;
+  background: linear-gradient(180deg, rgba(255,255,255,.16), rgba(255,255,255,.04));
+  transition: opacity .15s, left .12s ease-out;
+}
+.c4-colhl.show { opacity: 1; }
+
+/* Coins */
+.c4-coin {
+  position: absolute; width: calc(.84 / 7.4 * 100%); height: calc(.84 / 7.5 * 100%); border-radius: 50%;
+  box-shadow: inset 0 -4px 7px rgba(0,0,0,.28), inset 0 3px 6px rgba(255,255,255,.38);
+  will-change: transform;
+}
+.c4-coin::after {
+  content: ''; position: absolute; inset: 17%; border-radius: 50%;
+  border: 2px solid rgba(255,255,255,.22); box-shadow: inset 0 2px 4px rgba(0,0,0,.2), 0 1px 0 rgba(255,255,255,.18);
+}
+.c4-coin::before {
+  content: ''; position: absolute; left: 20%; top: 12%; width: 34%; height: 20%; border-radius: 50%;
+  background: rgba(255,255,255,.45); filter: blur(1px); transform: rotate(-24deg);
+}
+.c4-coin.p1 { background: radial-gradient(circle at 34% 30%, #ffa3b1 0, #fb5875 26%, #e11d48 58%, #8f1034 100%); }
+.c4-coin.p2 { background: radial-gradient(circle at 34% 30%, #fff6c2 0, #fcd34d 28%, #f59e0b 62%, #a3500a 100%); }
+.c4-coin.dim { filter: saturate(.55) brightness(.75); transition: filter .4s; }
+.c4-coin.win { animation: c4win .7s ease-in-out infinite alternate; }
+@keyframes c4win { from { filter: brightness(1); } to { filter: brightness(1.28) saturate(1.15); } }
+
+.c4-ghost { opacity: 0; transition: left .12s ease-out, opacity .15s; filter: drop-shadow(0 6px 6px rgba(20, 30, 90, .28)); }
+.c4-ghost.show { opacity: .95; animation: c4hover 1.2s ease-in-out infinite alternate; }
+.c4-ghost.hint { box-shadow: 0 0 0 3px #fff, 0 0 18px 6px rgba(34, 197, 94, .7), inset 0 -4px 7px rgba(0,0,0,.28); }
+@keyframes c4hover { from { transform: translateY(-4%); } to { transform: translateY(5%); } }
+
+/* Win overlay */
+.c4-ring { fill: none; stroke: #fff; stroke-width: 6; filter: drop-shadow(0 0 6px rgba(255,255,255,.9)); animation: c4ring .9s ease-out both; }
+.c4-line {
+  stroke: #fff; stroke-width: 12; stroke-linecap: round; opacity: .92;
+  filter: drop-shadow(0 0 8px rgba(255,255,255,.95)) drop-shadow(0 0 16px rgba(165, 180, 252, .9));
+  stroke-dasharray: 520; stroke-dashoffset: 520; animation: c4draw .55s .15s cubic-bezier(.3,.7,.3,1) forwards;
+}
+@keyframes c4draw { to { stroke-dashoffset: 0; } }
+@keyframes c4ring { from { opacity: 0; transform-box: fill-box; transform-origin: center; transform: scale(.6); } to { opacity: 1; transform-box: fill-box; transform-origin: center; transform: scale(1); } }
+.c4-hintarrow rect { fill: rgba(34, 197, 94, .16); stroke: rgba(134, 239, 172, .95); stroke-width: 5; animation: c4pulse 1s ease-in-out infinite alternate; }
+@keyframes c4pulse { from { opacity: .45; } to { opacity: 1; } }
+
+.c4-stage.shake { animation: shake .3s ease; }
+
+/* Setup dialog */
+.c4-setup { display: flex; flex-direction: column; gap: 6px; }
+.c4-setup label { font-size: 12.5px; font-weight: 700; color: var(--gk-muted); margin-top: 6px; }
+.c4-setup .gk-seg button { flex: 1; padding: 9px 8px; }
+
+@media (prefers-reduced-motion: reduce) {
+  .c4-ghost.show, .c4-coin.win, .c4-hintarrow rect { animation: none; }
+}

@@ -1,0 +1,155 @@
+/* Wort des Tages / Слово дня (js/games/wordle.js). Prefix: .wd- */
+.wd, .wd-rules {
+  --wd-c: #1f9d63;          /* correct position */
+  --wd-p: #e3a008;          /* in the word */
+  --wd-a: #8a94a6;          /* absent */
+  --wd-c-sh: #157a4b; --wd-p-sh: #b67f05; --wd-a-sh: #6b7486;
+  --wd-empty: #dfe4ec; --wd-filled: #8f99aa; --wd-key: #e8ecf3; --wd-key-sh: #cfd6e2;
+  --wd-tile: min(100%, 300px);
+  gap: 8px;
+}
+.wd.wd-hc, .wd-rules.wd-hc {
+  --wd-c: #ea6a0c; --wd-c-sh: #b8530a;
+  --wd-p: #2f7fe0; --wd-p-sh: #2263b4;
+  --wd-a: #545d6d; --wd-a-sh: #3f4654;
+}
+
+/* top bar: mode switch + round icon buttons */
+.wd .gk-top { flex-wrap: nowrap; gap: 6px; }
+.wd-seg { flex: 1 1 auto; min-width: 0; }
+.wd-seg button { flex: 1 1 0; min-width: 0; overflow: hidden; text-overflow: ellipsis; padding: 8px 6px; min-height: 36px; }
+.wd-icons { display: flex; gap: 5px; flex: 0 0 auto; }
+.wd-ib {
+  position: relative; width: 38px; height: 38px; border: 0; border-radius: 12px; cursor: pointer;
+  display: grid; place-items: center; background: var(--gk-surface); color: var(--gk-ink);
+  box-shadow: 0 2px 8px rgba(23, 32, 43, .08), 0 1px 2px rgba(23, 32, 43, .06);
+  transition: transform .12s, background .2s, color .2s;
+}
+.wd-ib:active { transform: scale(.92); }
+.wd-ib:disabled { opacity: .45; cursor: default; }
+.wd-ib.on { background: var(--gk-ink); color: #fff; }
+.wd-badge {
+  position: absolute; top: -5px; right: -5px; min-width: 17px; height: 17px; padding: 0 4px; border-radius: 9px;
+  background: var(--gk-good); color: #fff; font: 800 10px/17px var(--font, system-ui); font-style: normal; text-align: center;
+  box-shadow: 0 0 0 2px var(--bg, #eef2ee);
+}
+.wd-badge.wd-ad { background: var(--gk-gold); font-size: 8px; }
+
+/* board */
+.wd .gk-board.wd-board { padding: 14px 12px; transition: box-shadow .4s; }
+.wd .gk-board.wd-win { box-shadow: 0 0 0 3px rgba(31, 157, 99, .18), 0 14px 36px rgba(31, 157, 99, .22); }
+.wd.wd-hc .gk-board.wd-win { box-shadow: 0 0 0 3px rgba(234, 106, 12, .2), 0 14px 36px rgba(234, 106, 12, .22); }
+.wd-grid { width: var(--wd-tile); display: grid; grid-template-rows: repeat(6, 1fr); gap: 6px; perspective: 900px; }
+.wd-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+.wd-tile {
+  aspect-ratio: 1; display: grid; place-items: center; border-radius: 10px; user-select: none;
+  border: 2px solid var(--wd-empty); background: #fff; color: var(--gk-ink);
+  font-weight: 800; font-size: clamp(18px, 6.6vw, 28px); line-height: 1; text-transform: uppercase;
+  transition: border-color .12s, background-color .12s;
+  transform-style: preserve-3d; backface-visibility: hidden;
+}
+.wd-tile.wd-filled { border-color: var(--wd-filled); }
+.wd-tile.wd-ghost { color: var(--wd-c); border: 2px dashed var(--wd-c); opacity: .75; }
+.wd-tile[data-s] { color: #fff; border-color: transparent; text-shadow: 0 1px 1px rgba(0, 0, 0, .18); }
+.wd-tile[data-s="c"] { background: var(--wd-c); box-shadow: inset 0 -3px 0 var(--wd-c-sh); }
+.wd-tile[data-s="p"] { background: var(--wd-p); box-shadow: inset 0 -3px 0 var(--wd-p-sh); }
+.wd-tile[data-s="a"] { background: var(--wd-a); box-shadow: inset 0 -3px 0 var(--wd-a-sh); }
+
+.wd-tile.wd-pop { animation: wdPop .13s ease-out; }
+.wd-tile.wd-flip { animation: wdFlip var(--wd-f, 500ms) ease-in-out var(--wd-d, 0ms) both; }
+.wd-tile.wd-bounce { animation: wdBounce .6s cubic-bezier(.3, .6, .4, 1) var(--wd-d, 0ms) both; }
+.wd-row.wd-shake { animation: wdShake .45s ease; }
+@keyframes wdPop { 0% { transform: scale(.86) } 60% { transform: scale(1.09) } 100% { transform: scale(1) } }
+@keyframes wdFlip { 0% { transform: rotateX(0) } 50% { transform: rotateX(-90deg) } 100% { transform: rotateX(0) } }
+@keyframes wdBounce { 0%, 20% { transform: translateY(0) } 40% { transform: translateY(-30%) } 55% { transform: translateY(4%) } 70% { transform: translateY(-10%) } 85% { transform: translateY(1%) } 100% { transform: translateY(0) } }
+@keyframes wdShake { 0%, 100% { transform: translateX(0) } 15% { transform: translateX(-7px) } 30% { transform: translateX(7px) } 45% { transform: translateX(-6px) } 60% { transform: translateX(5px) } 75% { transform: translateX(-3px) } 90% { transform: translateX(2px) } }
+
+/* floating message ("Nicht im Wörterbuch") */
+.wd-toast {
+  position: absolute; left: 50%; top: 10px; transform: translate(-50%, -8px); z-index: 3; pointer-events: none;
+  background: var(--gk-ink); color: #fff; font-weight: 700; font-size: 14px; padding: 9px 14px; border-radius: 12px;
+  box-shadow: 0 10px 26px rgba(0, 0, 0, .22); white-space: nowrap; max-width: 92%; overflow: hidden; text-overflow: ellipsis;
+  opacity: 0; transition: opacity .18s, transform .18s;
+}
+.wd-toast.show { opacity: 1; transform: translate(-50%, 0); }
+.wd .gk-msg { min-height: 18px; font-size: 13px; }
+
+/* keyboard */
+.wd .gk-tools.wd-bottom { display: block; }
+.wd-kb { display: flex; flex-direction: column; gap: 6px; touch-action: manipulation; }
+.wd-kb[hidden], .wd-end[hidden] { display: none; }
+.wd-kr { display: flex; gap: 4px; justify-content: center; }
+.wd-key {
+  flex: 1 1 0; min-width: 0; height: 52px; border: 0; border-radius: 9px; cursor: pointer; padding: 0;
+  background: var(--wd-key); color: var(--gk-ink); font-weight: 700; font-size: 15px;
+  display: grid; place-items: center; box-shadow: inset 0 -2px 0 var(--wd-key-sh);
+  transition: background-color .25s, color .25s, transform .08s; -webkit-tap-highlight-color: transparent;
+}
+.wd-key.wd-wide { flex: 1.55 1 0; background: #d9dfe9; }
+.wd-key:active, .wd-key.wd-press { transform: scale(.93); }
+.wd-key[data-s] { color: #fff; }
+.wd-key[data-s="c"] { background: var(--wd-c); box-shadow: inset 0 -2px 0 var(--wd-c-sh); }
+.wd-key[data-s="p"] { background: var(--wd-p); box-shadow: inset 0 -2px 0 var(--wd-p-sh); }
+.wd-key[data-s="a"] { background: var(--wd-a); box-shadow: inset 0 -2px 0 var(--wd-a-sh); opacity: .75; }
+
+/* end card: word explanation for learners */
+.wd-end { min-height: 168px; }
+.wd-card {
+  background: var(--gk-surface); border-radius: var(--gk-radius); box-shadow: var(--gk-shadow);
+  padding: 14px 14px 12px; text-align: center; animation: wdCardIn .35s cubic-bezier(.2, 1.2, .4, 1);
+}
+@keyframes wdCardIn { from { transform: translateY(14px); opacity: 0 } to { transform: none; opacity: 1 } }
+.wd-lbl { font-size: 11px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; color: var(--gk-muted); }
+.wd-word { margin-top: 4px; font-size: 26px; line-height: 1.15; color: var(--gk-ink); }
+.wd-word small { font-size: 16px; font-weight: 600; color: var(--gk-muted); }
+.wd-word b { font-weight: 800; }
+.wd-tr { margin-top: 6px; display: inline-flex; align-items: center; gap: 8px; font-size: 17px; font-weight: 600; color: #3b4452; }
+.wd-flag { font-size: 10px; font-weight: 800; letter-spacing: .05em; color: var(--gk-accent); background: var(--gk-accent-soft); border-radius: 6px; padding: 3px 6px; }
+.wd-actions { display: flex; gap: 8px; margin-top: 12px; }
+.wd-btn {
+  flex: 1 1 0; min-width: 0; min-height: 42px; border: 0; border-radius: 12px; cursor: pointer;
+  display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+  background: #eef1f6; color: var(--gk-ink); font-weight: 700; font-size: 14px; transition: transform .1s, filter .2s;
+}
+.wd-btn:active { transform: scale(.96); }
+.wd-btn.wd-primary { background: var(--wd-c); color: #fff; box-shadow: inset 0 -2px 0 var(--wd-c-sh); }
+.wd-next { margin-top: 10px; font-size: 12.5px; color: var(--gk-muted); }
+.wd-next b { color: var(--gk-ink); font-variant-numeric: tabular-nums; }
+.wd-link { border: 0; background: none; padding: 4px 2px; color: var(--gk-accent); font-weight: 700; font-size: 12.5px; cursor: pointer; }
+
+/* rules examples */
+.wd-ex { display: flex; gap: 5px; margin: 10px 0 4px; }
+.wd-tile.wd-mini { width: 36px; height: 36px; aspect-ratio: auto; font-size: 18px; border-radius: 8px; }
+.wd-exl { margin: 0 0 6px; font-size: 13px; }
+
+/* statistics dialog */
+.wd-st-tabs { display: flex; background: #e9edf2; border-radius: 12px; padding: 3px; gap: 2px; margin-bottom: 14px; }
+.wd-st-tabs button { flex: 1; border: 0; background: transparent; border-radius: 10px; padding: 8px; font-weight: 700; font-size: 13px; color: var(--gk-muted); cursor: pointer; }
+.wd-st-tabs button.on { background: #fff; color: var(--gk-ink); box-shadow: 0 1px 4px rgba(0, 0, 0, .12); }
+.wd-st-nums { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; text-align: center; }
+.wd-st-nums div { background: #f3f5f9; border-radius: 12px; padding: 10px 2px 8px; }
+.wd-st-nums b { display: block; font-size: 24px; line-height: 1.1; color: var(--gk-ink); font-variant-numeric: tabular-nums; }
+.wd-st-nums span { display: block; font-size: 11px; color: var(--gk-muted); margin-top: 2px; }
+.wd-st-h { margin: 16px 0 8px; font-size: 12px; font-weight: 800; letter-spacing: .06em; text-transform: uppercase; color: var(--gk-muted); }
+.wd-dist { display: flex; flex-direction: column; gap: 5px; }
+.wd-bar { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 700; color: var(--gk-ink); }
+.wd-bar > span { width: 12px; text-align: center; }
+.wd-bar > div { flex: 1; }
+.wd-bar i {
+  display: flex; justify-content: flex-end; align-items: center; min-width: 26px; height: 22px; border-radius: 6px;
+  background: #a7b0bf; color: #fff; padding: 0 7px; font-style: normal; box-sizing: border-box;
+  animation: wdGrow .5s cubic-bezier(.2, .9, .3, 1) both; transform-origin: left center;
+}
+.wd-bar.hl i { background: #1f9d63; }
+.wd-bar b { font-size: 12px; }
+@keyframes wdGrow { from { transform: scaleX(.1); opacity: .4 } to { transform: none; opacity: 1 } }
+.wd-copy { width: 100%; box-sizing: border-box; font: 16px/1.35 ui-monospace, Consolas, monospace; border: 1px solid var(--gk-line); border-radius: 10px; padding: 8px; resize: none; }
+
+/* fit the phone column: shrink tiles and keys on short screens */
+@media (max-height: 760px) { .wd { --wd-tile: min(100%, 272px); } .wd-key { height: 48px; } }
+@media (max-height: 680px) { .wd { --wd-tile: min(100%, 236px); } .wd-key { height: 44px; } .wd .gk-board.wd-board { padding: 10px; } }
+@media (max-width: 360px) { .wd-ib { width: 34px; height: 34px; } .wd-seg button { font-size: 12px; } }
+
+@media (prefers-reduced-motion: reduce) {
+  .wd-tile.wd-pop, .wd-tile.wd-flip, .wd-tile.wd-bounce, .wd-row.wd-shake, .wd-card, .wd-bar i { animation: none; }
+}

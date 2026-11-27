@@ -110,6 +110,7 @@ button { font: inherit; color: inherit; }
   display: inline-flex; align-items: center; justify-content: center; gap: 8px;
 }
 .btn:active { transform: scale(.97); }
+.btn, .tab, .game-card { position: relative; overflow: hidden; }
 .btn:disabled { opacity: .5; cursor: default; }
 .btn-primary { background: var(--brand); color: #fff; }
 .btn-indigo { background: var(--indigo); color: #fff; }
@@ -251,7 +252,8 @@ button { font: inherit; color: inherit; }
 .modal h3 { margin: 0 0 10px; font-size: 18px; }
 .modal p { color: var(--muted); font-size: 14px; line-height: 1.45; margin: 6px 0; }
 .modal .actions { display: flex; gap: 8px; margin-top: 16px; flex-wrap: wrap; }
-.modal .actions .btn { flex: 1; }
+.modal .actions .btn { flex: 1; overflow: hidden; position: relative; }
+.modal .actions.stack { flex-direction: column; }
 @keyframes fade { from { opacity: 0; } }
 @keyframes up { from { transform: translateY(24px); opacity: 0; } }
 
@@ -274,7 +276,7 @@ button { font: inherit; color: inherit; }
 .game-area { background: #fff; border-radius: 20px; padding: 14px; box-shadow: var(--shadow); }
 .overlay { position: absolute; inset: 0; background: rgba(238,242,238,.92); display: flex; align-items: center; justify-content: center; padding: 20px; z-index: 5; animation: fade .2s; }
 .overlay .card { width: 100%; text-align: center; }
-.game-wrap { position: relative; min-height: 100%; }
+.game-wrap { position: relative; }
 
 @keyframes shake { 0%,100%{transform:translateX(0)} 25%{transform:translateX(-6px)} 75%{transform:translateX(6px)} }
 .shake { animation: shake .3s ease; }
